@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.min.css" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.css" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.picker.css" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.poppicker.css" />
+		<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+	</head>
+	<style>
+		
+		body{
+			background-color: white;
+		}
+		
+		* {touch-action: pan-y;} /*解决移动端点击事件延迟 */
+		#phone,#name,#password1 , #password2{
+			height: 50px;
+			width: 100%;
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			border-bottom:1px solid #rad;
+			padding-left: 50px;
+		}
+		#login-button{
+			text-align: center;
+			background-color:#027bd8;
+			color:#fff;
+			margin-top: 30px;
+			height: 40px;
+			width: 260px;
+			margin: 70px 0 0 70px;
+		}
+		.icon-phone , .icon-name ,.icon-password2 ,.icon-password1{
+			position: absolute;
+			left: 0;
+			z-index:5;
+			background-repeat: no-repeat; /*设置图片不重复*/
+			background-position: 0px 0px; /*图片显示的位置*/
+			width: 50px; /*设置图片显示的宽*/
+			height: 40px; /*图片显示的高*/
+			margin: 10px 0 0 10px;
+			
+		}
+		.icon-name{	
+			background-image: url(${Session.BASE_URL}img/形状5拷贝.png); /*引入图片图片*/
+		}
+		.icon-phone{	
+			background-image: url(${Session.BASE_URL}img/shouji.png); /*引入图片图片*/
+		}
+		.icon-password1{	
+			background-image: url(${Session.BASE_URL}img/形状6.png); /*引入图片图片*/
+		}
+		.icon-password2{	
+			background-image: url(${Session.BASE_URL}img/形状6.png); /*引入图片图片*/
+		}
+	</style>
+	
+	<body>
+		<!--标题-->
+		<!--<header class="mui-bar mui-bar-nav bg-color-white">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 style="font-size: 20px;" class="mui-title">注册</h1>
+		</header>-->
+		<!--内容	-->
+		<div class="mui-content" style="background-color:white ;">
+				<i class="icon-phone"></i>
+				<input type="text" placeholder="请输入手机号码" id="phone" /><br />
+				
+				<i class="icon-name"></i>
+				<input type="text" placeholder="请输入真实姓名" id="name" />
+				
+				<i class="icon-password1"></i>
+				<input type="password" placeholder="输入6-20位密码" id="password1" /><br />
+				
+				<i class="icon-password2"></i>
+				<input type="password" placeholder="确认密码" id="password2" /><br />
+				
+				<button type="submit" id="login-button">立即注册</button>
+		</div>
+	</body>
+	
+	<script src="${Session.BASE_URL}js/mui.min.js"></script>
+	<script src="${Session.BASE_URL}js/mui.picker.js"></script>
+	<script src="${Session.BASE_URL}js/mui.poppicker.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true //右滑关闭功能			
+		});
+		
+		$("#login-button").click(function(event) {
+			var phone = $("#phone").val();
+			var name = $("#name").val();
+			var password1 = $("#password1").val();
+			var password2 = $("#password2").val();
+			
+	        var han = /^[\u4e00-\u9fa5]+$/;
+	        var reg = /^[0-9]+$/; 
+			
+			if(phone == "" || phone == null){
+				alert("请输入手机号")
+			}else if(!reg.test(phone) || phone.length !=11){
+				alert("请输入正确的手机号码")
+			}else if(name == "" || name == null){
+				alert("请输入真实姓名")
+			}else if(!han.test(name)){
+				alert("请输入正确的姓名")
+			}else if(password1 == "" || password1 == null){
+				alert("请输入密码")
+			}else if(password1.length<6 || password1.length>20 ){
+				alert("请输入长度6到20位之间的密码")
+			}else if(password2 == "" || password2 == null){
+				alert("请输入密码")
+			}else if(password1 != password2){
+				alert("两次密码不一致");
+			}else{
+				var password = password1;
+				$.ajax({
+					type:"POST",
+					url: "${Session.BASE_URL}sysuser/mobile/selfRegister",
+					data:{
+						phone:phone,
+						username:name,
+						password:password
+					},
+					success:function(result){
+					  mui.alert("注册成功")
+
+            setTimeout(function(){
+              window.location.href = "${Session.BASE_URL}/api/v1/phoneLogin";
+            } , 2500)
+
+					}
+				})
+			}
+			
+			
+		})
+		
+		
+	</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>layui</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<#include "temple/head.ftl">
+<link rel="stylesheet" href="${Session.BASE_URL}lying/css/common.css">
+</head>
+
+<body>
+	<div class="layui-card">
+		<div class="layui-card-header">用户组</div>
+		<div class="layui-card-body">
+			<div class="layui-row layui-col-space15" style="">
+				<div class="layui-col-md12">
+					<form class="layui-form" action="" lay-filter="example">
+						<input type="hidden" id="id" name="id" value="${(object.id)!}">
+						<div class="layui-form-item">
+							<label class="layui-form-label">用户组名称:</label>
+							<div class="layui-input-block">
+								<input type="text" value="${(object.usergroupname)!}"
+									name="usergroupname" lay-verify="required" placeholder="请输入"
+									autocomplete="off" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">包含角色:</label>
+							<div class="layui-input-block">
+								<#list roleList as role> <input type="checkbox"
+									name="roleList" value="${role.id}" title="${role.rolename}">
+								</#list>
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit="" lay-filter="update">立即提交</button>
+								<#--
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                        </div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<#include "temple/bottom.ftl">
+	<script>
+    layui.config({base: '${Session.BASE_URL}/lying/'}).use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+                ,layer = layui.layer;
+
+
+        if('${(object.id)!}'!=null&&'${(object.id)!}'!=''){
+            initPermissionChecked();
+        }
+
+        form.on('submit(update)', function(data){
+            $(".layui-btn").addClass('layui-btn-disabled');
+            var url = '${Session.BASE_URL}/permission/updateUsergroupAndRole';
+            //console.log(JSON.stringify(data.field));
+            //清空重新赋值
+            var roleList= new Array();
+            $("input[name='roleList']:checkbox:checked").each(function(){
+                roleList.push($(this).val());
+            });
+            if (roleList.length<=0){
+                layer.alert("至少包含一个角色!")
+            }else{
+                $.ajax({
+                    url:url,
+                    data:{
+                        id:data.field.id,
+                        roleIds:roleList,
+                        usergroupname:data.field.usergroupname
+                    },
+                    success:function (result) {
+                        console.log(result);
+                        if(result.code=="SUCCESS"){
+                            form.val('example',{
+                                "id":result.data
+                            } )
+                            layer.alert(result.msg);
+                        }else{
+                            layer.alert(result.msg);
+                        }
+                        $(".layui-btn").removeClass('layui-btn-disabled');
+                    }
+
+                })
+            }
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+    });
+    function initPermissionChecked() {
+        $.ajax({
+            url:"${Session.BASE_URL}permission/usergroupRoleList",
+            type:'POST',
+            data:{
+                id:'${(object.id)!}'
+            },
+            dataType:'JSON',
+            success:function (result) {
+                if (result.code=='SUCCESS'){
+                    var data = result.data;
+                    var roleList = new Array();
+                    for(var i = 0 ; i<data.length ; i++){
+                        roleList.push(data[i].roleid+"");
+                    }
+                    $("input[name='roleList']:checkbox").each(function () {
+                        if($.inArray($(this).val(),roleList)!=-1){
+                            $(this).prop("checked", true);
+                        }else{
+                            $(this).prop("checked", false);
+                        }
+                    });
+                }else {
+                    layer.alert(result.msg);
+                }
+                var form = layui.form;
+                form.render();
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

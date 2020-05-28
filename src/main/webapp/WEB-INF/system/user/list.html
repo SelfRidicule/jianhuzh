@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>layui</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<#include "temple/head.ftl">
+<link rel="stylesheet" href="${Session.BASE_URL}lying/css/common.css">
+</head>
+
+<body>
+
+	<div class="layui-card">
+		<div class="layui-card-header">用户列表</div>
+		<div class="layui-card-body">
+
+			<div class="layui-row layui-col-space15" style="">
+				<div class="layui-col-md12">
+
+					<div class="layui-btn-group demoTable">
+						<button class="layui-btn" data-type="add" permission="add">
+							<i class="fa fa-plus fa-1x">&emsp;</i>新增
+						</button>
+						<button class="layui-btn" data-type="edit" permission="edit">
+							<i class="fa fa-pencil-square-o fa-1x">&emsp;</i>编辑
+						</button>
+						<button class="layui-btn" data-type="resetpw" permission="edit">
+							<i class="fa fa-lock fa-1x">&emsp;</i>重置密码
+						</button>
+						<button class="layui-btn" data-type="refresh">
+							<i class="fa fa-refresh fa-1x">&emsp;</i>刷新
+						</button>
+						<button class="layui-btn layui-btn-danger" data-type="deleteu"
+							permission="delete">
+							<i class="fa fa-trash fa-1x">&emsp;</i>删除
+						</button>
+
+					</div>
+
+					<table id="demo" lay-filter="test1"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--
+	<script type="text/html" id="barDemo">
+    &lt;#&ndash;<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>&ndash;&gt;
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>-->
+<script type="text/html" id="sexTpl">
+    {{#  if(d.sex === 1){ }}
+    男
+    {{#  } else { }}
+    女
+    {{#  } }}
+</script>
+
+<#include "temple/bottom.ftl">
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.config({base: '${Session.BASE_URL}/lying/'}).use(['table'], function(){
+        var table = layui.table;
+        //执行渲染
+        var tableIns= table.render({
+            elem: '#demo' //指定原始表格元素选择器（推荐id选择器）
+            ,url: '${Session.BASE_URL}sysuser/userList'
+            ,where: {search: ''} //如果无需传递额外参数，可不加该参数
+            //,method: 'post' //如果无需自定义HTTP类型，可不加该参数
+            ,request: {pageName: 'pageNum' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            } //如果无需自定义请求参数，可不加该参数
+            ,response: {//statusName: 'code' //数据状态的字段名称，默认：code
+                statusCode: "SUCCESS" //成功的状态码，默认：0
+            } //如果无需自定义数据响应名称，可不加该参数
+            ,page: true
+            ,id:'id'
+            ,done: function(res, curr, count){
+            }
+            ,cols: [[{checkbox: true, fixed: true}
+                ,{field: 'account', title: '账号'}
+                ,{field: 'username', title: '用户名称'}
+                ,{field: 'sex', title: '性别', sort: true, templet: '#sexTpl'}
+                ,{field: 'phone', title: '联系电话'}
+                ,{field: 'email', title: '邮箱'}
+                ,{field: 'birthday', title: '生日'}
+                /*,{fixed: 'right',title: '操作', width:'10%', align:'center', toolbar: '#barDemo'}*/
+            ]] //设置表头
+            //,…… //更多参数参考右侧目录：基本参数选项
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(test1)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(test1)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                //layer.msg('ID：'+ data.id + ' 的查看操作');
+                //lau.go('${Session.BASE_URL}permission/roleList?id='+ data.id,'角色编辑','layui-icon-home');
+
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url:'${Session.BASE_URL}permission/deleteUsergroup',
+                        data:{id:data.id},
+                        success:function (result) {
+                            if(result.code=='SUCCESS'){
+                                obj.del();
+                            }
+                            layer.alert(result.msg)
+                        }
+                    })
+
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.open({
+                    type:2,
+                    title:'编辑角色',
+                    area:['90%', '90%'],
+                    maxmin: true,
+                    content:'${Session.BASE_URL}permission/usergroupInput?id='+ data.id
+                });
+            }
+        });
+
+        var  active = {
+            edit: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('id')
+                        ,data = checkStatus.data;
+                if(data.length!=1){
+                    layer.msg('请选择一条数据进行编辑!');
+                }else{
+                    layer.open({
+                        type:2,
+                        title:'编辑用户',
+                        area:['600px', '90%'],
+                        maxmin: true,
+                        content:'${Session.BASE_URL}sysuser/input?id='+ data[0].id
+                    });
+                }
+                //layer.alert(JSON.stringify(data));
+            },add:function () {//跳转新增页面
+                layer.open({
+                    type:2,
+                    title:'新增用户',
+                    area:['600px', '90%'],
+                    maxmin: true,
+                    content:'${Session.BASE_URL}sysuser/input'
+                });
+            },refresh:function () {
+                tableIns.reload();
+            },resetpw: function(){
+                var checkStatus = table.checkStatus('id'),data = checkStatus.data;
+
+                if(data.length<1){
+                    layer.msg('请至少选择一条数据进行编辑!');
+                }else{
+                    layer.confirm('真的重置选中的'+data.length+'位用户密码么', function(index){
+                        var userIds = new Array();
+                        for (var i = 0; i< data.length;i++){
+                            userIds.push(data[i].id);
+                        }
+                        $.ajax({
+                            url:'${Session.BASE_URL}sysuser/resetPwd',
+                            type:"post",
+                            data:{
+                                userIds:userIds
+                            },
+                            success:function (result) {
+                                layer.alert(result.msg);
+                            }
+                        });
+                        layer.close(index);
+                    });
+
+                }
+
+            },deleteu:function () {
+                var checkStatus = table.checkStatus('id'),data = checkStatus.data;
+                if(data.length<1){
+                    layer.msg('请至少选择一条数据进行编辑!');
+                }else{
+                    layer.confirm('真的删除选中的'+data.length+'条数据么', function(index){
+                        var userIds = new Array();
+                        for (var i = 0; i< data.length;i++){
+                            userIds.push(data[i].id);
+                        }
+                        $.ajax({
+                            url:'${Session.BASE_URL}sysuser/delUser',
+                            type:"post",
+                            data:{
+                                userIds:userIds
+                            },
+                            success:function (result) {
+                                tableIns.reload();
+                                layer.alert(result.msg);
+                            }
+                        });
+                        layer.close(index);
+                    });
+
+                }
+
+            }
+        };
+
+        layui.$('.demoTable .layui-btn').on('click', function(){
+            var type = layui.$(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+</body>
+</html>

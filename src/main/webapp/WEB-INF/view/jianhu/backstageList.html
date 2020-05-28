@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css"/>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/backstageList.jpg");
+        background-position: top;
+        /* 背景图不平铺 */
+        /*background-repeat: no-repeat;*/
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: 100% 100%;
+    }
+
+    table {
+        border: none;
+    }
+
+    #search {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 30px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: white;
+        transition-duration: 0.25s;
+        font-weight: 300;
+        /*			-webkit-box-shadow: 0 0 10px #54A3CE;
+        */
+    }
+
+    #query {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #add ,#administration,#toLogin {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    .list {
+        margin: 0 0 0 5px;
+        position: absolute;
+        top: 114px;
+        left: 70px;
+        height: 80vh;
+        width: 91vw;
+        /*background-color: #000000;*/
+    }
+
+    .layui-table {
+        background-color: rgb(255, 255, 255, 0);
+        color: #fff;
+    }
+
+    .layui-table[lay-skin=row] {
+        border-width: 6px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #fff;
+    }
+
+    .layui-laypage .layui-laypage-curr em {
+        color: #000;
+    }
+
+    .layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span {
+        color: #fff;
+    }
+
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+        border: 1px solid rgb(255, 255, 255, 0);
+    }
+
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+        background-color: rgb(93, 156, 255, 0.07);
+    }
+
+    iframe {
+        background-color: rgb(12, 25, 52);
+    }
+    #tips , #updatetips{
+        position:absolute;
+        z-index:999;
+        width: 440px;
+        height: 380px;
+        margin-top: 17%;
+        margin-left: 38%;
+        background-image: url("${Session.BASE_URL}img/newAdd.png");
+        background-size: 100% 100%;
+        font-size: 14px;
+        display: none;
+        text-align: center;
+    }
+    #cen div , #updatecen div{
+        margin: 14px;
+    }
+    #cen input , #updatecen input{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+    }
+    #tips input , #updatetips input{
+        width: 157px;
+        height: 16px;
+        font-size: 13px;
+        padding: 3px 8px;
+    }
+    #tips #save , #tips #colse , #updatetips #update , #updatetips #updatecolse{
+        /*background-color: #031D3B;*/
+        color: #52A5C8;
+        border: 1px solid #52A5C8;
+        width: 70px;
+        height: 30px;
+        background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+        linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+        linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+        linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+        background-size: 100% 51%;
+        background-repeat: no-repeat;
+    }
+    #tips #head , #updatetips #updatehead{
+        margin-left: -5.5%;
+        margin-top: 2.9%;
+        color: #2F6188;
+        font-weight: bold;
+    }
+    .alink {
+        cursor: pointer;
+    }
+</style>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if(hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if(minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if(seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+<body onload="showLeftTime()">
+<div id="show" style="width: 210px;height: 70px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 12%;">
+</div>
+<div class="list">
+    <input type="text" id="search" placeholder="请输入关键字进行查询" autocomplete="off"/>
+    <button data-type="query" id="query">查询</button>
+    <button id="add" onclick="openTips()">新增</button>
+    <div style="float: right; margin-left: 6px;">
+      <button id="toLogin">返回首页</button>
+    </div>
+    <div id="policecode" style="float: right">
+        <button id="administration">账号管理</button>
+    </div>
+
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+<div id="tips">
+    <div id="head">
+        新增信息
+    </div>
+    <div id="cen" style="color: #fff;margin-top: 25px">
+        <div style="margin-left: 1%">派出所名称：<input id="name" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 1%">派出所代码：<input id="code" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 1%">派出所简称：<input id="aliasname" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 4.1%">登录账号：<input id="account" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 4.1%">登录密码：<input id="password" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 10.5%">经度：<input id="longitude" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 10.5%"> 纬度：<input id="latitude" type="text" autocomplete="off"/></div>
+        <div>
+            <button id="save" class="save pointer">保存</button>
+            <button id="colse" class="pointer" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+<div id="updatetips">
+    <div id="updatehead">
+        修改信息
+    </div>
+    <div id="updatecen" style="color: #fff;margin-top: 25px">
+        <div style="margin-left: 1%">派出所名称：<input id="updatename" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 1%">派出所代码：<input id="updatecode" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 1%">派出所简称：<input id="updatealiasname" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 4.1%">登录账号：<input id="updateaccount" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 4.1%">登录密码：<input id="updatepassword" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 10.5%">经度：<input id="updatelongitude" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 10.5%"> 纬度：<input id="updatelatitude" type="text" autocomplete="off"/></div>
+        <div>
+            <button id="update" class="save pointer">保存</button>
+            <button id="updatecolse" class="pointer" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/html" id="zizeng">
+	{{d.LAY_TABLE_INDEX + 1}}
+</script>
+<script type="text/html" id="operation">
+	<a lay-event="detail" style="color: #70C2E8;margin: 0 5px;">进入平台</a>
+	<a lay-event="update" style="color: #F28E74;margin: 0 5px;">修改</a>
+	<a lay-event="del" style="color: #D3C155;margin: 0 5px;">删除</a>
+    <a lay-event="listzzb" style="color: #D3C155;margin: 0 5px;">查看值班表</a>
+    <a lay-event="spjk" style="color: #D3C155;margin: 0 5px;">视频监控</a>
+    <a lay-event="yq" style="color: #D3C155;margin: 0 5px;">网上调解</a>
+    <a lay-event="wq" style="color: #D3C155;margin: 0 5px;">网格信息</a>
+    <a lay-event="zdry" style="color: #D3C155;margin: 0 5px;">重点人员</a>
+    <!--    <a lay-event="inputzzb" style="color: #D3C155;margin: 0 5px;">导入值班表</a>-->
+</script>
+<script>
+    // 手机号正则
+    var phoneReg = /^1[3456789]\d{9}$/
+
+    // 返回首页
+    $('#toLogin').click(
+        function () {
+            window.location.href = "${Session.BASE_URL}/admin/v1/policeAdmin"
+        }
+    )
+
+    $(function(){
+        var policecode = "${user.policecode}"
+        console.log(policecode)
+        if(!policecode){
+
+        }else{
+            $("#policecode").css("display" , "none")
+        }
+    });
+
+    var removeid;
+
+    layui.use('table', function () {
+        // var table = layui.table;
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo',
+            url: '${Session.BASE_URL}station/dataList',
+            height: 'full-250',
+            request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }, //如果无需自定义请求参数，可不加该参数
+            response: {
+            statusCode: "SUCCESS" //规定成功的状态码，默认：0
+        },
+            cols: [[
+                {field: 'zizeng', align: 'center', title: '序号',templet:"#zizeng"},
+                {field: 'name', align: 'center', title: '派出所名称'},
+                {field: 'code', align: 'center', title: '派出所代码'},
+                {field: 'aliasname', align: 'center', title: '派出所简称'},
+                {field: 'account', align: 'center', title: '登录账号'},
+                {field: 'password', align: 'center', title: '登录密码'},
+                {field: 'longitude', align: 'center', title: '经度'},
+                {field: 'latitude', align: 'center', title: '纬度'},
+                {field: 'caozuo', align: 'center',width:550, title: '操作',templet:"#operation"}
+            ]],
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                , groups: 5 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+            },
+            done: function (res, curr, count) {
+                // 表格渲染完成之后的回调
+                var that = this.elem.next();
+                res.data.forEach(function (item, index) {
+                    if (index % 2 == 0) {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0)");
+                    } else {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0.07)");
+                    }
+                });
+            }
+        });
+
+		//监听工具条
+        //这里的tool(test)监听
+		table.on('tool(test)', function (obj) {
+			var data = obj.data;
+            removeid = data.id;
+			if (obj.event === 'detail') {
+				//进入平台
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.open('${Session.BASE_URL}index');
+                        } else{
+                            window.parent.layui.layer.msg("删除失败");//提示消息
+                        }
+                    }
+                })
+			} else if (obj.event === 'update') {
+				//修改
+                $("#updatetips").css("display", "block");
+                $.ajax({
+                    url: '${Session.BASE_URL}station/queryId',
+                    type:'GET', //GET
+                    dataType:'json',
+                    data: {id: data.id},
+                    success:function (result) {
+                        $("#updatename").val(result.data.name);
+                        $("#updatecode").val(result.data.code);
+                        $("#updatealiasname").val(result.data.aliasname);
+                        $("#updateaccount").val(result.data.account);
+                        $("#updatepassword").val(result.data.password);
+                        $("#updatelongitude").val(result.data.longitude);
+                        $("#updatelatitude").val(result.data.latitude);
+                    }
+                })
+
+                $("#update").click(function () {
+                    var updatename = $("#updatename").val();
+                    var updatecode = $("#updatecode").val();
+                    var updatealiasname = $("#updatealiasname").val();
+                    var updateaccount = $("#updateaccount").val();
+                    var updatepassword = $("#updatepassword").val();
+                    var updatelongitude  =$("#updatelongitude").val();
+                    //
+                    var updatelatitude  = $("#updatelatitude").val();
+                    var data = {
+                        id:removeid,
+                        name:updatename,
+                        code:updatecode,
+                        aliasname:updatealiasname,
+                        account:updateaccount,
+                        password:updatepassword,
+                        longitude:updatelongitude,
+                        latitude:updatelatitude
+                    };
+                    if(updatename == ''){
+                        layer.msg('请输入派出所名称',{time:1.5*1000});
+                    }else if(updatecode == ''){
+                        layer.msg('请输入派出所代码',{time:1.5*1000});
+                    }else if(updatealiasname == ''){
+                        layer.msg('请输入派出所简称',{time:1.5*1000});
+                    }else if(updateaccount == ''){
+                        layer.msg('请输入登录账号',{time:1.5*1000});
+                    }else if(updatepassword == ''){
+                        layer.msg('请输入登录密码',{time:1.5*1000});
+                    }else if(updatelongitude == ''){
+                        layer.msg('请输入经度',{time:1.5*1000});
+                    }else if(updatelatitude == ''){
+                        layer.msg('请输入纬度',{time:1.5*1000});
+                    }
+                    else{
+                        $.ajax({
+                            url: '${Session.BASE_URL}station/update',
+                            type:'GET', //GET
+                            dataType:'json',
+                            data:data,
+                            success:function (result) {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                                layer.msg("修改成功！")
+                                setTimeout(function () {
+                                    window.parent.location.reload();
+                                },1000)
+                            }
+                        })
+                    }
+                })
+			} else if (obj.event === 'del') {
+				//删除
+                    var id = data.id;
+                    $.ajax({
+                        url: '${Session.BASE_URL}station/queryDutyAndVideoCount',
+                        data: {id: id},
+                        success: function (result) {
+                            if (result.code == 'SUCCESS') {
+                                if(result.data.dutyCount > 0 && result.data.videoCount > 0){
+                                    layer.confirm('存在值班表和视频监控,您确定要删除吗？', function (index) {
+                                        remove();
+                                        layer.close(index); //关闭弹出层
+                                    });
+                                }else
+                                if(result.data.videoCount > 0){
+                                    layer.confirm('存在视频监控,您确定要删除吗？', function (index) {
+                                        remove();
+                                        layer.close(index); //关闭弹出层
+                                    });
+                                }else if(result.data.dutyCount > 0){
+                                    layer.confirm('存在值班表,您确定要删除吗？', function (index) {
+                                        remove();
+                                        layer.close(index); //关闭弹出层
+                                    });
+                                }else{
+                                    layer.confirm('您确定要删除吗？', function (index) {
+                                        remove();
+                                        layer.close(index); //关闭弹出层
+                                    });
+                                }
+                            } else{
+                                window.parent.layui.layer.msg("删除失败");//提示消息
+                            }
+                        }
+                    })
+			}else if(obj.event === 'listzzb'){
+
+                //进入平台
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.location.href='${Session.BASE_URL}admin/v1/backstageLists?policestationId='+data.id;
+                        } else{
+
+                        }
+                    }
+                })
+            }else if(obj.event === 'spjk'){
+
+                //视频监控
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.location.href='${Session.BASE_URL}admin/v1/spjk?policestationId='+data.id;
+                        } else{
+
+                        }
+                    }
+                })
+
+            }else if(obj.event === 'yq'){
+
+                //舆情
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.location.href='${Session.BASE_URL}admin/v1/publicSentiment?policestationId='+data.id;
+                        } else{
+
+                        }
+                    }
+                })
+
+            }else if(obj.event === 'wq'){
+
+                //稳情
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.location.href='${Session.BASE_URL}admin/v1/stability?policestationId='+data.id;
+                        } else{
+
+                        }
+                    }
+                })
+            }else if(obj.event === 'zdry'){
+
+                //稳情
+                $.ajax({
+                    url: '${Session.BASE_URL}station/setPolicestation',
+                    data: {id: data.id},
+                    success: function (result) {
+                        if (result.code == 'SUCCESS') {
+                            window.location.href='${Session.BASE_URL}admin/v1/keyPersonnel?policestationId='+data.id;
+                        } else{
+
+                        }
+                    }
+                })
+
+            }
+
+		});
+
+    //监听查询按钮
+    layui.$('#query').on('click', function () {
+        var type = layui.$(this).data('type');
+        console.log(type)
+        active[type] ? active[type].call(this) : '';
+    });
+    //获取选中状态
+    var active = {
+        query: function () { //获取选中数据
+            var keyword = $("#search").val();
+            var data = {
+                keyword:keyword
+// 					pageNum: 1,
+// 					pageSize:10
+            };
+            tableIns.reload({
+                where: data
+                ,url: '${Session.BASE_URL}station/dataList'
+                ,page:{
+                    curr:1  //从第一页开始
+                }
+            });
+        }
+    };
+    });
+    //新增
+    $("#save").click(function(){
+        var name = $("#name").val();
+        var code = $("#code").val();
+        var aliasname = $("#aliasname").val();
+        var account = $("#account").val();
+        var password = $("#password").val();
+        var longitude =  $("#longitude").val();
+        var latitude =  $("#latitude").val();
+        var data = {
+            name:name,
+            code:code,
+            aliasname:aliasname,
+            account:account,
+            password:password,
+            longitude:longitude,
+            latitude:latitude
+        };
+        if(name == ''){
+            layer.msg('请输入派出所名称',{time:1.5*1000});
+        }else if(code == ''){
+            layer.msg('请输入派出所代码',{time:1.5*1000});
+        }else if(aliasname == ''){
+            layer.msg('请输入派出所简称',{time:1.5*1000});
+        }else if(account == ''){
+            layer.msg('请输入登录账号',{time:1.5*1000});
+        }else if(password == ''){
+            layer.msg('请输入登录密码',{time:1.5*1000});
+        }else if(longitude == ''){
+            layer.msg('请输入经度',{time:1.5*1000});
+        }else if(latitude == ''){
+            layer.msg('请输入纬度',{time:1.5*1000});
+        }
+        else{
+            $.ajax({
+                url: '${Session.BASE_URL}station/add',
+                type:'GET', //GET
+                dataType:'json',
+                data:data,
+                success:function (result) {
+                    if(result.code == "SUCCESS"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        layer.msg("添加成功！")
+                        setTimeout(function () {
+                            window.parent.location.reload();
+                        },1000)
+                    }
+                }
+            })
+        }
+
+    });
+
+    //删除
+    function remove(){
+        $.ajax({
+        	url: '${Session.BASE_URL}station/delete',
+        	data: {id: removeid},
+        	success: function (result) {
+        		if (result.code == 'SUCCESS') {
+        			window.parent.layui.layer.msg("删除成功");//提示消息
+        			location.reload();     //删除之后,刷新表格
+        		} else{
+        			window.parent.layui.layer.msg("删除失败");//提示消息
+        		}
+        	}
+        });
+    }
+
+    $("#administration").click(function(){
+        window.location.href='${Session.BASE_URL}admin/v1/administration';
+    });
+
+    function openTips() {
+        $("#tips").css("display", "block");
+    }
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+        $("#name").val("");
+        $("#code").val("");
+        $("#aliasname").val("");
+        $("#account").val("");
+        $("#password").val("");
+    }
+    $("#updatecolse").click(function () {
+        $("#updatetips").css("display", "none");
+    });
+</script>
+
+</html>

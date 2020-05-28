@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>占道挖掘系统登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="${Session.BASE_URL}css/mui.min.css" rel="stylesheet" />
+        <link href="${Session.BASE_URL}css/mui.picker.css" rel="stylesheet" />
+        <link href="${Session.BASE_URL}css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/public-jinhuo.css"/>
+		<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+	</head>
+	<style>	
+		* {touch-action: pan-y;} /*解决移动端点击事件延迟 */
+		.mui-content{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: url(${Session.BASE_URL}/img/组1.png)no-repeat;
+			background-size: 100%100%;
+		}
+		
+		.registerTop{
+			color: #fff;
+			font-size: 35px;
+			margin: 80px 0 ;
+			text-align: center ;
+		}
+		.registerContent{
+			width: 300px;
+			height:380px;
+			background-color: #fff;
+			border-radius: 5px;
+			margin: 0 auto;
+		}
+		#login-button{
+			text-align: center;
+			background-color:#027bd8;
+			color:#fff;
+			margin-top: 30px;
+			height: 40px;
+			width: 260px;
+			margin-left: 20px;
+		}
+	</style>
+	
+	<body>	
+		<!--内容	-->
+		<div class="mui-content">
+			<div class="registerTop"> 占道挖掘系统  </div>
+			<div class="registerContent">
+				<div style="text-align: center;font-size: 25px;padding: 20px 0 0 0;font-weight: 600;">登录</div>
+				<form class="form">
+					<div style="margin: 20px;">
+						<div style="color: #a8b2bb;margin-bottom: 11px;">手机号</div>
+						<input type="text" id="phonenumber" type="text" id="username" style="margin-bottom:15px" />
+						<div style="color: #a8b2bb;margin-bottom: 11px;">密码</div>
+						<input type="password" id="password" type="password" id="password" style="margin-bottom:5px" />
+					</div>	
+					<div>
+						<!--<div style="float: left;margin:0 0 0 25px;">
+							<input type="radio" style="color:#a8b2bb ;" />	记住密码
+						</div>-->
+						<div style="float:right;margin: 0 25px 0 0;color:#a8b2bb;" onclick="javascript:location.href='forgetaPassword.html'">忘记密码?</div>
+					</div>
+					<button type="submit" id="login-button">立即登录</button>
+				</form>
+			</div>
+			<div style="text-align: center;margin-top: 23px;color: #feffeb;" onclick="javascript:location.href='${Session.BASE_URL}api/v1/register'" >
+				<span style="color:#a8b2bb ;">没有账号？</span>马上注册
+			</div>
+			
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+	$("#login-button").click(function(event) {
+		event.preventDefault()
+		
+		var pn = $("#phonenumber").val();
+		var pwd = $("#password").val();
+		console.log(pn);
+        console.log(pwd);
+		if(pn == "" || pn == null){
+			alert("请输入手机号")
+		}else if(pwd == "" || pwd == null){
+			alert("请输入密码")
+		}else{
+			$.ajax({
+				url: "${Session.BASE_URL}sysuser/mobile/selfLogin",
+	            type: "POST",
+				data:{
+					phone:pn,
+					password:pwd
+				},
+				success:function(result){
+					console.log(result)
+					if(result.code == "SUCCESS"){
+
+					    //施工
+                        if(result.data.roleper == 1){
+
+                            window.location.href="${Session.BASE_URL}/api/v1/yhsq" ;
+
+                        //交管和城管
+                        }else if(result.data.roleper == 2 || result.data.roleper == 3){
+                            window.location.href="${Session.BASE_URL}/api/v1/welcome" ;
+                        }else{
+                            alert("您没有登录权限")
+                        }
+
+
+						//alert("登录成功")
+						// window.location.href="${Session.BASE_URL}api/v1/yhsq";
+					}else{
+						alert("登录失败，手机或密码不正确")
+					}
+				}
+			})
+		}
+	});
+
+	</script>
+		
+
+</html>

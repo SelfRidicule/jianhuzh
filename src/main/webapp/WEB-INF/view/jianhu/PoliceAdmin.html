@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>派出所综合指挥平台</title>
+<!--		<link href="${Session.BASE_URL}css/layui.css" rel="stylesheet" />-->
+		<link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css" />
+	</head>
+	<style>
+		/*html,body{
+    width:100%;
+    height:100%
+}
+	 body{
+	 	background:url(images/system.jpg) no-repeat;
+	 	background-size: cover;
+	 	background-attachment: fixed;
+	 }
+	 login{
+	 	background: url(images/login.png);
+	 	width: 20%;
+	 	height: 20%;
+	 }*/
+		
+		body {
+			background: url("${Session.BASE_URL}img/system.jpg");
+			background-position: top;
+			/* 背景图不平铺 */
+			background-repeat: no-repeat;
+			/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+			background-attachment: fixed;
+			/*此条属性必须设置否则可能无效*/
+			/* 让背景图基于容器大小伸缩 */
+			background-size: 100% 100%;
+		}
+		
+		@font-face {
+			font-family: "Source Sans Pro";
+			font-style: normal;
+			font-weight: 200;
+			src: local("Source Sans Pro ExtraLight"), local("SourceSansPro-ExtraLight"), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format("truetype");
+		}
+		
+		@font-face {
+			font-family: "Source Sans Pro";
+			font-style: normal;
+			font-weight: 300;
+			src: local("Source Sans Pro Light"), local("SourceSansPro-Light"), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format("truetype");
+		}
+		
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-weight: 300;
+		}
+		
+		body {
+			font-family: "Source Sans Pro", sans-serif;
+			color: white;
+			font-weight: 300;
+		}
+		
+		body ::-webkit-input-placeholder {
+			/* WebKit browsers */
+			font-family: "Source Sans Pro", sans-serif;
+			color: white;
+			font-weight: 300;
+		}
+		
+		body :-moz-placeholder {
+			/* Mozilla Firefox 4 to 18 */
+			font-family: "Source Sans Pro", sans-serif;
+			color: white;
+			opacity: 1;
+			font-weight: 300;
+		}
+		
+		body ::-moz-placeholder {
+			/* Mozilla Firefox 19+ */
+			font-family: "Source Sans Pro", sans-serif;
+			color: white;
+			opacity: 1;
+			font-weight: 300;
+		}
+		
+		body :-ms-input-placeholder {
+			/* Internet Explorer 10+ */
+			font-family: "Source Sans Pro", sans-serif;
+			color: white;
+			font-weight: 300;
+		}
+		
+		.wrapper {
+			width: 500px;
+			height: 30%;
+			margin: 0 auto;
+			margin-top: 350px;
+			overflow: hidden;
+			border: 1px solid #03acef;
+			border-radius: 10px 10px 10px 10px;
+			/* background-color: #fff; */
+			background: rgba(255, 255, 255, 0.1) none repeat scroll !important;
+		}
+		
+		.wrapper h1 {
+			-webkit-transform: translateY(85px);
+			transform: translateY(85px);
+		}
+		
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px 0 30px 0;
+			height: 350px;
+			width: 500px;
+			text-align: center;
+			background: rgba(13, 50, 93, 0.6) none repeat scroll !important;
+		}
+		
+		.container h1 {
+			font-size: 40px;
+			transition-duration: 1s;
+			transition-timing-function: ease-in-put;
+			font-weight: 200;
+		}
+		
+		form {
+			position: relative;
+			z-index: 2;
+		}
+		
+		form input {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			outline: 0;
+			border: 1px solid rgba(255, 255, 255, 0.4);
+			background-color:  rgba(12, 29, 69, 0.2);
+			width: 350px;
+			border-radius: 3px;
+			padding: 10px 15px;
+			margin: 0 auto 10px auto;
+			display: block;
+			text-align: center;
+			font-size: 18px;
+			color: white;
+			transition-duration: 0.25s;
+			font-weight: 300;
+		}
+		
+		form input:hover {
+			border-color: white;
+			/*background-color: rgba(255, 255, 255, 0.4);*/
+		}
+		
+		form input:focus {
+			/*background-color:  rgba(12, 29, 69, 0.2);
+			width: 350px;
+			color: #53e3a6;*/
+		}
+		
+		form button {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			outline: 0;
+			background-color: white;
+			border: 0;
+			padding: 10px 15px;
+			color: #53e3a6;
+			border-radius: 3px;
+			width: 250px;
+			cursor: pointer;
+			font-size: 18px;
+			transition-duration: 0.25s;
+		}
+		
+		form button:hover {
+			background-color: #f5f7f9;
+		}
+		
+		@-webkit-keyframes square {
+			0% {
+				-webkit-transform: translateY(0);
+				transform: translateY(0);
+			}
+			100% {
+				-webkit-transform: translateY(-700px) rotate(600deg);
+				transform: translateY(-700px) rotate(600deg);
+			}
+		}
+		
+		@keyframes square {
+			0% {
+				-webkit-transform: translateY(0);
+				transform: translateY(0);
+			}
+			100% {
+				-webkit-transform: translateY(-700px) rotate(600deg);
+				transform: translateY(-700px) rotate(600deg);
+			}
+		}
+		
+		.top {
+			background: rgba(56, 112, 169, 0.7) none repeat scroll !important;
+			text-align: center;
+			height: 50px;
+		}
+		
+		.icon-user {
+			position: fixed;
+			left: 0；z-index:5;
+			margin-top: 8px;
+			background-image: url('${Session.BASE_URL}img/people.png');
+			/*引入图片图片*/
+			background-repeat: no-repeat;
+			/*设置图片不重复*/
+			background-position: 0px 0px;
+			/*图片显示的位置*/
+			width: 40px;
+			/*设置图片显示的宽*/
+			height: 35px;
+			/*图片显示的高*/
+		}
+		
+		.icon-pass {
+			position: absolute;
+			left: 0；z-index:5;
+			margin-top: 8px;
+			background-image: url('${Session.BASE_URL}img/sock.png');
+			/*引入图片图片*/
+			background-repeat: no-repeat;
+			/*设置图片不重复*/
+			background-position: 0px 0px;
+			/*图片显示的位置*/
+			width: 40px;
+			/*设置图片显示的宽*/
+			height: 35px;
+			/*图片显示的高*/
+		}
+		#come , #login-button{
+			background-color: #51A0DE;
+			color: #fff;
+			width: 150px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			outline: 0;
+			background-color: white;
+			border: 0;
+			padding: 10px 15px;
+			color: #53e3a6;
+			border-radius: 3px;
+			width: 250px;
+			cursor: pointer;
+			font-size: 18px;
+			transition-duration: 0.25s;
+		}
+
+		input:focus::-webkit-input-placeholder{
+			color: transparent;
+		}
+	</style>
+
+	<body>
+		<div class="wrapper">
+			<form class="form">
+				<div class="top">
+					<div style="padding: 15px; font-size:large">管理员，欢迎您登录!</div>
+				</div>
+				<div class="container" style="height: 260px;">
+					<!--<i class="icon-user"></i>-->
+					<input type="text" id="username" placeholder="用户名" style="margin-bottom:30px" autocomplete="off" />
+					<!--<i class="icon-pass"></i>-->
+					<input type="password" id="password" placeholder="密码" style="margin-bottom:30px" />
+					<div style="display: flex;text-align: center">
+						<button type="submit" id="login-button" style="background-color:#51A0DE;color:#fff;width: 150px;margin-left: 17%">登录</button>
+						<div id="come" onclick="come()" style="background-color:#51A0DE;color:#fff;width: 140px;margin-left:8%">返回</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<!--	<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>-->
+	<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+	<script>
+		// function myclick(){
+		// 	$("#username").val("");
+		//
+		// }
+
+
+
+		$("#login-button").click(function(event) {
+			event.preventDefault();
+			console.log(1)
+			var un = $("#username").val();
+			var pwd = $("#password").val();
+
+			if(un == "" || un == null) {
+				layer.msg("请输入账号！");
+				$("#username").focus();
+			} else if(pwd == "" || pwd == null) {
+				layer.msg("请输入密码！");
+				$("#password").focus();
+			} else {
+				$("form").fadeOut(500);
+				$(".wrapper").addClass("form-success");
+				//验证账号
+				$.ajax({
+					url: "${Session.BASE_URL}ajaxLogin",
+					type: "POST",
+					dataType: "JSON",
+					data: {
+						account: un,
+						password: pwd
+					},
+					success: function(result) {
+						if(result.code == "SUCCESS") {
+							window.location.href = "${Session.BASE_URL}admin/v1/backstageList";
+						} else {
+							$("form").fadeIn(500);
+							$(".wrapper").removeClass("form-success");
+							layer.msg("用户名或者密码错误!");
+							$("#username").val("");
+							$("#password").val("");
+							$("#username").focus();
+						}
+					}
+				});
+			}
+		});
+
+
+		function come(){
+			window.location.href="${Session.BASE_URL}login"
+		}
+		// });
+	</script>
+
+</html>

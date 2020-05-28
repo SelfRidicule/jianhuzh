@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.dao.PolicestationDAO">
+  <resultMap id="BaseResultMap" type="com.zhongzhou.entity.Policestation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="aliasname" jdbcType="VARCHAR" property="aliasname" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="servicecode" jdbcType="VARCHAR" property="servicecode" />
+    <result column="linkurl" jdbcType="VARCHAR" property="linkurl" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, code, aliasname, account, password, servicecode, linkurl, longitude, latitude
+  </sql>
+  <select id="selectByExample" parameterType="com.zhongzhou.entity.PolicestationCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from policestation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from policestation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from policestation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zhongzhou.entity.PolicestationCriteria">
+    delete from policestation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zhongzhou.entity.Policestation">
+    insert into policestation (id, name, code,
+      aliasname, account, password,
+      servicecode, linkurl, longitude,
+      latitude)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+      #{aliasname,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{servicecode,jdbcType=VARCHAR}, #{linkurl,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR},
+      #{latitude,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongzhou.entity.Policestation">
+    insert into policestation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="aliasname != null">
+        aliasname,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="servicecode != null">
+        servicecode,
+      </if>
+      <if test="linkurl != null">
+        linkurl,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="aliasname != null">
+        #{aliasname,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="servicecode != null">
+        #{servicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="linkurl != null">
+        #{linkurl,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into policestation (id, name, code,
+    aliasname, account, password,
+    servicecode, linkurl, longitude,
+    latitude)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
+      #{item.aliasname,jdbcType=VARCHAR}, #{item.account,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR},
+      #{item.servicecode,jdbcType=VARCHAR}, #{item.linkurl,jdbcType=VARCHAR}, #{item.longitude,jdbcType=VARCHAR},
+      #{item.latitude,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    insert into policestation
+    (id, name, code, aliasname, account, password, servicecode, linkurl, longitude, latitude
+    )
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.id != null">
+          #{item.id,jdbcType=INTEGER},
+        </if>
+        <if test="item.id == null">
+          NULL,
+        </if>
+        <if test="item.name != null">
+          #{item.name,jdbcType=VARCHAR},
+        </if>
+        <if test="item.name == null">
+          NULL,
+        </if>
+        <if test="item.code != null">
+          #{item.code,jdbcType=VARCHAR},
+        </if>
+        <if test="item.code == null">
+          NULL,
+        </if>
+        <if test="item.aliasname != null">
+          #{item.aliasname,jdbcType=VARCHAR},
+        </if>
+        <if test="item.aliasname == null">
+          NULL,
+        </if>
+        <if test="item.account != null">
+          #{item.account,jdbcType=VARCHAR},
+        </if>
+        <if test="item.account == null">
+          NULL,
+        </if>
+        <if test="item.password != null">
+          #{item.password,jdbcType=VARCHAR},
+        </if>
+        <if test="item.password == null">
+          NULL,
+        </if>
+        <if test="item.servicecode != null">
+          #{item.servicecode,jdbcType=VARCHAR},
+        </if>
+        <if test="item.servicecode == null">
+          NULL,
+        </if>
+        <if test="item.linkurl != null">
+          #{item.linkurl,jdbcType=VARCHAR},
+        </if>
+        <if test="item.linkurl == null">
+          NULL,
+        </if>
+        <if test="item.longitude != null">
+          #{item.longitude,jdbcType=VARCHAR},
+        </if>
+        <if test="item.longitude == null">
+          NULL,
+        </if>
+        <if test="item.latitude != null">
+          #{item.latitude,jdbcType=VARCHAR},
+        </if>
+        <if test="item.latitude == null">
+          NULL,
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <select id="countByExample" parameterType="com.zhongzhou.entity.PolicestationCriteria" resultType="java.lang.Long">
+    select count(*) from policestation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update policestation
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aliasname != null">
+        aliasname = #{record.aliasname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null">
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servicecode != null">
+        servicecode = #{record.servicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkurl != null">
+        linkurl = #{record.linkurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update policestation
+    set id = #{record.id,jdbcType=INTEGER},
+    name = #{record.name,jdbcType=VARCHAR},
+    code = #{record.code,jdbcType=VARCHAR},
+    aliasname = #{record.aliasname,jdbcType=VARCHAR},
+    account = #{record.account,jdbcType=VARCHAR},
+    password = #{record.password,jdbcType=VARCHAR},
+    servicecode = #{record.servicecode,jdbcType=VARCHAR},
+    linkurl = #{record.linkurl,jdbcType=VARCHAR},
+    longitude = #{record.longitude,jdbcType=VARCHAR},
+    latitude = #{record.latitude,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongzhou.entity.Policestation">
+    update policestation
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="aliasname != null">
+        aliasname = #{aliasname,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="servicecode != null">
+        servicecode = #{servicecode,jdbcType=VARCHAR},
+      </if>
+      <if test="linkurl != null">
+        linkurl = #{linkurl,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongzhou.entity.Policestation">
+    update policestation
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      aliasname = #{aliasname,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      servicecode = #{servicecode,jdbcType=VARCHAR},
+      linkurl = #{linkurl,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+    update policestation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.name}
+        </foreach>
+      </trim>
+      <trim prefix="code =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.code}
+        </foreach>
+      </trim>
+      <trim prefix="aliasname =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.aliasname}
+        </foreach>
+      </trim>
+      <trim prefix="account =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.account}
+        </foreach>
+      </trim>
+      <trim prefix="password =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.password}
+        </foreach>
+      </trim>
+      <trim prefix="servicecode =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.servicecode}
+        </foreach>
+      </trim>
+      <trim prefix="linkurl =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.linkurl}
+        </foreach>
+      </trim>
+      <trim prefix="longitude =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.longitude}
+        </foreach>
+      </trim>
+      <trim prefix="latitude =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.latitude}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id}
+    </foreach>
+  </update>
+  <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+    update policestation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.name != null ">
+            when  #{item.id} then #{item.name}
+          </if>
+          <if test="item.name == null ">
+            when  #{item.id} then policestation.name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="code =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.code != null ">
+            when  #{item.id} then #{item.code}
+          </if>
+          <if test="item.code == null ">
+            when  #{item.id} then policestation.code
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="aliasname =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.aliasname != null ">
+            when  #{item.id} then #{item.aliasname}
+          </if>
+          <if test="item.aliasname == null ">
+            when  #{item.id} then policestation.aliasname
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="account =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.account != null ">
+            when  #{item.id} then #{item.account}
+          </if>
+          <if test="item.account == null ">
+            when  #{item.id} then policestation.account
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="password =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.password != null ">
+            when  #{item.id} then #{item.password}
+          </if>
+          <if test="item.password == null ">
+            when  #{item.id} then policestation.password
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="servicecode =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.servicecode != null ">
+            when  #{item.id} then #{item.servicecode}
+          </if>
+          <if test="item.servicecode == null ">
+            when  #{item.id} then policestation.servicecode
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="linkurl =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.linkurl != null ">
+            when  #{item.id} then #{item.linkurl}
+          </if>
+          <if test="item.linkurl == null ">
+            when  #{item.id} then policestation.linkurl
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="longitude =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.longitude != null ">
+            when  #{item.id} then #{item.longitude}
+          </if>
+          <if test="item.longitude == null ">
+            when  #{item.id} then policestation.longitude
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="latitude =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.latitude != null ">
+            when  #{item.id} then #{item.latitude}
+          </if>
+          <if test="item.latitude == null ">
+            when  #{item.id} then policestation.latitude
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id}
+    </foreach>
+  </update>
+  <update id="updateBatchByExample" parameterType="map">
+    update policestation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.name}
+        </foreach>
+      </trim>
+      <trim prefix="code =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.code}
+        </foreach>
+      </trim>
+      <trim prefix="aliasname =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.aliasname}
+        </foreach>
+      </trim>
+      <trim prefix="account =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.account}
+        </foreach>
+      </trim>
+      <trim prefix="password =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.password}
+        </foreach>
+      </trim>
+      <trim prefix="servicecode =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.servicecode}
+        </foreach>
+      </trim>
+      <trim prefix="linkurl =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.linkurl}
+        </foreach>
+      </trim>
+      <trim prefix="longitude =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.longitude}
+        </foreach>
+      </trim>
+      <trim prefix="latitude =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.latitude}
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBatchByExampleSelective" parameterType="map">
+    update policestation
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.name != null ">
+            when  #{item.id} then #{item.name}
+          </if>
+          <if test="item.name == null ">
+            when  #{item.id} then policestation.name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="code =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.code != null ">
+            when  #{item.id} then #{item.code}
+          </if>
+          <if test="item.code == null ">
+            when  #{item.id} then policestation.code
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="aliasname =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.aliasname != null ">
+            when  #{item.id} then #{item.aliasname}
+          </if>
+          <if test="item.aliasname == null ">
+            when  #{item.id} then policestation.aliasname
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="account =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.account != null ">
+            when  #{item.id} then #{item.account}
+          </if>
+          <if test="item.account == null ">
+            when  #{item.id} then policestation.account
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="password =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.password != null ">
+            when  #{item.id} then #{item.password}
+          </if>
+          <if test="item.password == null ">
+            when  #{item.id} then policestation.password
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="servicecode =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.servicecode != null ">
+            when  #{item.id} then #{item.servicecode}
+          </if>
+          <if test="item.servicecode == null ">
+            when  #{item.id} then policestation.servicecode
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="linkurl =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.linkurl != null ">
+            when  #{item.id} then #{item.linkurl}
+          </if>
+          <if test="item.linkurl == null ">
+            when  #{item.id} then policestation.linkurl
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="longitude =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.longitude != null ">
+            when  #{item.id} then #{item.longitude}
+          </if>
+          <if test="item.longitude == null ">
+            when  #{item.id} then policestation.longitude
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="latitude =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.latitude != null ">
+            when  #{item.id} then #{item.latitude}
+          </if>
+          <if test="item.latitude == null ">
+            when  #{item.id} then policestation.latitude
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+
+    <!--  后台 关键字 -->
+    <select id="auditBackExaminePage"   resultType="com.zhongzhou.entity.Policestation">
+        select
+        *
+        from policestation
+
+        <where>
+
+            <if test="keyword != null and keyword !=''">
+
+                (
+                name like  CONCAT("%",#{keyword},"%")  or
+                code like   CONCAT("%",#{keyword},"%")  or
+                aliasname like   CONCAT("%",#{keyword},"%")
+                )
+
+            </if>
+
+
+            <if test="code != null and code !=''">
+                and code = #{code}
+            </if>
+
+        </where>
+        order by id desc
+    </select>
+
+</mapper>

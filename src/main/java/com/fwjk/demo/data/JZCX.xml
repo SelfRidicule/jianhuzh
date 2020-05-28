@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RBSPMessage>
+	<Version> 12.1</Version>
+	<SenderID>C00-10000002</SenderID>
+	<!--公安网内请求方ID，公安网内服务总线提供-->
+	<TimeStamp/>
+	<Validity/>
+	<Security></Security>
+	<Method>
+		<EndUser>
+			<UserName>用户姓名</UserName>
+			<UserIDCard>用户身份证号</UserIDCard>
+			<UserDept>用户单位</UserDept>
+			<UserCertID>用户数字证书编号</UserCertID>
+		</EndUser>
+		<!--公安网查询用户信息，参见4.5.2章节-->
+		<Name>putxmlinfo</Name>
+		<Items>
+			<Item>
+				<Name>InfoType</Name>
+				<Value Type="string">
+					<Data>JZCX</Data>
+					<!--公安网查询数据类型参见4.5.1章节-->
+				</Value>
+			</Item>
+			<Item>
+				<Name>InfoSet</Name>
+				<Value Type="string">
+					<Data>
+						<Content>
+							<Header>
+								<RequestID>KHCX_001122334455_20150906235959_1234</RequestID>
+								<!--任务唯一编号（每个请求服务器内部要求不重复）-->
+								<CommonInfo>
+									<approveID>abc</approveID>
+									<approveName>李四</approveName>
+									<DeptName>科信局一处</DeptName>
+									</CommonInfo>
+								<CaseInfo>
+									<CaseID>123</CaseID>
+									<CaseName>王五杀人案</CaseName>
+									<CaseProperty>杀人案</CaseProperty>
+									<CaseCause>查询某基站信息</CaseCause>
+									<CaseResume>基站信息</CaseResume>
+								</CaseInfo>
+							</Header>
+							<Body>
+								<DbSource name="JZCX" carrier="yd"> YDJZCX</DbSource>
+								<!-- name:数据源名称（KHCX）; carrier: 运营商名称（yd）; 业务: （YDKHCX）-->
+								<Fields Count="1">
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>LAC_CI</LeftValue>
+										<!--查询号码类型参见leftvalue说明-->
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>3110_16148</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+								</Fields>
+							</Body>
+						</Content>
+					</Data>
+					<!--信息受理模块webservice接口所需查询服务请求消息格式，参见5.1章节-->
+				</Value>
+			</Item>
+		</Items>
+	</Method>
+</RBSPMessage>

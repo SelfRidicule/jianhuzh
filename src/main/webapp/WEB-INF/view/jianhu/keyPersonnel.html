@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>重点人员</title>
+    <link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css"/>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/backstageList.jpg");
+        background-position: top;
+        /* 背景图不平铺 */
+        /*background-repeat: no-repeat;*/
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: 100% 100%;
+    }
+
+    table {
+        border: none;
+    }
+
+    #search {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 30px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: white;
+        transition-duration: 0.25s;
+        font-weight: 300;
+        /*			-webkit-box-shadow: 0 0 10px #54A3CE;
+        */
+    }
+
+    #query {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #add {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #uploadExcel {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #export {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #fanhui {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    .list {
+        margin: 0 0 0 5px;
+        position: absolute;
+        top: 114px;
+        left: 70px;
+        height: 80vh;
+        width: 91vw;
+        /*background-color: #000000;*/
+    }
+
+    .layui-table {
+        background-color: rgb(255, 255, 255, 0);
+        color: #fff;
+    }
+
+    .layui-table[lay-skin=row] {
+        border-width: 6px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #fff;
+    }
+
+    .layui-laypage .layui-laypage-curr em {
+        color: #000;
+    }
+
+    .layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span {
+        color: #fff;
+    }
+
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+        border: 1px solid rgb(255, 255, 255, 0);
+    }
+
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+        background-color: rgb(93, 156, 255, 0.07);
+    }
+
+    iframe {
+        background-color: rgb(12, 25, 52);
+    }
+    #tips , #updatetips{
+        position:absolute;
+        z-index:999;
+        width: 390px;
+        height: 245px;
+        margin-top: 17%;
+        margin-left: 41%;
+        background-image: url("${Session.BASE_URL}img/newAdd.png");
+        background-size: 100% 100%;
+        font-size: 14px;
+        display: none;
+        text-align: center;
+    }
+    #cen div , #updatecen div{
+        margin: 18px;
+    }
+    #cen input , #updatecen input{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+    }
+    #tips input , #updatetips input{
+        width: 157px;
+        height: 16px;
+        font-size: 13px;
+        padding: 3px 8px;
+    }
+    #tips #save , #tips #colse , #updatetips #update , #updatetips #updatecolse{
+        /*background-color: #031D3B;*/
+        color: #52A5C8;
+        border: 1px solid #52A5C8;
+        width: 70px;
+        height: 30px;
+        background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+        linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+        linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+        linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+        background-size: 100% 51%;
+        background-repeat: no-repeat;
+    }
+    #tips #head , #updatetips #updatehead{
+        margin-left: -5.5%;
+        margin-top: 2.9%;
+        color: #2F6188;
+        font-weight: bold;
+    }
+    textarea{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        width: 169px;
+        height: 33px;
+        padding: 3px 3px;
+        color: #ffffff;
+    }
+    #select,#updateselect{
+        width: 175px;
+        height: 24px;
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+        padding: 1px 8px;
+    }
+</style>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+<body onload="showLeftTime()">
+
+<div id="show"
+     style="width: 210px;height: 150px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 12%;">
+</div>
+<div class="list">
+    <input type="text" id="search" placeholder="请输入关键字进行查询" autocomplete="off"/>
+    <button  style="margin-left: 4px;"  data-type="query" id="query">查询</button>
+    <button style="margin-left: 4px;"  id="add" onclick="openTips()" >新增</button>
+
+    <div style="float: right">
+        <button style="margin-right: 4px;" id="uploadExcel">导入</button>
+        <button style="margin-right: 100px;" id="export">导出模板</button>
+        <button id="fanhui">返回</button>
+    </div>
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+<div id="tips">
+    <div id="head">
+        新增信息
+    </div>
+    <div id="cen" style="color: #fff;margin-top: 5%;">
+        <div style="margin-left: -3%">姓名：<input id="name" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 14.5%;display: flex;">身份证：<input id="idcard" type="text" autocomplete="off"/></div>
+<!--        <div style="margin-left: 18%;display: flex;">类别：<input id="maintypeid" type="text" autocomplete="off"/></div>-->
+        <div style="margin-left: 18%;display: flex;">类别：
+            <select id="select">
+
+            </select>
+        </div>
+        <div>
+            <button id="save">保存</button>
+            <button id="colse" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+<div id="updatetips">
+    <div id="updatehead">
+        修改信息
+    </div>
+    <div id="updatecen" style="color: #fff;margin-top: 5%;">
+        <div style="margin-left: -3%">姓名：<input id="updatename" type="text" autocomplete="off"/></div>
+        <div style="margin-left: 14.5%;display: flex;">身份证：<input id="updateidcard" type="text" autocomplete="off"/></div>
+<!--        <div style="margin-left: 18%;display: flex;">类别：<input id="updatemaintypeid" type="text" autocomplete="off"/></div>-->
+        <div style="margin-left: 18%;display: flex;">类别：
+            <select id="updateselect">
+
+            </select>
+        </div>
+        <div>
+            <button id="update">保存</button>
+            <button id="updatecolse">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+<!--<script type="text/javascript" src="../layer/layer.js"></script>-->
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX + 1}}
+</script>
+<script type="text/html" id="operation">
+    <a lay-event="update" style="color: #F28E74;margin: 0 5px;">修改</a>
+    <a lay-event="del" style="color: #D3C155;margin: 0 5px;">删除</a>
+</script>
+<script>
+    //上传excel的js,调用官方的上传组件
+    layui.use(['element', 'upload'], function () {
+        element = layui.element;
+        upload = layui.upload;
+        //指定允许上传的文件类型
+        upload.render({
+            //按钮的id
+            elem: '#uploadExcel'
+            // , url: '${Session.BASE_URL}mainperson/uploadExcel'
+            , url: '${Session.BASE_URL}mainperson/uploadExcel?policecode=${policestation.code}'
+            , accept: 'file' //普通文件
+            , multiple: true //多媒体文件
+            , done: function (res) {
+                if (res.code == 'SUCCESS') {
+                    window.parent.layui.layer.msg("上传成功");
+                    setTimeout(function(){
+                      location.reload();
+                    },1000);
+                }
+            }
+        });
+    });
+    layui.use('table', function () {
+        // var table = layui.table;
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo',
+            url: '${Session.BASE_URL}mainperson/dataList',
+            height: 'full-250',
+            request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limi
+            }, //如果无需自定义请求参数，可不加该参数
+            where:{
+                policecode : '${policestation.code}'
+            },
+            response: {
+                statusCode: "SUCCESS" //规定成功的状态码，默认：0
+            },
+            cols: [[
+                {field: 'zizeng', align: 'center', title: 'id' ,  templet: "#zizeng"},
+                // {field: 'id', align: 'center', title: 'id'},
+                {field: 'name', align: 'center', title: '姓名'},
+                {field: 'idcard', align: 'center', title: '身份证号码'},
+                {field: 'maintypeName', align: 'center', title: '类型'},
+                {field: 'caozuo', align: 'center', title: '操作', templet: "#operation"}
+            ]],
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 5 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+
+            },
+            done: function (res, curr, count) {
+                // 表格渲染完成之后的回调
+                var that = this.elem.next();
+                res.data.forEach(function (item, index) {
+                    if (index % 2 == 0) {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0)");
+                    } else {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0.07)");
+                    }
+                });
+            }
+        });
+
+        //监听工具条
+        //这里的tool(test)监听
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var tableid = data.id;
+            if (obj.event === 'update') {
+                //修改
+                $("#updatetips").css("display", "block");
+
+                $.ajax({
+                    url: '${Session.BASE_URL}mainperson/queryId',
+                    type:'GET', //GET
+                    dataType:'json',
+                    data:{id:data.id},
+                    success:function (result) {
+                        $("#updatename").val(result.data.name);
+                        $("#updateidcard").val(result.data.idcard);
+                        // $("#updatemaintypeid").value(result.data.maintypeid);
+                        $("#updateselect").val(result.data.maintypeid);
+                    }
+                });
+
+                $("#update").click(function () {
+                    var name = $("#updatename").val();
+                    var idcard = $("#updateidcard").val();
+                    var maintypeid = $("#updateselect").val();
+                    var source = $("#updatemaintypeid").val();
+                    var data = {
+                        id:tableid,
+                        name:name,
+                        idcard:idcard,
+                        maintypeid:maintypeid,
+                        // policecode : '${policestation.code}'
+                    };
+
+                    var idTest=/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/
+
+                    if(name == ''){
+                        layer.msg('请输入姓名',{time:1.5*1000});
+                    }else if(idTest.test(idcard)==false){
+                        layer.msg('请输入正确的身份证',{time:1.5*1000});
+                    }else if(maintypeid == ''){
+                        layer.msg('请选择类型',{time:1.5*1000});
+                    }else{
+                        $.ajax({
+                            url: '${Session.BASE_URL}mainperson/update',
+                            type:'GET', //GET
+                            dataType:'json',
+                            data:data,
+                            success:function (result) {
+                                if(result.code == "SUCCESS"){
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    window.parent.layui.layer.msg("操作成功");
+                                    setTimeout(function(){
+                                      window.parent.location.reload();
+                                    },1000);
+                                }
+                            }
+                        })
+                    }
+                })
+            } else if (obj.event === 'del') {
+                //删除
+                layer.confirm('您确定要删除吗？', function (index) {
+                    var id = data.id;
+                    console.log(id)
+                    $.ajax({
+                        url: '${Session.BASE_URL}mainperson/delete',
+                        data: {id: id},
+                        success: function (result) {
+                            if (result.code == 'SUCCESS') {
+                                console.log(123);
+                                window.parent.layui.layer.msg("删除成功");//提示消息
+                                location.reload();     //删除之后,刷新表格
+                            } else {
+                                window.parent.layui.layer.msg("删除失败");//提示消息
+                            }
+                        }
+                    });
+                    layer.close(index); //关闭弹出层
+                });
+            }
+        });
+
+
+        $("#export").click(function () {
+            window.location.href = '${Session.BASE_URL}api/重点人员.xlsx';
+        });
+
+        //监听查询按钮
+        layui.$('#query').on('click', function () {
+            var type = layui.$(this).data('type');
+            console.log(type)
+            active[type] ? active[type].call(this) : '';
+        });
+        //获取选中状态
+        var active = {
+            query: function () { //获取选中数据
+                var keyword = $("#search").val();
+                var data = {
+                    keyword: keyword,
+                    policecode : '${policestation.code}'
+// 					pageNum: 1,
+// 					pageSize:10
+                };
+                tableIns.reload({
+                    where: data
+                    , url: '${Session.BASE_URL}mainperson/dataList'
+                    , page: {
+                        curr: 1  //从第一页开始
+                    }
+                });
+            }
+        };
+    });
+
+
+    //添加
+
+    $("#save").click(function(){
+        var name = $("#name").val();
+        var idcard = $("#idcard").val();
+        var maintypeid = $("#select").val();
+        var data = {
+            name:name,
+            idcard:idcard,
+            maintypeid:maintypeid,
+            policecode : '${policestation.code}'
+        };
+
+        var idTest=/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/
+
+        if(name == ''){
+            layer.msg('请输入姓名',{time:1.5*1000});
+        }else if(idTest.test(idcard)==false){
+            layer.msg('请输入正确的身份证',{time:1.5*1000});
+        }else if(maintypeid==''){
+            layer.msg('请选择类型',{time:1.5*1000});
+        }else{
+            $.ajax({
+                url: '${Session.BASE_URL}mainperson/add',
+                type:'GET', //GET
+                dataType:'json',
+                data:data,
+                success:function (result) {
+                    if(result.code == "SUCCESS"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        window.parent.layui.layer.msg("操作成功");
+                        setTimeout(function(){
+                          window.parent.location.reload();
+                        },1000);
+                    }
+                }
+            })
+        }
+
+    });
+
+    function select(){
+        var html ;
+        $.ajax({
+            url: '${Session.BASE_URL}maintype/dataList',
+            type:'GET', //GET
+            dataType:'json',
+            success:function(result){
+                console.log(result.data)
+                for (var i = 0; i <result.data.length ; i++) {
+                    console.log(result.data[i].id)
+                    html  = ' <option value="'+ result.data[i].id +'"> '+ result.data[i].name + '</option>'
+                    console.log(html)
+                    $("#select").append(html)
+                    $("#updateselect").append(html)
+                }
+
+            }
+        })
+
+
+
+    };
+
+    window.onload=function(){
+        select();
+    }
+
+
+    $("#fanhui").click(function () {
+        window.history.back(-1);
+    })
+    function openTips() {
+        $("#tips").css("display", "block");
+    }
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+        $("#name").val("");
+        $("#idcard").val("");
+        // $("#select").val("");
+    }
+    $("#updatecolse").click(function () {
+        $("#updatetips").css("display", "none");
+    })
+
+</script>
+
+</html>

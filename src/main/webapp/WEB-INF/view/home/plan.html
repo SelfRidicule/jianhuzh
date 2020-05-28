@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>执法办案</title>
+		<style>
+			html,
+			body {
+				margin: 0px;
+				padding: 0px;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				font-size: 15px;
+			}
+			
+			body {
+				background-image: url(img/plan/planbg.jpg);
+				background-size: 100% 100%;
+			}
+			
+			.top {
+				width: 100%;
+				height: 7.4%;
+			}
+			
+			.top div:hover,
+			.more span:hover {
+				cursor: pointer;
+			}
+
+			@media screen and (min-width: 1900px) {
+				.title {
+					width: 540px;
+					height: 80px;
+					line-height: 80px;
+					text-align: center;
+					color: #FFFFFF;
+					float: right;
+					font-size: 40px;
+					font-weight: 900;
+					letter-spacing: 8px;
+					margin-right: 75px;
+				}
+			}
+			@media screen and (max-width: 1600px) {
+				.title {
+					width: 565px;
+					height: 80px;
+					line-height: 80px;
+					text-align: center;
+					color: #FFFFFF;
+					float: right;
+					font-size: 36px;
+					font-weight: 900;
+					letter-spacing: 8px;
+					margin-right: 50px;
+				}
+			}
+			
+			.item {
+				width: 100%;
+				height: 25%;
+				text-align: left;
+			}
+			
+			.item1 {
+				width: 100%;
+				height: 25%;
+				text-align: right;
+			}
+			
+			.item2 {
+				width: 100%;
+				height: 25%;
+				text-align: center;
+			}
+			
+			.item3 {
+				width: 100%;
+				height: 19%;
+				margin-top: 1.5%;
+				border-bottom: 1px dashed #86d5fa52;
+			}
+			
+			.item4 {
+				width: 100%;
+				height: 80%;
+				text-align: left;
+				padding-left: 5px;
+			}
+			
+			.item5 {
+				width: 50%;
+				height: 100%;
+				line-height: 56px;
+				text-align: center;
+				background-color: #162E54;
+				opacity: 0.6;
+			}
+			
+			.item6 {
+				width: 50%;
+				height: 100%;
+				line-height: 56px;
+				text-align: left;
+				padding-left: 10px;
+				opacity: 0.9;
+			}
+			
+			.rowup {
+				-webkit-animation: 25s rowup linear infinite normal;
+				animation: 25s rowup linear infinite normal;
+				position: relative;
+				color: #ecececbf;
+			}
+		</style>
+	</head>
+	<script>
+		var initializationTime = (new Date()).getTime();
+
+		function showLeftTime() {
+			var now = new Date();
+			var year = now.getFullYear();
+			var month = now.getMonth() + 1;
+			var day = now.getDate();
+			var week = "日一二三四五六".charAt(new Date().getDay());
+			var hours = now.getHours();
+			if(hours < 10) {
+				hours = "0" + hours;
+			}
+			var minutes = now.getMinutes();
+			if(minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			var seconds = now.getSeconds();
+			if(seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			//document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+			document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+				hours + ":" + minutes + ":" + seconds +
+				'</div>' +
+				'<div style="line-height: 28px;color: #ecececdb;font-size: 14px;">' +
+				year + "年" + month + "月" + day + "日 " + "  星期" + week +
+				'</div>';
+			//一秒刷新一次显示时间
+			var timeID = setTimeout(showLeftTime, 1000);
+		}
+	</script>
+
+	<body onload="showLeftTime()">
+		<!-- 头部  -->
+		<div class="top">
+			<div style="width:119px;height: 43px;line-height:43px;text-align:center;color:#D5C61C;background-image:url(img/button.png);background-size: 100% 100%;float: right;margin: 22px 315px 22px 0;">
+				执法办案
+			</div>
+			<div style="width:119px;height: 43px;line-height:43px;text-align:center;color:#FFFFFF;background-image:url(img/button.png);background-size: 100% 100%;float: right;margin: 22px 30px;" onclick="index()">
+				首页
+			</div>
+			<div class="title">
+				${policestation.name}综合指挥平台
+			</div>
+			<img src="img/s_logo.png" style="width:104; height:94px; float:right; "/>
+			<div id="show" style="width: 210px;height: 70px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 26px;">
+				<!--<div style="line-height: 42px;color: #E9D129;font-size: 25px;">
+					15:44:36
+				</div>
+				<div style="line-height: 28px;color: #ecececdb;font-size: 14px;">
+					2019年4月18日   星期四
+				</div>-->
+			</div>
+		</div>
+		<!-- 主体部分  -->
+		<div style="width: 100%;height: 92.6%;display: flex;">
+			<!-- 左侧  -->
+			<div style="margin-left: 2%;width:23.4%;margin-top: 1%;margin-right: -2%;color: #FFFFFF;">
+
+        <div style="width:100%;height:240px;background-image:url(img/plan/jqfl_bg.png);background-size: 100% 100%;margin-top:-3%;">
+          <div style="padding-left:65px;color:#86D5FA;padding-top: 42px;">
+            本周重点警情分类
+          </div>
+
+          <div style="padding-left: 40px;width: 84%;height: 80%;display: flex;margin-top: 20px; padding-top:15px ;color: #ecececbf;">
+
+            <div style="width: 10%;height: 100%;font-size: 13px;">
+            </div>
+
+            <div style="width: 40%;height: 70%; font-size: 13px;">
+              <div style="width: 100%;height: 28%;">治安类警情：</div>
+              <div style="width: 100%;height: 28%;">刑事类警情：</div>
+              <div style="width: 100%;height: 28%;">赌博线索警情：</div>
+            </div>
+
+            <div style="width: 15%;height: 100%;font-size: 13px;">
+            </div>
+
+            <div style="width: 29%;height: 70%;font-size: 13px;">
+              <div id="zaCount" style="width: 100%;height: 28%;">0</div>
+              <div id="xsCount" style="width: 100%;height: 28%;">0</div>
+              <div id="dbCount" style="width: 100%;height: 28%;">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:100%;height:37.5%;background-image:url(img/plan/4.png);background-size: 100% 100%;margin-top:-35px;">
+          <div class="more" style="padding-left:70px;color:#86D5FA;padding-top: 42px;">
+            重点人员
+          </div>
+          <div style="margin-top: 20px;padding-left: 40px;width: 83%;height: 65%;">
+            <div id="zdryChart" style="width:100%;height:85%;"></div>
+          </div>
+        </div>
+
+        <div style="width:100%;height:440px; background-image:url(img/plan/6.png);background-size: 100% 100%;margin-top: -8.5%;">
+          <div class="more" style="padding-left:70px;color:#86D5FA;padding-top: 37px;">
+            审查处理
+          </div>
+          <div style="margin-top: 50px;padding-left: 40px;width: 90%;height: 55%;">
+            <div id="scclChart" style="width:100%;height:100%;"></div>
+          </div>
+          <div style="width: 100%;height: 20%;display: flex;margin-top: -10px;">
+            <div style="width: 50%;height: 100%;text-align: center;">
+              今日抓获<span id="scclD" style="font-size: 40px;color: #50FC4E;margin: 0 10px;">0</span>人
+            </div>
+            <div style="width: 40%;height: 100%;text-align: left;">
+              全年抓获<span id="scclY" style="font-size: 40px;color: #50FC4E;margin: 0 10px;">0</span>人
+            </div>
+          </div>
+        </div>
+
+
+			</div>
+			<!-- 中间  -->
+			<div style="width:53.2%;margin-top: 1.05%;">
+				<div style="width: 473px; height: 47px; position: absolute; margin-top: 2px; margin-left: 275px;">
+					<img alt="" src="img/plan/black_xk.png" style="position: absolute;">
+					<div id="lpaRiqi" align="center" style="width: 473px; height: 47px;position: absolute; z-index: 999; color: white; line-height: 47px; ">
+						
+					</div>
+				</div>
+				<div style="width:100%;height:98%;background-image:url(img/plan/plan_xk.png);background-size: 100% 100%;margin-top:-10px;">
+					<div style="width:85%;height:12%;padding-top: 70px;margin: auto;color: #FFFFFF;font-size: 25px;">
+						<div style="width: 100%;height: 112px;border:1px dashed #86d5fa52;">
+							<div style="width: 100%;height: 50%;border-bottom:1px dashed #86d5fa52;display: flex;">
+								<div style="height: 100%;width: 33%;border-right: 1px dashed #86d5fa52;display: flex;">
+									<div class="item5">
+										立案
+									</div>
+									<div id="la" class="item6">
+										0
+									</div>
+								</div>
+								<div style="height: 100%;width: 33%;border-right: 1px dashed #86d5fa52;display: flex;">
+									<div class="item5">
+										破案
+									</div>
+									<div id="pa" class="item6">
+										0
+									</div>
+								</div>
+								<div style="height: 100%;width: 33%;display: flex;">
+									<div class="item5">
+										破案率
+									</div>
+									<div id="pal" class="item6">
+										0%
+									</div>
+								</div>
+							</div>
+							<div style="width: 100%;height: 50%;display: flex;">
+								<div style="height: 100%;width: 33%;border-right: 1px dashed #86d5fa52;display: flex;">
+									<div class="item5">
+										同比
+									</div>
+									<div id="latb" class="item6">
+										0%<img style="margin-left:5px;" src="img/plan/down.png">
+									</div>
+								</div>
+								<div style="height: 100%;width: 33%;border-right: 1px dashed #86d5fa52;display: flex;">
+									<div class="item5">
+										同比
+									</div>
+									<div id="patb" class="item6">
+										0%<img style="margin-left:5px;" src="img/plan/up.png">
+									</div>
+								</div>
+								<div style="height: 100%;width: 33%;display: flex;">
+									<div class="item5">
+										同比
+									</div>
+									<div id="paltb"  class="item6">
+										0%<img style="margin-left:5px;" src="img/plan/up.png">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="width:90%;height:75%;padding-top: 20px;margin: auto;">
+						<div id="lpaxqChart" style="width:100%;height:100%;"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 右侧  -->
+			<div style="margin-right: 2%;width:23.4%;margin-top: 1%;margin-left: -2%;color: #FFFFFF;">
+
+				<div style="width:100%;height:31.75%;background-image:url(img/plan/5.png);background-size: 100% 100%; margin-top:-3%; ">
+					<div class="more" style="padding-left:70px;color:#86D5FA;padding-top: 44px;">
+						治安案件
+					</div>
+					<div style="margin-top: 10px;padding-left: 40px;width: 83%;height: 65%;">
+						<div id="zasjChart" style="width:100%;height:85%;"></div>
+					</div>
+					<div style="width: 100%;height: 20%;display: flex;margin-top: -14%;">
+						<div style="width: 50%;height: 100%;text-align: center;">
+							今日查处<span id="zasjCC" style="font-size: 40px;color: #50FC4E;margin: 0 10px;">0</span>人
+						</div>
+						<div style="width: 40%;height: 100%;text-align: left;">
+							今日处罚<span id="zasjCF" style="font-size: 40px;color: #50FC4E;margin: 0 10px;">0</span>人
+						</div>
+					</div>
+				</div>
+
+
+        <div style="width:100%;height:480px;background-image:url(img/plan/myhj_bg.png);background-size: 100% 100%;margin-top:-35px;">
+          <div class="more" style="padding-left:65px;color:#86D5FA;padding-top: 38px;">
+			  本年作案特点
+          </div>
+          <div style="margin-top: 25px;padding-left: 40px;width: 83%;height: 76%;position: relative;overflow: hidden;">
+
+            <div id="pieChart" style="width:100%;height:85%;"></div>
+
+          </div>
+        </div>
+
+
+        <div style="width:100%;height:240px;background-image:url(img/plan/dx_bg.png);background-size: 100% 100%; margin-top:-35px;">
+          <div style="padding-left:65px;color:#86D5FA;padding-top: 42px;">
+			  本年涉案物品
+          </div>
+          <div style="margin-top: -32px;padding-left: 30px;width: 87%;height: 80%;">
+            <div id="sawpChart" style="width:100%;height:85%;"></div>
+          </div>
+
+
+          <!--					<div style="padding-left:65px;color:#86D5FA;padding-top: 42px;">-->
+          <!--						短信访评-->
+          <!--					</div>-->
+          <!--					<div style="margin-top: -32px;padding-left: 30px;width: 87%;height: 80%;">-->
+          <!--						<div id="dxfpChart" style="width:100%;height:85%;"></div>-->
+          <!--					</div>-->
+          <!--					<div style="padding-left: 40px;width: 84%;height: 20%;display: flex;margin-top: -12%;color: #ecececbf;">-->
+          <!--						<div style="width: 13%;height: 100%;">-->
+          <!--							<div style="width: 100%;height: 33%;">110</div>-->
+          <!--						</div>-->
+          <!--						<div style="width: 29%;height: 100%;font-size: 13px;">-->
+          <!--							<div id="dxfphf0" style="width: 100%;height: 33%;">当月回复：</div>-->
+          <!--						</div>-->
+          <!--						<div style="width: 29%;height: 100%;font-size: 13px;">-->
+          <!--							<div id="dxfplj0" style="width: 100%;height: 33%;">全年累计：</div>-->
+          <!--						</div>-->
+          <!--						<div style="width: 29%;height: 100%;font-size: 13px;">-->
+          <!--							<div id="dxfpmy0" style="width: 100%;height: 33%;">满意度：</div>-->
+          <!--						</div>-->
+          <!--					</div>-->
+        </div>
+
+
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="js/echarts-tooltip-carousel.js"></script>
+	<script>
+		function index() {
+			window.location.href = " ${Session.BASE_URL}index";
+		}
+		
+		$(function() {
+			lparq();
+			bzjqfl();
+			sawp();
+			dxfpmyl();
+			myhj();
+			lpatb();
+			lpaxq();
+			//重点人员
+			zdry();
+			zasj();
+			sccl();
+			//作案特点
+			zatd();
+		})
+		
+		//立破案日期
+		function lparq(){
+
+			var jqUrl="${Session.BASE_URL}zfba/lpaTime";
+
+			$.ajax({
+				url:jqUrl,
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					$("#lpaRiqi").html("刑事案件立/破案情况(" + result.date + "截至今日)" );
+				}
+			});
+		}
+		
+		//本周警情分类
+		function bzjqfl(){
+
+			var condition  = " DJDW = '${policestation.code}' ";
+
+			var jqUrl="${Session.BASE_URL}zfba/jqfl";
+
+			$.ajax({
+				url: jqUrl,
+				data : {
+					condition : condition
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					var data = result.data;
+
+					$("#zaCount").html( data.za );
+					$("#xsCount").html( data.xs );
+					$("#dbCount").html( data.db );
+				}
+			});
+		}
+		
+		//涉案物品
+		function sawp(){
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+
+			var condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%'  " ;
+			var goods = "手机,电脑,钱包,现金"
+
+			var jqUrl="${Session.BASE_URL}zfba/sawp";
+			$.ajax({
+				url:jqUrl,
+				data : {
+					condition : condition,
+					goods : goods
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					console.log(result);
+					var nameArr = [];
+					for(var i = 0 ; i<result.data.length ; i++){
+						nameArr.push(result.data[i].name)
+					}
+					console.log("----------" )
+					console.log(nameArr)
+
+					var sawpOption = {
+						tooltip : {
+							trigger: 'item',
+							formatter: "{a} <br/>{b} : {c} ({d}%)"
+						},
+						legend: {
+							orient: 'vertical',
+							left: 'rigth',
+							bottom:'center',
+							textStyle : {
+								color : '#ffffff',
+								fontSize : '14'
+							},
+							data: nameArr
+							
+						},
+						itemStyle: {
+							normal: {
+								labelLine: {
+									show: true
+								},
+								color: function(params) {
+									//自定义颜色
+									var colorList = [
+										'#4F4AEC', '#04877F', '#5DB0F6', '#70E6F0', '#ECE269', '#78D435', '#DF6965' 
+										, '#5daff6' ,'#5d7af6' , '#3830ce' , '#6f30ce' , '#9e5df6' , '#5dd4f6' , '#5df6d7'
+									];
+									return colorList[params.dataIndex]
+								}
+							},
+							emphasis: {
+								label: {
+									show: true,
+									position: 'center',
+									textStyle: {
+										fontSize: '13',
+										fontWeight: 'bold'
+									}
+								}
+							}
+						},
+						series : [
+							{
+								name: '',
+								type: 'pie',
+								radius : '65%',
+								center: ['55%', '60%'],
+								data:result.data,
+								itemStyle: {
+									emphasis: {
+										shadowBlur: 10,
+										shadowOffsetX: 0,
+										shadowColor: 'rgba(0, 0, 0, 0.5)'
+									}
+								}
+							}
+						]
+					};
+
+					//barChart.setOption(barOption);
+					createExample("sawpChart", sawpOption, {
+						loopSeries: true
+					});
+				}
+			});
+		}
+		
+		//短信访评 满意率
+		function dxfpmyl(){
+			$.ajax({
+				url:"myl",
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					console.log(result)
+					
+					//length
+					//0 = 110
+					//1 = 122
+					//2   =    常口
+					for(var i=0;i<result.length;i++){
+						if(i == 0){
+							$("#dxfphf"+i).append(result[i].monthCount);
+							$("#dxfplj"+i).append(result[i].yearCount);
+							$("#dxfpmy"+i).append(result[i].percent/10+"%");  
+						}else{
+							//
+						}
+					}
+					
+				}
+			});
+		}
+
+		//民意汇聚
+		function myhj(){
+			$.ajax({
+				url:"myhj",
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					console.log(result)
+					var li = "";
+					for(var i=0;i<result.length;i++){
+						li+= "<div class='item3'> <div class='item'>" + result[i].sj + "</div> <div class='item4'>" + result[i].hf + "</div> </div>" 
+					}
+					$("#myhj").append(li);
+					
+					//一个高度75*(n-1)+20
+					var listHeight = 75*(result.length-1) + 20 ;
+					addKeyFrames( "-" + listHeight + "px" );
+					
+					var scrollSpeed =  result.length * 2;
+					
+					//设置滚动速度
+					$(".rowup").css("-webkit-animation", scrollSpeed + "s rowup linear infinite normal");
+					$(".rowup").css("animation", scrollSpeed + "s rowup linear infinite normal");
+					
+					$(".rowup").hover(function(){  
+		                $(".rowup").css("animation-play-state",  "paused");
+		            },function(){  
+		                $(".rowup").css("animation-play-state",    "running");
+		            }) 
+		            
+					
+				}
+			});
+		}
+		
+		//立案破案同比
+		function lpatb(){
+
+			var la_condition  = " DJDW = '${policestation.code}' ";
+			var pa_condition  = " DJDW = '${policestation.code}' ";
+
+			var jqUrl="${Session.BASE_URL}zfba/lpatb";
+
+			$.ajax({
+				url: jqUrl ,
+				data : {
+					la_condition : la_condition ,
+					pa_condition : pa_condition
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+		
+					var data = result.data ;
+		
+					console.log("<<===========立案 : data.la_count" +　data.la_count)
+					//立案
+					$("#la").html( data.la_count );
+					//负 率
+					if(data.latb.indexOf("-") != -1){
+						$("#latb").html(data.latb + "<img style='margin-left:5px;' src='img/plan/down.png'>");
+					}else{
+						$("#latb").html(data.latb + "<img style='margin-left:5px;' src='img/plan/up.png'>");
+					}
+					
+					
+					console.log("<<===========破案 : data.pa_count" +　data.pa_count)
+					//破案
+					$("#pa").html( data.pa_count );
+					//负 率
+					if(data.patb.indexOf("-") != -1){
+						$("#patb").html(data.patb + "<img style='margin-left:5px;' src='img/plan/down.png'>");
+					}else{
+						$("#patb").html(data.patb + "<img style='margin-left:5px;' src='img/plan/up.png'>");
+					}
+							
+					
+					console.log("<<===========破案率 : data.pal" +　data.pal)
+					//破案率
+					$("#pal").html(data.pal / 10+"%");
+					//负 率
+					if(data.paltb.indexOf("-") != -1){
+						$("#paltb").html(data.paltb + "<img style='margin-left:5px;' src='img/plan/down.png'>");
+					}else{
+						$("#paltb").html(data.paltb + "<img style='margin-left:5px;' src='img/plan/up.png'>");
+					}
+		
+					
+				}
+			});
+		}
+		
+		//立案破案详情
+		function lpaxq(){
+
+
+
+
+
+			var la_condition  = " DJDW = '${policestation.code}' ";
+			var pa_condition  = " DJDW = '${policestation.code}' ";
+
+			var jqUrl="${Session.BASE_URL}zfba/lpaChart";
+
+			$.ajax({
+				url: jqUrl ,
+				type:'POST',
+				data : {
+					la_condition : la_condition ,
+					pa_condition : pa_condition
+				},
+				//async:false,
+				dataType:"json",
+				success:function(result){
+			
+					console.log(result.data)
+			
+					var data = result.data ;
+					
+					var la = [];
+					var pa = [];
+					
+					la.push(data.la_blaj_count);
+					la.push(data.la_lqaj_count);
+					la.push(data.la_rsdq_count);
+					la.push(data.la_dqddc_count);
+					la.push(data.la_dqjdc_count);
+					la.push(data.la_pq_count);
+					la.push(data.la_dxzp_count);
+					
+					pa.push(data.pa_blaj_count);
+					pa.push(data.pa_lqaj_count);
+					pa.push(data.pa_rsdq_count);
+					pa.push(data.pa_dqddc_count);
+					pa.push(data.pa_dqjdc_count);
+					pa.push(data.pa_pq_count);
+					pa.push(data.pa_dxzp_count);
+					
+					
+					
+					var lpaxqOption = {
+							tooltip: {
+								trigger: 'axis'
+							},
+							color: ["#86D5FA", "#50FC4E"],
+							legend: {
+								data: [ {        
+									name: '立案',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									},
+									backgroundColor: "blue"      
+								}, {        
+									name: '破案',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									}      
+								}],
+							},
+							calculable: true,
+							xAxis: [{
+								type: 'category',
+								data: ['八类案件', '两抢案件', '入室盗窃', '盗窃电动车', '盗窃机动车', '扒窃', '电信诈骗'],
+								axisLabel: {
+									interval: 0,
+									textStyle: {
+										align: 'center',
+										color: '#ffffff'
+									}
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#FFFFFF'
+									}
+								}
+							}],
+							yAxis: [{
+								type: 'value',
+								axisLabel: {
+									interval: 0,
+									textStyle: {
+										align: 'center',
+										color: '#ffffff'
+									}
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#FFFFFF'
+									}
+								},
+								splitLine: {
+									show: true,
+									lineStyle: {
+										type: 'dashed'
+									}
+								}
+							}],
+							series: [{
+									name: '立案',
+									type: 'bar',
+									barWidth: 16,
+									data: la,
+									itemStyle: {
+										normal: {
+											barBorderRadius: [10, 10, 10, 10],
+											label: {
+												show: true,
+												position: 'top', //在上方显示
+												textStyle: { //数值样式
+													color: '#86D5FA',
+													fontSize: 16,
+													fontWeight: 600
+												}
+											}
+										}
+									}
+								},
+								{
+									name: '破案',
+									type: 'bar',
+									barWidth: 16,
+									data: pa,
+									itemStyle: {
+										normal: {
+											barBorderRadius: [10, 10, 10, 10],
+											label: {
+												show: true,
+												position: 'top', //在上方显示
+												textStyle: { //数值样式
+													color: '#50FC4E',
+													fontSize: 16,
+													fontWeight: 600
+												}
+											}
+										}
+									}
+								}
+							]
+						};
+					
+					createExample("lpaxqChart", lpaxqOption, {
+						loopSeries: true
+					});
+				}
+			});
+		}
+		
+		
+		//重点人员
+		function zdry(){
+		
+			var policecode  = '${policestation.code}';
+
+			var jqUrl="${Session.BASE_URL}zfba/zdry";
+
+			$.ajax({
+				url: jqUrl ,
+				type:'POST',
+				data : {
+					policecode : policecode
+				},
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					console.log("重点人员")
+					console.log(result)
+					
+					var pieOption = {
+					tooltip: {
+						trigger: 'item',
+						/*formatter: "{a} <br/>{b} : {c} ({d}%)"*/
+					},
+					calculable: true,
+					series: [{
+						name: '重点人员',
+						type: 'pie',
+						radius: ['30%', '70%'],
+						itemStyle: {
+							normal: {
+								label: {
+									show: true,
+									formatter: '{b} : ({c})'
+								},
+								labelLine: {
+									show: true
+								},
+								color: function(params) {
+									//自定义颜色
+									var colorList = [
+										'#4F4AEC', '#04877F', '#5DB0F6', '#70E6F0', '#78D435', '#ECE269', '#DF6965' 
+										, '#5daff6' ,'#5d7af6' , '#3830ce' , '#6f30ce' , '#9e5df6' , '#5dd4f6' , '#5df6d7'
+									];
+									return colorList[params.dataIndex]
+								}
+							},
+							emphasis: {
+								label: {
+									show: true,
+									position: 'center',
+									textStyle: {
+										fontSize: '13',
+										fontWeight: 'bold'
+									}
+								}
+							}
+						},
+						data: result.data
+					}]
+				};
+
+				//pieChart.setOption(pieOption);
+				createExample("zdryChart", pieOption, {
+					loopSeries: true
+				});
+				
+				}
+			})	
+
+		
+		
+	
+	
+			
+			
+			
+		}
+		
+		//治安事件
+		function zasj(){
+		
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+
+			var jqUrl="${Session.BASE_URL}zfba/zaaj";
+
+			//var bncc_condition  = " DJDW = '${policestation.code}'  and  AJLB like '20%'  and  DJSJ >=20190101 and DJSJ <= 20191231";
+			var bncc_condition  = " DJDW = '${policestation.code}'  and  AJLB like '20%'  and  DJSJ like '" + year + "%'";
+			var bncf_condition  = " DJDW = '${policestation.code}'  and  jdjg  in('12211','12311','12411','12412','12512','22211','22361','23111','23112','23113','23114','23115','23117','2311A','31111','31113') and  jdsj like '" + year + "%'";
+
+			var bycc_condition  = " DJDW = '${policestation.code}'  and  AJLB like '20%'  and  DJSJ like '" + year + "" + month + "%'";
+			var bycf_condition  = " DJDW = '${policestation.code}'  and  jdjg  in('12211','12311','12411','12412','12512','22211','22361','23111','23112','23113','23114','23115','23117','2311A','31111','31113') and  jdsj like '" + year + "" + month + "%'";
+
+			var jrcc_condition  = " DJDW = '${policestation.code}'  and  AJLB like '20%'  and  DJSJ like '" + year + "" + month + "" + strDate + "%'";
+			var jrcf_condition  = " DJDW = '${policestation.code}'  and  jdjg  in('12211','12311','12411','12412','12512','22211','22361','23111','23112','23113','23114','23115','23117','2311A','31111','31113') and  jdsj like '" + year + "" + month + "" + strDate + "%'";
+
+
+
+			$.ajax({
+				url : jqUrl,
+				data:{
+					bncc_condition : bncc_condition,
+					bncf_condition : bncf_condition,
+
+					bycc_condition : bycc_condition,
+					bycf_condition : bycf_condition,
+
+					jrcc_condition : jrcc_condition,
+					jrcf_condition : jrcf_condition
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+			
+					var data = result.data;
+					console.log(data)
+					
+					var m=[];
+					var y =[];
+					
+					$("#zasjCC").html(data.jrcc_count)
+					$("#zasjCF").html(data.jrcf_count)
+					
+					//月
+					y.push(data.bycf_count)
+					m.push(data.bycc_count)
+					
+					//年
+					y.push(data.bncf_count)
+					m.push(data.bncc_count)
+					
+					
+					
+					
+					console.log(m)
+					console.log(y)
+					var zasjOption = {
+							tooltip: {
+								trigger: 'axis'
+							},
+							color: ["#86D5FA", "#50FC4E"],
+							legend: {
+								data: [ {        
+									name: '查处',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									},
+									backgroundColor: "blue"      
+								}, {        
+									name: '处罚',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									}      
+								}],
+							},
+							calculable: true,
+							xAxis: [{
+								type: 'value',
+								boundaryGap: [0, 0.01],
+								axisLabel: {
+									interval: 0,
+									textStyle: {
+										align: 'center',
+										color: '#ffffff'
+									}
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#ececec80'
+									}
+								},
+								splitLine: {
+									show: false
+								}
+							}],
+							yAxis: [{
+								type: 'category',
+								data: ['本月', '本年'],
+								axisLabel: {
+									textStyle: {
+										color: '#ffffff'
+									}
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#ececec80'
+									}
+								},
+							}],
+							series: [{
+									name: '查处',
+									type: 'bar',
+									data: m,
+									itemStyle: {
+										normal: {
+											barBorderRadius: [10, 10, 10, 10],
+											label: {
+												show: true,
+												position: 'right', //在上方显示
+												textStyle: { //数值样式
+													color: '#86D5FA',
+													fontSize: 10,
+													fontWeight: 600
+												}
+											}
+										}
+									}
+								},
+								{
+									name: '处罚',
+									type: 'bar',
+									data: y,
+									itemStyle: {
+										normal: {
+											barBorderRadius: [10, 10, 10, 10],
+											label: {
+												show: true,
+												position: 'right', //在上方显示
+												textStyle: { //数值样式
+													color: '#50FC4E',
+													fontSize: 10,
+													fontWeight: 600
+												}
+											}
+										}
+									}
+								}
+							]
+						};
+					
+					createExample("zasjChart", zasjOption, {
+						loopSeries: true
+					});
+				}
+			});
+		}
+		
+		//审查处理
+		function sccl(){
+
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+
+
+
+
+			//今年抓获人数
+			var jnzhrs_condition =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "%' " ;
+
+			//今日抓获人数
+			var jrzhrs_condition =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "" + month + "" + strDate + "%' " ;
+
+			//刑拘
+			//年
+			var xjYear_condition =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "%'  and jdjg = '12211' " ;
+			//月
+			var xjMonth_condition  =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "" + month  + "%'  and jdjg = '12211' " ;
+
+			//逮捕
+			//年
+			var dbYear_condition =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "%'  and jdjg = '12512' " ;
+			//月
+			var dbMonth_condition  = " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "" + month  + "%'  and jdjg = '12512' " ;
+
+			//起诉
+			//年
+			var qsYear_condition =  " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "%'  and  jdjg in ('12551', '12552', '12553', '12554') " ;
+			//月
+			var qsMonth_condition  = " DJDW = '${policestation.code}'  and  JDSJ like '"+ year + "" + month  + "%'  and  jdjg in ('12551', '12552', '12553', '12554') " ;
+
+			var jqUrl="${Session.BASE_URL}zfba/sccl";
+
+			$.ajax({
+				url: jqUrl,
+				data:{
+					jnzhrs_condition : jnzhrs_condition ,
+					jrzhrs_condition : jrzhrs_condition ,
+
+					xjYear_condition : xjYear_condition ,
+					xjMonth_condition : xjMonth_condition ,
+
+					dbYear_condition : dbYear_condition ,
+					dbMonth_condition : dbMonth_condition ,
+
+					qsYear_condition : qsYear_condition ,
+					qsMonth_condition : qsMonth_condition
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+			
+					var data = result.data;
+			
+					console.log(data);
+					
+					$("#scclY").html(data.jnzhrs_count);
+					$("#scclD").html(data.jrzhrs_count);
+										
+
+					
+					var m=[];
+					var y=[];
+					
+					//本月刑拘"){
+					m.push(data.xjMonth_count)
+					
+					//本月逮捕"){
+					m.push(data.dbMonth_count)
+					
+					//本月起诉"){
+					m.push(data.qsMonth_count)
+					
+					//本年刑拘"){
+					y.push(data.xjYear_count)
+					
+					//本年逮捕"){
+					y.push(data.dbYear_count)
+					
+					//"本年起诉"
+					y.push(data.qsYear_count)
+						
+					
+					
+					var scclOption = {
+							tooltip: {
+								trigger: 'axis'
+							},
+							legend: {
+								data: [ {        
+									name: '全年',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									}      
+								}, {        
+									name: '当月',
+									        textStyle: {          
+										color: '#FFFFFF'      // 图例文字颜色
+										        
+									}      
+								}],
+
+							},
+
+							calculable: true,
+							xAxis: [{
+								type: 'category',
+								axisLabel: {
+									interval: 0,
+									/*rotate:-30,
+									margin: 30,*/
+									textStyle: {
+										align: 'center',
+										color: '#ffffff'
+									}
+								},
+								axisLine: {
+									lineStyle: {
+										color: '#FFFFFF'
+									}
+								},
+								boundaryGap: false,
+								data: ['刑拘', '逮捕', '起诉']
+							}],
+							yAxis: [{
+								type: 'value',
+								interval: 10,
+								axisLine: {
+									lineStyle: {
+										color: '#FFFFFF',
+										width: 1
+									}
+								},
+								splitLine: {
+									show: true,
+									lineStyle: {
+										type: 'dashed'
+									}
+								},
+								axisLabel: {
+									textStyle: {
+										color: '#ffffff'
+									}
+								}
+							}],
+							series: [{
+									name: '全年',
+									type: 'line',
+									itemStyle: {
+										normal: {
+											color: '#E9D129',
+											lineStyle: {
+												color: '#E9D129'
+											},
+											label: {
+												/*show: true*/
+											}
+										}
+									},
+									data: y
+								},
+								{
+									name: '当月',
+									type: 'line',
+									itemStyle: {
+										normal: {
+											color: '#86D5FA',
+											lineStyle: {
+												color: '#86D5FA'
+											},
+											label: {
+												/*show: true*/
+											}
+										}
+									},
+									data: m
+								}
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						createExample("scclChart", scclOption, {
+							loopSeries: true
+						});
+				}
+			});
+		}
+		
+		//作案特点
+		function zatd(){
+
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+
+
+			var qqsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year + "%'  and length(qqsd) >0 " ;
+			var qzsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(qzsd) >0 " ;
+			var fhsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(fhsd) >0 " ;
+			var jsjsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(jsjsd) >0 " ;
+			var qtsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year + "%' and length(qtsd) >0 " ;
+			var ybsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(ybsd) >0 " ;
+			var rqsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(rqsd) >0 " ;
+			var xpsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year + "%' and length(xpsd) >0 " ;
+			var wzsd_condition  = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(wzsd) >0 " ;
+			var jzzasd_condition = " DJDW = '${policestation.code}'  and  DJSJ like '"+ year  + "%' and length(jzzasd) >0 " ;
+
+
+			var jqUrl="${Session.BASE_URL}zfba/zatd";
+			
+			$.ajax({
+				url: jqUrl,
+				data : {
+		qqsd_condition : qqsd_condition,
+		qzsd_condition : qzsd_condition,
+		fhsd_condition  : fhsd_condition,
+		jsjsd_condition  : jsjsd_condition,
+		qtsd_condition  : qtsd_condition,
+		ybsd_condition  : ybsd_condition,
+		rqsd_condition  : rqsd_condition,
+		xpsd_condition  : xpsd_condition,
+		wzsd_condition  : wzsd_condition,
+		jzzasd_condition  : jzzasd_condition
+				},
+				type:'POST',
+				//async:false,
+				dataType:"json",
+				success:function(result){
+					
+					var pieOption = {
+							tooltip: {
+								trigger: 'item',
+								/*formatter: "{a} <br/>{b} : {c} ({d}%)"*/
+							},
+							calculable: true,
+							series: [{
+								name: '作案特点',
+								type: 'pie',
+								radius: ['30%', '50%'],
+								itemStyle: {
+									normal: {
+										label: {
+											show: true,
+											formatter: '{b} : ({c})'
+										},
+										labelLine: {
+											show: true
+										},
+										color: function(params) {
+											//自定义颜色
+											var colorList = [
+												'#4F4AEC', '#04877F', '#5DB0F6', '#70E6F0', '#78D435', '#ECE269', '#DF6965' 
+												, '#5daff6' ,'#5d7af6' , '#3830ce' , '#6f30ce' , '#9e5df6' , '#5dd4f6' , '#5df6d7'
+											];
+											return colorList[params.dataIndex]
+										}
+									},
+									emphasis: {
+										label: {
+											show: true,
+											position: 'center',
+											textStyle: {
+												fontSize: '13',
+												fontWeight: 'bold'
+											}
+										}
+									}
+								},
+								data: result.data
+							}]
+						};
+
+						//pieChart.setOption(pieOption);
+						createExample("pieChart", pieOption, {
+							loopSeries: true
+						});
+					
+				}
+			});
+			
+		}
+		
+		// 使用刚指定的配置项和数据显示图表。
+		//barChart3.setOption(barOption3);
+		//createExample("barChart3", barOption3, {
+			//loopSeries: true
+		//});
+
+		//作案特点
+		//var pieChart = echarts.init(document.getElementById('pieChart'));
+
+		
+
+		//治安案件
+		//var barChart2 = echarts.init(document.getElementById('barChart2'));
+
+		
+		function createExample(id, option, tooltipOption) {
+
+			// 基于准备好的dom，初始化echarts图表
+			var chart = echarts.init(document.getElementById(id));
+
+			// 为echarts对象加载数据
+			chart.setOption(option);
+
+			tools.loopShowTooltip(chart, option, tooltipOption);
+		}
+		
+		
+		//addKeyFrames('-' + height + 'px'); // 设置keyframes
+		//一个高度90
+		addKeyFrames('-810px');
+
+		function addKeyFrames(y) {
+			var style = document.createElement('style');
+			style.type = 'text/css';
+			var keyFrames = '\
+		    @-webkit-keyframes rowup {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+					style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+					document.getElementsByTagName('head')[0].appendChild(style);
+		}
+	</script>
+
+</html>

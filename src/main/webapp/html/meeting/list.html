@@ -1,0 +1,278 @@
+<!--
+  日期： 2018年12月12日
+  作者： zz   zhz@jszzkj.cn
+  文档： 会议列表
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>会议列表</title>
+    <link rel="stylesheet" type="text/css" href="../../lying/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lying/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/HZMN.css"/>
+    <style></style>
+  </head>
+  <body>
+    <div class="layui-row">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">
+            <blockquote class="layui-elem-quote">会议列表</blockquote>
+          </div>
+          <div class="layui-card-body">
+            <div class="layui-row">
+              <div class="content layui-col-xs12">
+                <div class="layui-form" lay-filter="searchForm" id="searchForm">
+                  <div class="layui-form-item">
+                    <div class="layui-inline">
+                      <button class="meetingAddBtn layui-btn layui-btn-normal">
+                        新增
+                      </button>
+                    </div>
+                    <div class="layui-inline">
+                      <button class="meetingDelBtn layui-btn layui-btn-danger">
+                        删除
+                      </button>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label" for="keyworld">关键字：</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="keyworld" id="keyworld" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <label class="layui-form-label" for="meetingDateRange">会议时间：</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="meetingDateRange" id="meetingDateRange" autocomplete="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-inline">
+                      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="searchForm">
+                        查询
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-xs12">
+                <table id="listTable" lay-filter="listTable"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="../../lying/layui/layui.js"></script>
+  <script type="text/javascript" src="../../js/HZMN.js"></script>
+  <script>
+    "use strict";
+
+    function checkDetail(mid, mtheme) {
+      window.parent.layui.lau.tabAdd(
+        "./meeting/detail.html?mid=" + mid,
+        "会议详情 - " +
+          (mtheme.length > 8 ? mtheme.slice(0, 8) + "..." : mtheme),
+        "layui-icon-layer"
+      );
+    }
+
+    function layerOpen(mid) {
+      // console.log(e);
+      layer.open({
+        type: 2,
+        skin: "layui-layer-demo",
+        title: mid ? "修改会议信息" : " 新增会议",
+        shadeClose: false,
+        shade: 0.6,
+        area: ["527px", "600px"],
+        content: "updata.html" + (mid ? "?mid=" + mid : ""),
+        end: function() {
+          layui.table.reload("listTable");
+        }
+      });
+    }
+
+    function printQR(mid) {
+      const url ="https://open.weixin.qq.com/connect/oauth2/authorize?" +
+        "appid=wx50039c6fbc9c811f&redirect_uri=" +
+        "http://jszzkj.cn/jianhuzh/weixin/ewm2Sign&response_type=code&scope=snsapi_userinfo" +
+        "&agentid=1000022&state="+mid+"#wechat_redirect";
+
+      layui.data('printQR',{key: 'url', value: url});
+      layer.open({
+        type: 2,
+        skin: "layui-layer-demo",
+        title: "会议二维码",
+        shadeClose: true,
+        shade: 0.6,
+        area: ["450px", "550px"],
+        content: ["printMeetingQR.html", "no"]
+      });
+    }
+
+    layui.use(["table","form",'laydate'], function() {
+      const layer = layui.layer,
+        table = layui.table,
+        form = layui.form,
+        laydate = layui.laydate,
+        $ = layui.jquery;
+
+      table.render({
+        elem: "#listTable",
+        // ,height: 312
+        // ,height: "full-180"
+        // ,url: APIURL ? APIURL + '/meeting/queryList' : '../../meeting/queryList'
+        url: _parseAPIURL("/meeting/queryList"),
+        method: "post",
+        request: {
+          pageName: "pageNum", //页码的参数名称，默认：page
+          limitName: "pageSize" //每页数据量的参数名，默认：limit
+        },
+        response: {
+          statusCode: "SUCCESS" //规定成功的状态码，默认：0
+        },
+        page: {
+          //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+          layout: ["count", "prev", "page", "next", "skip", "limit"],
+          theme: "#1E9FFF"
+        },
+        limits: [5, 10, 20, 50, 100],
+        limit: 10, //每页默认显示的数量
+
+        cols: [
+          [
+            //表头
+            { type: "checkbox", fixed: "left" },
+            {
+              field: "meetingdate",
+              title: "会议日期",
+              width: 120,
+              sort: true,
+              align: "center"
+            },
+            {
+              field: "starttime",
+              title: "开始时间",
+              width: 100,
+              align: "center"
+            },
+            {
+              field: "endtime",
+              title: "结束时间",
+              width: 100,
+              align: "center"
+            },
+            { field: "meetingplace", title: "会议地点", sort: true },
+            { field: "organizer", title: "组织单位/人", sort: true },
+            { field: "meetingtheme", title: "会议主题" },
+            {
+              field: "participantnum",
+              title: "人数",
+              width: 60,
+              align: "center"
+            },
+            {
+              field: "publishtime",
+              title: "发布时间",
+              width: 170,
+              sort: true,
+              align: "center"
+            },
+            {
+              field: "action",
+              title: "操作",
+              width: 260,
+              align: "center",
+              templet:
+                "<div>" +
+                '<button class="layui-btn layui-btn-sm layui-btn-normal" ' +
+                'data-mid="{{d.id}}" data-mtheme="{{d.meetingtheme}}" ' +
+                'onclick="checkDetail(this.dataset. mid,this.dataset.mtheme);" >' +
+                "查看详情</button>" +
+                '<button class="layui-btn layui-btn-sm layui-btn-normal" data-mid="{{d.id}}" ' +
+                'onclick="layerOpen(this.dataset.mid);">' +
+                "修改</button>" +
+                '<button class="layui-btn layui-btn-sm layui-btn-warm" data-mid="{{d.id}}" ' +
+                'onclick="printQR(this.dataset.mid);">' +
+                "展示二维码</button>" +
+                "</div>"
+            }
+          ]
+        ]
+      });
+
+      //监听新增按钮
+      $(".meetingAddBtn").on("click", function() {
+        layerOpen();
+      });
+
+      //监听删除按钮
+      $(".meetingDelBtn").on("click", function() {
+        // console.log(table.checkStatus('listTable'));
+        let meetingDelByIds = [];
+        table.checkStatus("listTable").data.forEach(function(e) {
+          meetingDelByIds.push(e.id);
+        });
+
+        if (meetingDelByIds.length > 0) {
+          layer.confirm(
+            "您确定删除这条信息？<br>此操作不可撤销。",
+            { btn: ["确认删除", "取消"] },
+            function() {
+              meetingDelByIds.forEach(function(mid) {
+                // jQuery.post(url,data,success(data, textStatus, jqXHR),dataType)
+                $.post(
+                  _parseAPIURL("/meeting/del"),
+                  { meetingid: mid },
+                  function(result, status) {
+                    layer.msg(result.msg);
+                    if (result.code === "SUCCESS") {
+                      layui.table.reload("listTable");
+                    } else {
+                      console.log(status, result);
+                    }
+                  }
+                );
+              });
+            },
+            function() {}
+          );
+        } else {
+          layer.msg("请选择一条或多条数据！");
+        }
+      });
+
+      //查询日期范围
+      laydate.render({
+        elem: '#meetingDateRange'
+        , type: 'date'
+        , range: true
+        , theme: '#1E9FFF'
+        // ,theme: 'grid'
+        // ,format: 'yyyy年MM月dd日'
+      });
+
+      //监听搜索表单
+      form.on('submit(searchForm)', function (data) {
+        // console.log(data.field);
+        const dataRang = data.field.meetingDateRange.split(' - ');
+        data.field.startdate = data.field.meetingDateRange ? dataRang[0] : '';
+        data.field.enddate = data.field.meetingDateRange ? dataRang[1] : '';
+        delete data.field.meetingDateRange;
+        // console.log(data.field);
+
+        //重载表格
+        table.reload('listTable', { where: data.field });
+
+        return false;
+      });
+
+    });
+  </script>
+</html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RBSPMessage>
+	<Version> 12.1</Version>
+	<SenderID>C00-10000002</SenderID><!--公安网内请求方ID，公安网内服务总线提供,需申请-->
+ <LoginInfo>     
+	<IP>192.168.1.1</IP>   <!--公安网请求方IP地址，需申请登记-->
+	<LoginName>xtc01</LoginName>
+	<PassWord>123456</PassWord>
+</LoginInfo>
+	<TimeStamp/>
+	<Validity/>
+	<Security></Security>
+	<Method>
+		<EndUser>用户信息</EndUser><!--公安网查询用户信息，参见2.5.2章节-->
+		<Name>putxmlinfo</Name>
+		<Items>
+			<Item>
+				<Name>InfoType</Name>
+				<Value Type="string">
+					<Data>查询数据类型</Data><!--公安网查询数据类型参见2.5.1章节-->
+				</Value>
+			</Item>
+			<Item>
+				<Name>InfoSet</Name>
+				<Value Type="string">
+				 <Data>
+					 <Content>
+						<Header>
+		<RequestID>JZCX_001122334455_20150906235959_1234</RequestID>
+		<!--任务唯一编号（每个请求服务器内部要求不重复）-->
+		<CommonInfo>
+			<approveID>abc</approveID>
+			<approveName>李四</approveName>
+
+			<DeptName>科信局一处</DeptName>
+		</CommonInfo>
+		<CaseInfo>
+			<CaseID>123</CaseID>
+			<CaseName>王五杀人案</CaseName>
+			<CaseProperty>杀人案</CaseProperty>
+
+			<CaseCause>查询某号码归属地信息</CaseCause>
+			<CaseResume>归属地信息</CaseResume>
+
+
+		</CaseInfo>
+	</Header>
+						<Body>
+		<DbSource name="GSDCX" carrier="yd"> YDGSDCX</DbSource>
+		<!-- name:数据源名称（GSDCX）; carrier: 运营商名称（yd）; 业务: （YDGSDCX）-->
+		<Fields Count="1">
+			<FieldCondition>
+				<LogicCaculation> and </LogicCaculation>
+				<LeftBracket></LeftBracket>
+				<LeftValue>STARTNUM</LeftValue>
+				<!--查询号码类型参见leftvalue说明 -->
+				<ConditionCalculation>=</ConditionCalculation>
+				<RightValue>13394300000</RightValue>
+				<RightBracket></RightBracket>
+			</FieldCondition>
+		</Fields>
+	</Body>
+					</Content>
+
+				 </Data><!--信息受理模块webservice接口所需查询服务请求消息格式，参见3.1章节-->
+	              </Value>
+	         </Item>
+	     </Items>
+	</Method>
+</RBSPMessage>

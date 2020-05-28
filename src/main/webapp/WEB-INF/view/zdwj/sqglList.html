@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>审批管理详情</title>
+    <link rel="stylesheet" type="text/css"
+          href="${Session.BASE_URL}lying/layui/css/layui.css" />
+    <style media="print">
+        /*@page {*/
+        /*    size: auto;  !* auto is the initial value *!*/
+        /*    margin: 12mm; !* this affects the margin in the printer settings *!*/
+        /*}*/
+        @page{
+            size: auto; /* auto is the initial value */
+            margin: 0mm 10mm 0mm 10mm; /* this affects the margin in the printer settings 最关键的还是这个*/
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background-color: white;
+            overflow: hidden;/*隐藏右侧滚动条 */
+        }
+        img{
+            height:200px;
+
+        }
+        .layui-btn{
+            width: 100px;
+        }
+
+        .layui-row {
+            margin: 0 15px 10px 15px;
+        }
+        #cns{
+            font-size: 14pt;
+            color: #000000;
+        }
+        #cns div{
+            line-height: 50px;
+            margin: 0 30px;
+        }
+        #but div{
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body style="padding: 0px">
+<div style="width: 98.7%; padding: 10px; background: #CCE4F7;">
+    <img style="margin-right: 10px;"
+         src="${Session.BASE_URL}img/loaction.png">当前位置 ： 审批管理 > <span
+        style="color: #028F9C;">详情</span>
+</div>
+<div class="layui-row" style="margin:10px 0 10px 0;padding-left: 15px">
+    <div style="display: inline-block; float: left;">
+        <button id="spanGd" onclick="javascript:history.go(-1)" class="layui-btn layui-btn-normal">返回</button>
+        <button id="printing" data-type="printing"
+                class="layui-btn layui-btn-normal" onclick="preview(1)" style="margin-left: 284px;">打印</button>
+    </div>
+</div>
+<!--startprint1-->
+<div id="cen" style="padding-left: 15px;" class="layui-row">
+    <table border="1">
+        <tr style="text-align: center;">
+            <td style="width: 150px;height: 30px;background-color: #dcdcdc">申请单位</td>
+            <td id="applyunit" style="width: 190px"></td>
+            <td style="width: 150px;height: 30px;background-color: #dcdcdc">负责人姓名</td>
+            <td id="applyperson" style="width: 198px"></td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="height: 30px;background-color: #dcdcdc">联系电话</td>
+            <td id="applyphone" ></td>
+            <td style="height: 30px;background-color: #dcdcdc">申请时间</td>
+            <td id="approvalTime"></td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="height: 30px;background-color: #dcdcdc">施工单位</td>
+            <td id="construcunit"></td>
+            <td style="height: 30px;background-color: #dcdcdc">施工单位负责人姓名</td>
+            <td  id="construcperson"></td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="height: 30px;background-color: #dcdcdc">联系电话</td>
+            <td id="construcphone"></td>
+            <td style="background-color: #dcdcdc">施工详细地址</td>
+            <td id="address"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">申请原因</td>
+            <td id="reason"></td>
+            <td style="padding: 0 4px;background-color: #dcdcdc">按照国家标准道路施工标准进行安全防护措施</td>
+            <td>是</td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">施工时间</td>
+            <td class="item1" id="construcstarttime"></td>
+            <td style="height: 30px;background-color: #dcdcdc">当前状态</td>
+            <td class="item1" id="status"></td>
+        </tr>
+    </table>
+    <table border="1" style="border-top: none;border-bottom-width: 0px;">
+        <tr style="text-align:center;">
+            <td style="height: 50px;font-size: 18px;background-color: #dcdcdc" class="item" colspan="5">挖掘面积</td>
+        </tr>
+        <tr id="wjmjtable1">
+
+        </tr>
+    </table>
+    <table border="1">
+        <tr style="text-align:center;">
+            <td style="height: 160px;background-color: #dcdcdc">交通安全设施设计平面示意图</td>
+            <td colspan="3" id="securitypic"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="width: 198px;height: 30px;background-color: #dcdcdc">初审时间</td>
+            <td id="approvalTimea" style="width: 224px"></td>
+            <td style="width: 180px;background-color: #dcdcdc">通过时间</td>
+            <td id="approvalSuccessTime" style="width: 224px"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">初审驳回时间</td>
+            <td id="approvalRejectTime"></td>
+            <td style="background-color: #dcdcdc">驳回原因</td>
+            <td id="approvalRejectContent"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">实勘邀请时间</td>
+            <td id="realTime"></td>
+            <td style="background-color: #dcdcdc">通过时间</td>
+            <td id="realSuccessTime"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">邀请驳回时间</td>
+            <td id="realRejectTime"></td>
+            <td style="background-color: #dcdcdc">驳回原因</td>
+            <td id="realRejectContent"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 180px;background-color: #dcdcdc">实勘照片</td>
+            <td id="realpic" colspan="4"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">许可证</td>
+            <td>
+                <div style="cursor:pointer;" onclick="preview(3)">打印</div>
+            </td>
+            <td style="background-color: #dcdcdc">承诺书</td>
+            <td>
+                <div style="cursor:pointer;" onclick="preview(2)">打印</div>
+            </td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 30px;background-color: #dcdcdc">邀请验收时间</td>
+            <td id="checkTime"></td>
+            <td style="background-color: #dcdcdc">通过时间</td>
+            <td id="checkSuccessTime"></td>
+        </tr>
+        <tr style="text-align:center;">
+            <td style="height: 160px;background-color: #dcdcdc">验收照片</td>
+            <td id="checkpic" colspan="4">
+            </td>
+        </tr>
+    </table>
+</div>
+<!--endprint1-->
+
+<!--startprint2-->
+<div id="cns" style="font-size: 14pt;page-break-after: always;" hidden>
+    <div style="font-size: 27px;text-align: center;"><strong>修县挖掘、占用城市道路施工交通安全承诺书</strong></div>
+    <div>永修县交通管理大队</div>
+    <div >&nbsp;&nbsp;&nbsp;&nbsp;我们是   <span id="cnsdw1"></span>      (单位),现在由    <span id="cnsdw2"></span>     (单位)进行(<span id="cnsyy"></span>)施工,
+        施工地点在   <span id="cnsaddress"></span>    占用长    <span id="cnslength"></span>  米,宽       <span id="cnswidth"></span>        米,
+        面积为       <span id="cnsheigh"></span>     平方米( <span id="cnslx"></span> )施工预计
+        从 <span id="cnsconstrucstarttime"></span>
+        至   <span id="cnsconstrucendtime"></span>。
+    </div>
+    <div style="font-size: 20px;"><strong>在施工期间我单位与施工单位保证：</strong></div>
+    <div>一、在施工围挡前3天通知永修县交通管理大队,施工方案若有变动必须重新申请。施工结束后,通知交管部门进行验收检查。</div>
+    <div>二、如遇大型活动、警卫任务等特殊情况时,服从公安交管部门的安排。</div>
+    <div>三、施工现场严格按照国家道路施工标准进行围挡,并且对围挡用彩钢板进行加固,坚决杜绝围挡彩钢板移位、倒塌造成安全事故发生;严格按照国标GB5768.4-2017的相关规定设立提示牌、引导牌、水马、防撞桶、警示灯等交通安全设施。</div>
+    <div>四、施工期间,必须配备专职交通安全疏导人员,定人定岗定责,负责引导各类车辆与行人安全通过施工区城,协助交通警察做好施工围挡区域及周边影响区域的交通疏导工作。</div>
+    <div>五、施工期间,因施工和围挡引发的交通事故,由申请方承担相应的责任</div>
+    <div>六、施工期间保证严格按照审批表填写的内容进行作业,严禁超长、超宽占用道路,严恭超期施工。坚决杜绝围而不建和拖廷施工现象的发生。如因特殊原因需增加占用面积或延期施工,需到交警部门办理相关手续,方可进行。</div>
+    <div>我单位在施工期间如违反相关管理规定和施工承诺,愿意接受交警管理部门依据《中华人民共和国道路交通安全法》等法律法规的处。</div>
+    <div style="display: flex;">
+        <div style="width: 40%;">申请方负责人姓名：<span id="cnssqr"></span> </div>
+        <div>施工方联系人姓名：<span id="cnssgf"></span></div>
+    </div>
+    <div style="display: flex;">
+        <div style="width: 40%;">申请方联系电话：<span id="cnsqsdh"></span> </div>
+        <div>施工方联系电话：<span id="cnssgdh"></span> </div>
+    </div>
+    <div style="display: flex;margin :50px 30px ;">
+        <div style="width: 50%;">申请单位盖章处：</div>
+        <div>施工方盖章处：</div>
+    </div>
+    <div style="text-align: right;">年      月     日</div>
+</div>
+<!--endprint2-->
+
+<!--startprint3-->
+<div id="xkz" style="text-align: center;" hidden>
+    <table border="1" style="margin-left: 45px">
+        <tr>
+            <td rowspan="2" style="width: 200px;">申报施工单位名称</td>
+            <td rowspan="2" style="width: 166px;" id="xkzapplyunit" >永修县生源建筑有限公司</td>
+            <td style="height: 40px">单位责任人</td>
+            <td id="xkzapplyperson">XX</td>
+        </tr>
+        <tr>
+            <td style="height: 40px">责任人联系电话</td>
+            <td id="xkzapplyphone">15996158872</td>
+        </tr>
+        <tr>
+            <td rowspan="2">业主单位名称</td>
+            <td rowspan="2" id="xkzconstrucunit">永修县生源建筑有限公司</td>
+            <td style="height: 40px;width: 125px">单位责任人</td>
+            <td style="width: 120px" id="xkzconstrucperson">XX</td>
+        </tr>
+        <tr>
+            <td style="height: 40px">责任人联系电话</td>
+            <td id="xkzconstrucphone">15996158872</td>
+        </tr>
+        <tr>
+            <td style="height: 40px">挖掘原因</td>
+            <td colspan="3" id="xkzreason">道路不平</td>
+        </tr>
+        <tr>
+            <td style="height: 40px">占用挖掘道路详细地址</td>
+            <td colspan="3" id="xkzaddress">九江市永修县新城大道88号路线</td>
+        </tr>
+        <tr>
+            <td style="height: 155px">交通安全设施设置平面示意图</td>
+            <td colspan="3" style="width: 413px" id="xkzsecuritypic"></td>
+        </tr>
+    </table>
+    <table border="1" style="border-top:none;margin-left: 45px">
+        <tr>
+            <td rowspan="7" style="width: 80px;height: 135px">挖掘面积</td>
+        </tr>
+        <tr>
+            <td style="width: 100px;">道路种类</td>
+            <td style="width: 100px;">长(m)</td>
+            <td style="width: 100px;">宽(m)</td>
+            <td style="width: 100px;">面积（m²）</td>
+            <td rowspan="7" style="width: 73px;">（是、否）按照国家道路施工标准进行安全防护措施。</td>
+            <td rowspan="7" style="width: 55px;">是</td>
+        </tr>
+
+        <tr class="xkztable1">
+
+        </tr>
+
+        <tr class="xkztable2">
+
+        </tr>
+
+        <tr class="xkztable3">
+
+        </tr>
+
+        <tr class="xkztable4">
+
+        </tr>
+
+    </table>
+    <table border="1" style="margin-left: 45px">
+        <tr>
+            <td style="width: 198px;height: 50px">
+                挖掘时限
+            </td>
+            <td style="width: 415px;">
+                从 <span id="xkzconstrucstarttime"></span>
+                至   <span id="xkzconstrucendtime"></span>
+        </tr>
+        <tr>
+            <td style="height: 150px;">
+                现场勘查意见
+            </td>
+            <td style="width: 415px;">
+                <div style="display: flex;">
+                    <div style="text-align: left;margin-left: 15px;">
+                        新城中队:<span id="xkzrealcontent"> </span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 150px;">
+                交管大队审批意见
+            </td>
+            <td style="width: 415px;">
+                <div style="text-align: right;margin-top: 115px;margin-right: 25px;">
+                    <!--<div> 2019 年 11   月  20  日</div>-->
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="width: 600px;">
+                申请材料：1、《城市道路挖掘占用申请表》 ；2、有关的文件图纸复印件；3、挖掘、占用城市道路施工交通安全承诺书；4、挖占围挡区域道路交通组织方案。
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;font-size: 24px;margin-top: 20px">
+        <strong>永修县城区道路占用挖掘申请表</strong>
+    </div>
+    <div style="text-align: right;margin:40px">
+        申请日期：     <span id="xkzcreatetime"></span>
+    </div>
+    <div style="margin-top: 20px">退回情况</div>
+    <div id="but" style="text-align: left;">
+        <div>1、申请挖掘施工围挡位于新修或翻修道路且未满5年的。</div>
+        <div>2、同一挖掘施工围挡无充分理由第三次申请延期的(不包含跨年重新申请)。</div>
+        <div>3、对交通影响大,且未修建导改路的;以及交通管理大队、城管局处共同进行现场勘查，认为施工工法有较大调整空间,可以降低对交通影响的。</div>
+        <div>4、其他与法律、法规冲突的申请。</div>
+    </div>
+</div>
+<!--endprint3-->
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery.min.js" ></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/qrcode.min.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+<script type="text/javascript">
+    window.onload=function(){
+        alllist();
+        cnslist();
+        xkzlist();
+    }
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+    //加载数据
+    $(function () {
+
+
+    });
+    //打印页面
+    var licenceprint
+    var letterprint
+    function preview(oper) {
+        var flag = 1
+        var id = getQueryString("id");
+        var status = getQueryString("status");
+        console.log(status)
+        if(oper == 2){
+            $("#cns").show();
+            licenceprint = 1
+            $.ajax({
+                url:'${Session.BASE_URL}process/AuditProcess',
+                type:'GET', //GET
+                dataType:'json',
+                data:{id: id,status:status,letterprint:letterprint,licenceprint:licenceprint,flag:flag},
+                success:function (result) {
+                    if (result.code == 'SUCCESS'){
+                        console.log(1)
+                    }
+                }
+            })
+        }
+        if (oper == 3){
+            $("#xkz").show()
+            letterprint = 1
+            $.ajax({
+                url:'${Session.BASE_URL}process/AuditProcess',
+                type:'GET', //GET
+                dataType:'json',
+                data:{id: id,status:status,letterprint:letterprint,licenceprint:licenceprint,flag:flag},
+                success:function (result) {
+                    if (result.code == 'SUCCESS'){
+                        console.log(1)
+                    }
+                }
+            })
+        }
+        var letterprinta = letterprint
+        var licenceprinta = licenceprint
+        console.log(letterprinta);
+        console.log(licenceprinta);
+        document.getElementById("cen").style.marginTop="50px";
+        document.getElementById("cns").style.marginTop="50px";
+        document.getElementById("xkz").style.marginTop="50px";
+        bdhtml =window.document.body.innerHTML;//获取当前页的html代码
+        sprnstr = "<!--startprint" + oper + "-->";//设置打印开始区域
+        eprnstr = "<!--endprint" + oper + "-->";//设置打印结束区域
+        prnhtml =bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html
+        prnhtml = prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
+        window.document.body.innerHTML= prnhtml;
+        window.print();
+        window.document.body.innerHTML =bdhtml;
+        document.getElementById("cen").style.marginTop="0px";
+        document.getElementById("cns").style.marginTop="0px";
+        document.getElementById("xkz").style.marginTop="0px";
+        $("#cns").hide()
+        $("#xkz").hide()
+    };
+    //返回按钮
+    function ret() {
+        window.location.href = '${Session.BASE_URL}admin/v1/sqgl'
+    }
+
+    function alllist() {
+        var id = getQueryString("id");
+        $.ajax({
+            url:'${Session.BASE_URL}process/mobileProcesscaseDetail',
+            type:'GET', //GET
+            dataType:'json',
+            data:{id:id},
+            success:function(result){
+                $("#applyunit").html(result.data.processcase.applyunit)
+                $("#applyperson").html(result.data.processcase.applyperson)
+                $("#applyphone").html(result.data.processcase.applyphone)
+                $("#approvalTime").html(result.data.approvalTime)
+                $("#construcunit").html(result.data.processcase.construcunit)
+                $("#construcperson").html(result.data.processcase.construcperson)
+                $("#construcphone").html(result.data.processcase.construcphone)
+                $("#reason").html(result.data.processcase.reason)
+                $("#address").html(result.data.processcase.address)
+                $("#construcstarttime").html(result.data.processcase.construcstarttime)
+                // $("#status").html(result.data.processcase.status)
+                if(result.data.processcase.status == 1){
+                    $("#status").html('初审')
+                }else if(result.data.processcase.status == 2){
+                    $("#status").html('邀请实勘')
+                }else if(result.data.processcase.status == 3){
+                    $("#status").html('实勘审核')
+                }else if(result.data.processcase.status == 4){
+                    $("#status").html('打印材料')
+                }else if(result.data.processcase.status == 5){
+                    $("#status").html('开始施工')
+                }else if(result.data.processcase.status == 6){
+                    $("#status").html('邀请验收')
+                }else if(result.data.processcase.status == 7){
+                    $("#status").html('验收')
+                }else if(result.data.processcase.status == 8){
+                    $("#status").html('验收完成')
+                }else if(result.data.processcase.status == -1){
+                    $("#status").html('审批 驳回')
+                }else if(result.data.processcase.status == -3){
+                    $("#status").html('实勘审核 驳回')
+                }
+                if(result.data.processcase.securitypic != null && result.data.processcase.securitypic != ''){
+                    var imgs = result.data.processcase.securitypic.split(",");
+                    var html="";
+                    for(var i=0;i<imgs.length;i++){
+                        if(imgs[i]!="" && imgs!=null){
+                            html+='<img src="'+imgs[i]+'" style="width: 180px;height: 130px;margin-right: 16px;"data-preview-group="1"/>'
+                        }
+                    }
+                }
+                $("#securitypic").html(html);
+                $("#approvalTimea").html(result.data.approvalTime)
+                $("#approvalSuccessTime").html(result.data.approvalSuccessTime)
+                $("#approvalRejectTime").html(result.data.approvalRejectTime)
+                $("#approvalRejectContent").html(result.data.approvalRejectContent)
+                $("#realTime").html(result.data.realTime)
+                $("#realSuccessTime").html(result.data.realSuccessTime)
+                $("#realRejectTime").html(result.data.realRejectTime)
+                $("#realRejectContent").html(result.data.realRejectContent)
+                $("#checkSuccessTime").html(result.data.checkSuccessTime)
+                $("#checkTime").html(result.data.checkTime)
+                //实勘照片
+                if(result.data.processcase.realpic != null && result.data.processcase.realpic != ''){
+                    var imgssk = result.data.processcase.realpic.split(",");
+                    var htmlsk="";
+                    for(var i=0;i<imgssk.length;i++){
+                        if(imgssk[i]!="" && imgssk!=null){
+                            htmlsk+='<img src="'+imgssk[i]+'" style="width: 180px;height: 130px;margin-right: 16px;"data-preview-group="1"/>'
+                        }
+                    }
+                }
+                $("#realpic").html(htmlsk);
+                //验收照片
+                if(result.data.processcase.checkpic != null && result.data.processcase.checkpic != ''){
+                    var imgsys = result.data.processcase.checkpic.split(",");
+                    var htmlys="";
+                    for(var i=0;i<imgsys.length;i++){
+                        if(imgsys[i]!="" && imgsys!=null){
+                            htmlys+='<img src="'+imgsys[i]+'" style="width: 180px;height:130px;margin-right: 16px;"data-preview-group="1"/>'
+                        }
+                    }
+                }
+                $("#checkpic").html(htmlys);
+                var lengthArry = (result.data.roadtypeList.length)
+                for (var i = 0; i <lengthArry ; i = i+4) {
+
+                    result.data.roadtypeList[i].leng = isNullValue(result.data.roadtypeList[i].leng)
+                    result.data.roadtypeList[i].width = isNullValue(result.data.roadtypeList[i].width)
+                    result.data.roadtypeList[i].height = isNullValue(result.data.roadtypeList[i].height)
+
+                    result.data.roadtypeList[i+1].leng = isNullValue(result.data.roadtypeList[i+1].leng)
+                    result.data.roadtypeList[i+1].width = isNullValue(result.data.roadtypeList[i+1].width)
+                    result.data.roadtypeList[i+1].height = isNullValue(result.data.roadtypeList[i+1].height)
+
+                    result.data.roadtypeList[i+2].leng = isNullValue(result.data.roadtypeList[i+2].leng)
+                    result.data.roadtypeList[i+2].width = isNullValue(result.data.roadtypeList[i+2].width)
+                    result.data.roadtypeList[i+2].height = isNullValue(result.data.roadtypeList[i+2].height)
+
+                    result.data.roadtypeList[i+3].leng = isNullValue(result.data.roadtypeList[i+3].leng)
+                    result.data.roadtypeList[i+3].width = isNullValue(result.data.roadtypeList[i+3].width)
+                    result.data.roadtypeList[i+3].height = isNullValue(result.data.roadtypeList[i+3].height)
+                    var html;
+                    html ='<tr style="text-align:center;">'
+                        +'		<td style="width: 57px;height: 60px;background-color: #dcdcdc" rowspan="2">'+cnsdl(result.data.roadtypeList[i + 3].type)+'</td>'
+                        +'			 <td style="width: 192px">机动车道</td>'
+                        +'    		 <td style="width: 192px">非机动车道</td>'
+                        +'    		 <td style="width: 192px">人行横道</td>'
+                        +'    		 <td style="width: 192px">绿化带</td>'
+                        +' </tr>'
+                        +' <tr style="text-align:center;">'
+                        +'		<td style="width: 192px"> '+"长 "+ result.data.roadtypeList[i].leng +" m"+' ， '+"宽 "+ result.data.roadtypeList[i].width +" m"+' ， '+"面积 "+ result.data.roadtypeList[i].height +" m<sup>2</sup>"+' </td>'
+                        +'		<td style="width: 192px"> '+"长 "+ result.data.roadtypeList[i+1].leng +" m"+' ， '+"宽 "+ result.data.roadtypeList[i+1].width +"m"+' ， '+"面积 "+ result.data.roadtypeList[i+1].height + "m<sup>2</sup>"+' </td>'
+                        +'		<td style="width: 192px"> '+"长 "+ result.data.roadtypeList[i+2].leng +" m"+' ， '+"宽 "+ result.data.roadtypeList[i+2].width +" m"+' ， '+"面积 "+ result.data.roadtypeList[i+2].height +" m<sup>2</sup>"+' </td>'
+                        +'		<td style="width: 192px"> '+"长 "+ result.data.roadtypeList[i+3].leng + " m"+' ， '+"宽 "+ result.data.roadtypeList[i+3].width +" m"+' ， '+"面积 "+ result.data.roadtypeList[i+3].height +" m<sup>2</sup>"+' </td>'
+                        +' </tr>'
+                    $("#wjmjtable1").append(html);
+                }
+                //占道表数据
+
+            }
+        })
+    }
+    function timestampToTime(timestamp) {
+        var date = new Date();//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '年';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '月';
+        var D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + '日';
+        var h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+        var m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+        var s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+        strDate = Y+M+D;
+        return strDate;
+    }
+
+    function cnslist() {
+        var id = getQueryString("id");
+        $.ajax({
+            url:'${Session.BASE_URL}process/mobileProcesscaseDetail',
+            type:'GET', //GET
+            dataType:'json',
+            data:{id:id},
+            success:function(result){
+                //承诺书数据
+                $("#cnsdw1").html(result.data.processcase.applyunit);
+                $("#cnsdw2").html(result.data.processcase.construcunit);
+                $("#cnsyy").html(result.data.processcase.reason);
+                $("#cnssqr").html(result.data.processcase.applyperson);
+                $("#cnssgf").html(result.data.processcase.construcperson);
+                $("#cnsqsdh").html(result.data.processcase.applyphone);
+                $("#cnssgdh").html(result.data.processcase.construcphone);
+                $("#cnsaddress").html(result.data.processcase.address);
+                var a = result.data.processcase.construcstarttime
+                var b = result.data.processcase.construcendtime
+                $("#cnsconstrucstarttime").html(timestampToTime(a));
+                $("#cnsconstrucendtime").html(timestampToTime(b));
+                var cnsleng = 0;
+                var cnswidth = 0;
+                var cnsheigh = 0;
+                var cnslx = "";
+                for (var i = 0; i <result.data.roadtypeList.length ; i = i+4) {
+                    var cnsleng1 = Number(result.data.roadtypeList[i].leng);
+                    var cnsleng2 = Number(result.data.roadtypeList[i+1].leng);
+                    var cnsleng3 = Number(result.data.roadtypeList[i+2].leng);
+                    var cnsleng4 = Number(result.data.roadtypeList[i+3].leng);
+                    cnsleng +=  cnsleng1+cnsleng2+cnsleng3+cnsleng4;
+
+                    var cnswidth1 = Number(result.data.roadtypeList[i].width);
+                    var cnswidth2 =Number(result.data.roadtypeList[i + 1].width);
+                    var cnswidth3 =Number(result.data.roadtypeList[i + 2].width);
+                    var cnswidth4 =Number(result.data.roadtypeList[i + 3].width);
+                    cnswidth += cnswidth1+cnswidth2+cnswidth3+cnswidth4
+
+                    var cnsheight1 = Number(result.data.roadtypeList[i].height);
+                    var cnsheight2 = Number(result.data.roadtypeList[i + 1].height);
+                    var cnsheight3 = Number(result.data.roadtypeList[i + 2].height);
+                    var cnsheight4 = Number(result.data.roadtypeList[i + 3].height);
+                    cnsheigh += cnsheight1+ cnsheight2+ cnsheight3+cnsheight4
+
+                    var cnslxx=cnsdl(result.data.roadtypeList[i + 3].type) + ",";
+                    cnslx += cnslxx
+                    if(cnslxx == 0){
+                        cnslx = "快速路"
+                    }else if (cnslxx == 1){
+                        cnslx = "主干路"
+                    }else if (cnslxx == 2){
+                        cnslx = "次干路"
+                    }else if (cnslxx == 3){
+                        cnslx = "支路"
+                    }
+                }
+                cnslx = cnslx.substring(0,cnslx.length-1);
+                $("#cnslength").html(cnsleng);
+                $("#cnswidth").html(cnswidth);
+                $("#cnsheigh").html(cnsheigh);
+                $("#cnslx").html(cnslx);
+            }
+        })
+    }
+    function xkzlist() {
+        var id = getQueryString("id");
+        $.ajax({
+            url:'${Session.BASE_URL}process/mobileProcesscaseDetail',
+            type:'GET', //GET
+            dataType:'json',
+            data:{id:id},
+            success:function(result) {
+                $("#xkzapplyunit").html(result.data.processcase.applyunit)
+                $("#xkzapplyperson").html(result.data.processcase.applyperson)
+                $("#xkzapplyphone").html(result.data.processcase.applyphone)
+                $("#xkzapprovalTime").html(result.data.approvalTime)
+                $("#xkzconstrucunit").html(result.data.processcase.construcunit)
+                $("#xkzconstrucperson").html(result.data.processcase.construcperson)
+                $("#xkzconstrucphone").html(result.data.processcase.construcphone)
+                $("#xkzreason").html(result.data.processcase.reason)
+                $("#xkzaddress").html(result.data.processcase.address)
+                var a = result.data.processcase.construcstarttime
+                var b = result.data.processcase.construcendtime
+                var c = result.data.processcase.createtime
+                $("#xkzconstrucstarttime").html(timestampToTime(a));
+                $("#xkzconstrucendtime").html(timestampToTime(b));
+                $("#xkzcreatetime").html(timestampToTime(c));
+                if (result.data.processcase.securitypic != null && result.data.processcase.securitypic != '') {
+                    var imgs = result.data.processcase.securitypic.split(",");
+                    var html = "";
+                    for (var i = 0; i < imgs.length; i++) {
+                        if (imgs[i] != "" && imgs != null) {
+                            html += '<img src="' + imgs[i] + '" style="width: 180px;height: 130px;margin-right: 16px;"data-preview-group="1"/>'
+                        }
+                    }
+                }
+                $("#xkzsecuritypic").html(html);
+                $("#xkzrealcontent").html(result.data.processcase.realcontent)
+                var lengthArry = (result.data.roadtypeList.length)
+                console.log(result)
+                for (var i = 0; i < lengthArry; i = i + 4) {
+                    var xkztable1;
+                    var xkztable2;
+                    var xkztable3;
+                    var xkztable4;
+                    if(lengthArry>3){
+                        var xkzleng1 =  Number(result.data.roadtypeList[i].leng)+Number(result.data.roadtypeList[i+1].leng)+Number(result.data.roadtypeList[i+2].leng)+Number(result.data.roadtypeList[i+3].leng);
+                        var xkzwidth1 =  Number(result.data.roadtypeList[i].width)+Number(result.data.roadtypeList[i+1].width)+Number(result.data.roadtypeList[i+2].width)+Number(result.data.roadtypeList[i+3].width);
+                        var xkzheight1 =  Number(result.data.roadtypeList[i].height)+Number(result.data.roadtypeList[i+1].height)+Number(result.data.roadtypeList[i+2].height)+Number(result.data.roadtypeList[i+3].height);
+                        xkztable1 = '<td style="height: 30px"> ' + cnsdl(result.data.roadtypeList[i + 3].type) + '</td>'
+                            + '		<td style="height: 30px"> ' + xkzleng1 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzwidth1 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzheight1 + ' </td>'
+                    }else{
+                        xkztable1 = '<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                    }
+
+                    if(lengthArry>6){
+                        var xkzleng2 =  Number(result.data.roadtypeList[i+4].leng)+Number(result.data.roadtypeList[i+5].leng)+Number(result.data.roadtypeList[i+6].leng)+Number(result.data.roadtypeList[i+7].leng);
+                        var xkzwidth2 =  Number(result.data.roadtypeList[i+4].width)+Number(result.data.roadtypeList[i+5].width)+Number(result.data.roadtypeList[i+6].width)+Number(result.data.roadtypeList[i+7].width);
+                        var xkzheight2 =  Number(result.data.roadtypeList[i+4].height)+Number(result.data.roadtypeList[i+5].height)+Number(result.data.roadtypeList[i+6].height)+Number(result.data.roadtypeList[i+7].height);
+                        xkztable2 = '<td style="height: 30px"> ' + cnsdl(result.data.roadtypeList[i + 6].type) + '</td>'
+                            + '		<td style="height: 30px"> ' + xkzleng2 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzwidth2 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzheight2 + ' </td>'
+                    }else{
+                        xkztable2 = '<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                    }
+                    if(lengthArry>9){
+                        var xkzleng3 =  Number(result.data.roadtypeList[i+8].leng)+Number(result.data.roadtypeList[i+9].leng)+Number(result.data.roadtypeList[i+10].leng)+Number(result.data.roadtypeList[i+11].leng);
+                        var xkzwidth3 =  Number(result.data.roadtypeList[i+8].width)+Number(result.data.roadtypeList[i+9].width)+Number(result.data.roadtypeList[i+10].width)+Number(result.data.roadtypeList[i+11].width);
+                        var xkzheight3 =  Number(result.data.roadtypeList[i+8].height)+Number(result.data.roadtypeList[i+9].height)+Number(result.data.roadtypeList[i+10].height)+Number(result.data.roadtypeList[i+11].height);
+                        xkztable3 = '<td style="height: 30px"> ' + cnsdl(result.data.roadtypeList[i + 9].type) + '</td>'
+                            + '		<td style="height: 30px"> ' + xkzleng3 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzwidth3 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzheight3 + ' </td>'
+                    }else{
+                        xkztable3 = '<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                    }
+
+                    if(lengthArry>9){
+                        var xkzleng4 =  Number(result.data.roadtypeList[i+12].leng)+Number(result.data.roadtypeList[i+13].leng)+Number(result.data.roadtypeList[i+14].leng)+Number(result.data.roadtypeList[i+15].leng);
+                        var xkzwidth4 =  Number(result.data.roadtypeList[i+12].width)+Number(result.data.roadtypeList[i+13].width)+Number(result.data.roadtypeList[i+14].width)+Number(result.data.roadtypeList[i+15].width);
+                        var xkzheight4 =  Number(result.data.roadtypeList[i+12].height)+Number(result.data.roadtypeList[i+13].height)+Number(result.data.roadtypeList[i+14].height)+Number(result.data.roadtypeList[i+15].height);
+                        xkztable4 = '<td style="height: 30px"> ' + cnsdl(result.data.roadtypeList[i + 12].type) + '</td>'
+                            + '		<td style="height: 30px"> ' + xkzleng4 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzwidth4 + ' </td>'
+                            + '		<td style="height: 30px"> ' + xkzheight4 + ' </td>'
+                    }else{
+                        xkztable4 = '<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                            + '		<td style="height: 30px"></td>'
+                    }
+                    $(".xkztable1").append(xkztable1);
+                    $(".xkztable2").append(xkztable2);
+                    $(".xkztable3").append(xkztable3);
+                    $(".xkztable4").append(xkztable4);
+                }
+            }
+        })
+    }
+
+
+    function cnsdl(value){
+        if(value == 0){
+            return "快速路"
+        }else if (value == 1){
+            return "主干路"
+        }else if (value == 2){
+            return "次干路"
+        }else if (value == 3){
+            return "支路"
+        }
+    }
+
+    function isNullValue(value){
+        if(!value){
+            return '-';
+        }else{
+            return value ;
+        }
+    }
+
+</script>
+</html>

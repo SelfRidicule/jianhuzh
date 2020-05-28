@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/newAdd.png");
+        background-position: top;
+        /* 背景图不平铺 */
+        background-repeat: no-repeat;
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: auto;
+        background-color: rgb(255, 255, 255, 0);
+        text-align: center;
+    }
+
+    #head {
+        margin-left: -5.3%;
+        margin-top: 2.9%;
+        color: #2F6188;
+        font-weight: bold;
+    }
+
+    #cen div {
+        margin: 8px;
+    }
+
+    #cen input {
+        background-color: rgb(21, 40, 72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+    }
+    #cen select{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+        width:175px;height:24px
+    }
+    #save, #colse {
+        /*background-color: #031D3B;*/
+        color: #52A5C8;
+        border: 1px solid #52A5C8;
+        width: 70px;
+        height: 30px;
+        background: linear-gradient(-45deg, transparent 15px, #031D3B 0) bottom right,
+        linear-gradient(45deg, transparent 15px, #031D3B 0) bottom left,
+        linear-gradient(135deg, transparent 15px, #031D3B 0) top left,
+        linear-gradient(-135deg, transparent 15px, #031D3B 0) top right;
+        background-size: 100% 51%;
+        background-repeat: no-repeat;
+    }
+    input{
+        width: 157px;
+        height: 16px;
+        font-size: 13px;
+        padding: 3px 8px;
+    }
+    select{
+        padding: 3px 8px;
+    }
+</style>
+<body>
+<div id="head">
+    修改信息
+</div>
+<div id="cen" style="color: #fff;padding-top: 10px">
+    <div>姓名：&nbsp;&nbsp;&nbsp;<input id="name" type="text"/></div>
+    <div>身份证：<input id="identity" type="text"/></div>
+    <div>单位：&nbsp;&nbsp;&nbsp;<input id="company" type="text"/></div>
+    <div>号码：&nbsp;&nbsp;&nbsp;<input id="phone" type="text"/></div>
+    <div>性别：&nbsp;&nbsp;&nbsp;<select id="sex" type="text" autocomplete="off"><option value="男">男</option><option value="女">女</option> </select> </div>
+    <div>职务：&nbsp;&nbsp;&nbsp;<input id="duties" type="text"/></div>
+    <div>
+        <button id="save">保存</button>
+        <button id="colse">关闭</button>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}/lying/layui/layui.js"></script>
+<script>
+    window.onload = function () {
+        list();
+    }
+
+    var id = "${id}";
+    console.log(id);
+
+    function list() {
+        $.ajax({
+            url: '${Session.BASE_URL}duty/queryId',
+            type: 'GET', //GET
+            dataType: 'json',
+            data: {id:id},
+            success: function (result) {
+                $("#name").val(result.data.name);
+                $("#identity").val(result.data.identity);
+                $("#company").val(result.data.company);
+                $("#phone").val(result.data.phone);
+                $("#sex").val(result.data.sex);
+                $("#duties").val(result.data.duties);
+            }
+        })
+    }
+
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var myreg=/^[0-9]*$/;
+    var nameReg = /^[\u4E00-\u9FA5]{2,4}$/;
+
+
+    $("#save").click(function(){
+        var name = $("#name").val()
+        var identity = $("#identity").val()
+        var company = $("#company").val()
+        var phone = $("#phone").val()
+        var sex = $("#sex").val()
+        var duties = $("#duties").val()
+        var data = {
+            name:name,
+            identity:identity,
+            company:company,
+            phone:phone,
+            sex:sex,
+            duties:duties,
+            id:id
+        };
+
+        if(name == ''){
+            layer.msg('请输入姓名',{time:1.5*1000});
+        }else if(!nameReg.test(name)){
+            layer.msg('请输入正确姓名',{time:1.5*1000});
+        }
+        else if(identity == ''){
+            layer.msg('请输入身份证',{time:1.5*1000});
+        }else  if(!reg.test(identity)){
+            layer.msg('身份证输入不合法',{time:1.5*1000});
+        } else if(company == ''){
+            layer.msg('请输入单位',{time:1.5*1000});
+        }else if(phone == ''){
+            layer.msg('请输入号码',{time:1.5*1000});
+        }else if(!myreg.test(phone)){
+            layer.msg('请输入正确号码',{time:1.5*1000});
+        }
+        else if(sex == ''){
+            layer.msg('请输入性别',{time:1.5*1000});
+        }else if(duties == ''){
+            layer.msg('请输入职务',{time:1.5*1000});
+        }else {
+            $.ajax({
+                url: '${Session.BASE_URL}duty/update',
+                type:'GET', //GET
+                dataType:'json',
+                data:data,
+                success:function (result) {
+                    if(result.code == "SUCCESS"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        window.parent.location.reload();
+                    }
+                }
+            })
+            // }
+        }
+
+
+    })
+
+    $("#colse").click(function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
+</script>
+</html>

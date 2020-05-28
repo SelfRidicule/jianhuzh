@@ -1,0 +1,43 @@
+/*
+	作者：王俊
+	时间：2019-09-20
+	描述：永修禁货
+*/
+@font-face {
+    font-family: MuiiconSpread;
+    font-weight: normal;
+    font-style: normal;
+    src:  url('../fonts/mui-icons-extra-jinhuo.ttf') format('truetype'); /* iOS 4.1- */
+}
+.mui-icon-extra
+{
+    font-family: MuiiconSpread;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.mui-icon-extra-cha:before {
+  content: "\e639";
+}
+
+.mui-icon-extra-cha1:before {
+  content: "\e63c";
+}
+
+.mui-icon-extra-laba:before {
+  content: "\e73b";
+}
+
+.mui-icon-extra-sangedian:before {
+  content: "\e63a";
+}
+
+.mui-icon-extra-rili:before {
+  content: "\e665";
+}
+

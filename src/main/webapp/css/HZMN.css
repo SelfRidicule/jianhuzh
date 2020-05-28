@@ -1,0 +1,67 @@
+@charset "utf-8";
+/*
+ * 2018年12月12日
+ * 张政  zhz@jszzkj.cn
+ * 项目：洪泽会议系统
+ * 文档：静态页面公共样式表
+ */
+.layui-card-header {
+  padding: 16px;
+}
+.layui-card-header button {
+  padding: 0 40px;
+}
+.layui-btn-warm {
+  background-color: #fab300;
+}
+.layui-card-header blockquote {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-color: #1e9fff;
+}
+.content button {
+  padding: 0 40px;
+}
+.content p {
+  margin-left: 32px;
+}
+.content .layui-form-item {
+    margin-bottom: 0;
+}
+
+.content .layui-form-labe {
+    width: auto;
+}
+.layui-table-page > div{
+    text-align: center;
+}
+.layui-table-page>div {
+    height: 26px;
+}
+.meeting-info-table .layui-table-view .layui-table-header table tr {
+  color: #ffffff;
+}
+.meeting-info-table
+  .layui-table-view[lay-id="table1"]
+  .layui-table-header
+  table
+  tr {
+  /*background-color: rgb(0,150,136);*/
+  background-color: #009688;
+}
+.meeting-info-table
+  .layui-table-view[lay-id="table2"]
+  .layui-table-header
+  table
+  tr {
+  /*background-color: rgb(0,150,85);*/
+  background-color: #5fb878;
+}
+.meeting-info-table
+  .layui-table-view[lay-id="table3"]
+  .layui-table-header
+  table
+  tr {
+  /*background-color: rgb(37,126,199);*/
+  background-color: #ffb800;
+}

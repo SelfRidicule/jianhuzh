@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RBSPMessage>
+	<Version> 12.1</Version>
+	<SenderID>C00-10000002</SenderID>
+	<TimeStamp/>
+	<Validity/>
+	<Security></Security>
+	<Method>
+		<EndUser>user info</EndUser>
+		<Name>putxmlinfo</Name>
+		<Items>
+			<Item>
+				<Name>InfoType</Name>
+				<Value Type="string">
+					<Data>data type</Data>
+				</Value>
+			</Item>
+			<Item>
+				<Name>InfoSet</Name>
+				<Value Type="string">
+					<Data>
+						<Content>
+							<Header>
+								<RequestID>JDCX_001122334455_20150906235959_1234</RequestID>
+								<CommonInfo>
+									<approveID>abc</approveID>
+									<approveName>aaa</approveName>
+									<DeptName>asdasd</DeptName>
+									<Signresultstr>91d980aef37fbd623dcbadfe729a473ce3a61a206f1f75c2cfaadcde2db6156782f1afd8015bb9e2697700cc6d56c2369bcf4ae26303fc2a755f207f4f4d1cd3b76c3776236109d3fa64b01f874fba2618d4c3ececc5de4d678ca80b538a0d139b2a72a3f91ce3cfa604f7ce9a3c0a2446001663a57d0fbe6a8eefe79a639626</Signresultstr></CommonInfo>
+								<CaseInfo>
+									<CaseID>123</CaseID>
+									<CaseName>fffff</CaseName>
+									<CaseProperty>cccc</CaseProperty>
+									<CaseCause>rrrrr</CaseCause>
+									<CaseResume>vvvvv</CaseResume>
+								</CaseInfo>
+							</Header>
+							<Body>
+								<DbSource name="JDCX" carrier="JDCX ">JDCX</DbSource>
+								<Fields Count="2">
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>PHONE_NUM</LeftValue>
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>15948321122</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>ORDERID</LeftValue>
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>123046093</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+								</Fields>
+							</Body>
+						</Content>
+					</Data>
+				</Value>
+			</Item>
+		</Items>
+	</Method>
+</RBSPMessage>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>稳情</title>
+		<style>
+			html,
+			body {
+				margin: 0px;
+				padding: 0px;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				font-size: 15px;
+			}
+			
+			body {
+				background-image: url(img/stability/s_bg.png);
+				background-size: 100% 100%;
+			}
+			
+			.top {
+				width: 100%;
+				height: 7.4%;
+			}
+			
+			.top div:hover,
+			.more span:hover {
+				cursor: pointer;
+			}
+
+			@media screen and (min-width: 1900px) {
+				.title {
+					width: 540px;
+					height: 80px;
+					line-height: 80px;
+					text-align: center;
+					color: #FFFFFF;
+					float: right;
+					font-size: 40px;
+					font-weight: 900;
+					letter-spacing: 8px;
+					margin-right: 75px;
+				}
+			}
+			@media screen and (max-width: 1600px) {
+				.title {
+					width: 565px;
+					height: 80px;
+					line-height: 80px;
+					text-align: center;
+					color: #FFFFFF;
+					float: right;
+					font-size: 36px;
+					font-weight: 900;
+					letter-spacing: 8px;
+					margin-right: 50px;
+				}
+			}
+			
+			.item {
+				width: 100%;
+				height: 25%;
+				text-align: left;
+			}
+			
+			.item1 {
+				width: 100%;
+				height: 15%;
+				display: flex;
+			}
+			
+			.item2 {
+				width: 100%;
+				height: 33%;
+				display: flex;
+			}
+			
+			.rowup1 {
+				-webkit-animation: 25s rowup1 linear infinite normal;
+				animation: 25s rowup1 linear infinite normal;
+				position: relative;
+			}
+			
+			.rowup2 {
+				-webkit-animation: 12s rowup1 linear infinite normal;
+				animation: 12s rowup1 linear infinite normal;
+				position: relative;
+			}
+
+            #timeline{
+                overflow:hidden;
+                position:relative;
+                width:820px;
+                margin-left: 1035px;
+            }
+
+		</style>
+	</head>
+	<script>
+		var initializationTime = (new Date()).getTime();
+
+		function showLeftTime() {
+			var now = new Date();
+			var year = now.getFullYear();
+			var month = now.getMonth() + 1;
+			var day = now.getDate();
+			var week = "日一二三四五六".charAt(new Date().getDay());
+			var hours = now.getHours();
+			if(hours < 10) {
+				hours = "0" + hours;
+			}
+			var minutes = now.getMinutes();
+			if(minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			var seconds = now.getSeconds();
+			if(seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			//document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+			document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+				hours + ":" + minutes + ":" + seconds +
+				'</div>' +
+				'<div style="line-height: 28px;color: #ecececdb;font-size: 14px;">' +
+				year + "年" + month + "月" + day + "日 " + "  星期" + week +
+				'</div>';
+			//一秒刷新一次显示时间
+			var timeID = setTimeout(showLeftTime, 1000);
+		}
+	</script>
+
+	<body onload="showLeftTime()">
+		<!-- 头部  -->
+		<div class="top">
+			<div style="width:119px;height: 43px;line-height:43px;text-align:center;color:#FFFFFF;background-size: 100% 100%;float: right;margin: 22px 315px 22px 0;" onclick="plan()">
+				执法办案
+			</div>
+			<div style="width:119px;height: 43px;line-height:43px;text-align:center;color:#D5C61C;background-size: 100% 100%;float: right;margin: 22px 30px; cursor:pointer;" onclick="index()">
+				首页
+			</div>
+			<div class="title">
+				${policestation.name}综合指挥平台
+			</div>
+			<img src="img/s_logo.png" style="width:104; height:94px; float:right; "/>
+			<div id="show" style="width: 210px;height: 70px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 26px;">
+				<!--<div style="line-height: 42px;color: #E9D129;font-size: 25px;">
+					15:44:36
+				</div>
+				<div style="line-height: 28px;color: #ecececdb;font-size: 14px;">
+					2019年4月18日   星期四
+				</div>-->
+			</div>
+		</div>
+        
+        
+        <!-- 主题内容 -->
+        <div  style="width:100%; height: 100%; ">
+
+            <div id="title" style="float:left; margin-top: 65px; margin-left: 100px; font-size: 20px;padding-left: 25px; line-height:70px; color: #7abee1">
+                关于20190505稳情指示交办详情
+            </div>
+
+            <div id="sj" style="color:#FFFFFF; position: absolute ; margin-left: 736px; margin-top: 150px; height: 30px; line-height:30px; letter-spacing: 10px; font-size: 21px; ">
+              20190115
+            </div>
+
+            <div  style="position: absolute; margin-left:345px; margin-top: 220px; width: 635px; height:600px; color: #03d1bc">
+            	<div style="position: relative;overflow: hidden;  width: 635px; height:600px;">
+	                <div id="fb_nr" class="rowup1" style="font-size: 22px ; margin-top: 22px">
+	                   		内容内容内
+	                </div>
+                </div>
+            </div>
+
+			<div id="timeline" >
+                <img src="img/stability/s_zhu.png" style="position: absolute; margin-left: 90px; margin-top: 40px;"/>
+                <!-- 时间 -->
+	            <div style="position: absolute; margin-top: 225px; right: 0px; margin-right: 700px; color: #FFFFFF">
+	                <div id="fb_nyr" style="text-align:right"> 2019-02-13</div>
+	                <div id="fb_sfm" style="text-align:right; margin-top: 10px">11:22:30</div>
+	            </div>
+	
+	            <div style="position: absolute; margin-top: 475px; right: 0px; margin-right: 700px; color: #FFFFFF">
+	                <div id="qs_nyr" style="text-align:right"> 2019-02-13</div>
+	                <div id="qs_sfm" style="text-align:right; margin-top: 10px">11:22:30</div>
+	            </div>
+	            
+	            <div style="position: absolute; margin-top: 730px; right: 0px; margin-right: 700px; color: #FFFFFF">
+	                <div id="fk_nyr" style="text-align:right"> 2019-02-13</div>
+	                <div id="fk_sfm" style="text-align:right; margin-top: 10px">11:22:30</div>
+	            </div>
+	
+	
+	            <!-- 单位 -->
+	            <div style="font-size: 20px; position: absolute; margin-top: 150px; margin-left: 240px; color: #03d1bc">
+	                <div> 
+	                    <span> 发布单位:</span>
+	                    <span id="fb_dw" style="margin-left:5px;">洪泽公安分局指挥中心</span>   
+	                </div>
+	                <div style="margin-top: 10px">
+	                    <span> 发布人:</span>
+	                    <span id="fb_r" style="margin-left:5px;">王发明</span>   
+	                </div>
+	            </div>
+	
+	            <div style="font-size: 20px; position: absolute; margin-top: 400px; margin-left: 240px; color: #7abee1">
+	                <div>
+	                    <span> 签收单位: </span>
+	                    <span id="qs_dw" style="margin-left:5px;">洪泽公安分局指挥中心</span>   
+	                </div>
+	                <div style="margin-top: 10px">
+	                    <span> 签收人:</span>
+	                    <span id="qs_r" style="margin-left:5px;">王发明</span>   
+	                </div>
+	            </div>
+	
+	            <div style="font-size: 20px; position: absolute; margin-top: 650px; margin-left: 240px; color: #7abee1">
+	                <div>
+	                    <span> 反馈单位: </span>
+	                    <span id="fk_dw" style="margin-left:5px;">洪泽公安分局指挥中心</span>   
+	                </div>
+	                <div style="margin-top: 10px">
+	                    <span> 反馈人:</span>
+	                    <span id="fk_r" style="margin-left:5px;">王发明</span>   
+	                </div>
+	                <div style="margin-top: 10px; width: 570px">
+	                    <span> 反馈内容:</span>
+						<div style="position: relative;overflow: hidden;  width: 570px; height:138px;">
+							<div id="fk_nr" class="rowup2" style="margin-top: 5px">
+									内容内容内
+							</div>
+							
+						</div>
+	                </div>
+	            </div>
+                
+            </div>
+            
+        </div>
+
+	</body>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script>
+		function index() {
+			window.location.href = "index.html";
+		}
+
+		function plan() {
+			window.location.href = "plan.html";
+		}
+
+
+        $(function(){
+        	
+        	$("#timeline").animate({
+        		height:'950px'
+        	},7000);
+        	
+			//清空信息
+			clearMessage();
+			//添加信息
+			//addMessage();
+			//详细信息
+			detail();
+		})
+		
+		function clearMessage(){
+        	$("#title").html("");
+			
+			
+			$("#sj").html("");
+			$("#fb_nr").html("");
+			
+			
+			
+			$("#fb_dw").html("");
+			$("#fb_r").html("");
+			
+			$("#fb_nyr").html("");
+			$("#fb_sfm").html("");
+			
+			
+			
+			$("#qs_dw").html("");
+			$("#qs_r").html("");
+			
+			$("#qs_nyr").html("");
+			$("#qs_sfm").html("");
+			
+			
+			$("#fk_dw").html("");
+			$("#fk_r").html("");
+			$("#fk_nr").html("");
+		
+			$("#fk_nyr").html("");
+			$("#fk_sfm").html("");
+		}
+		
+		function addMessage(){
+			
+			$("#title").html("标题");
+			
+			
+			$("#sj").html("20190101");
+			
+			var value = "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			value += "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			value += "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			value += "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			value += "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			$("#fb_nr").html(value);
+			
+			//一个高度30*(n/30)+20
+			var listHeight = 30*(value.length / 30) + 20 ;
+			addKeyFrames( "-" + listHeight + "px" );
+			
+			var scrollSpeed =  value.length/30;
+			
+			//设置滚动速度
+			$(".rowup1").css("-webkit-animation", scrollSpeed + "s rowup1 linear infinite normal");
+			$(".rowup1").css("animation", scrollSpeed + "s rowup1 linear infinite normal");
+			
+			$("#fb_dw").html("我是发布单位");
+			$("#fb_r").html("我是发布人");
+			
+			$("#fb_nyr").html("2019-10-01");
+			$("#fb_sfm").html("12:12:12");
+			
+			
+			
+			$("#qs_dw").html("我是签收单位");
+			$("#qs_r").html("我是签收人");
+			
+			$("#qs_nyr").html("2019-10-01");
+			$("#qs_sfm").html("12:12:12");
+			
+			
+			$("#fk_dw").html("我是反馈单位");
+            $("#fk_r").html("我是反馈人");
+            
+            var fknr = "反馈容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+			fknr += "容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"  ;
+
+            $("#fk_nr").html(fknr);
+            
+            //一个高度30*(n/30)+20
+            var listHeight = 30*(fknr.length / 30) + 20 ;
+            addKeyFrames1( "-" + listHeight + "px" );
+            
+            var scrollSpeed =  fknr.length/30;
+            
+            //设置滚动速度
+            $(".rowup2").css("-webkit-animation", scrollSpeed + "s rowup2 linear infinite normal");
+            $(".rowup2").css("animation", scrollSpeed + "s rowup2 linear infinite normal");
+
+            $(".rowup2").hover(function(){  
+                $(".rowup2").css("animation-play-state",  "paused");
+            },function(){  
+                $(".rowup2").css("animation-play-state",    "running");
+            }) 
+
+		
+			$("#fk_nyr").html("2019-10-01");
+			$("#fk_sfm").html("12:12:12");
+		}
+		
+		//详细信息
+		function detail(){
+			
+			var xxbh = GetQueryString("xxbh");
+			
+			
+			var jqUrl="jbzl/queryDetail?xxbh="+xxbh;
+ 			$.ajax({
+				type : "POST",
+				url:jqUrl,
+				cache : false,
+				dataType : "json",
+				success : function(data) { 
+					console.log(data)
+					
+					$("#title").html("关于" + getDateSubString(data.xxfbsj) + "稳情指示交办详情");
+					
+					
+					$("#sj").html( getDateSubString(data.xxfbsj) );
+					$("#fb_nr").html(data.xxnr);
+					
+					//一个高度30*(n/30)+20
+					var listHeight = 30*(data.xxnr.length / 30) + 20 ;
+					addKeyFrames( "-" + listHeight + "px" );
+					
+					var scrollSpeed =  data.xxnr.length/30;
+					
+					//设置滚动速度
+					$(".rowup1").css("-webkit-animation", scrollSpeed + "s rowup1 linear infinite normal");
+					$(".rowup1").css("animation", scrollSpeed + "s rowup1 linear infinite normal");
+
+					$(".rowup1").hover(function(){  
+		                $(".rowup1").css("animation-play-state",  "paused");
+		            },function(){  
+		                $(".rowup1").css("animation-play-state",    "running");
+		            }) 
+					
+					
+					if(data.xxfbdwmc.indexOf("洪泽县公安局") != -1){
+						$("#fb_dw").html( data.xxfbdwmc.replace(/洪泽县公安局/g,"洪泽县公安分局") );
+					}else{
+						$("#fb_dw").html(data.xxfbdwmc);
+					}
+					
+					$("#fb_r").html(data.xxfbrxm);
+					
+					
+					$("#fb_nyr").html( getDateSplicingYMD(data.xxfbsj) );
+					$("#fb_sfm").html( getDateSplicingHMS(data.xxfbsj) );
+					
+					
+					
+					if(data.qsdwmc.indexOf("洪泽县公安局") != -1){
+						$("#qs_dw").html( data.qsdwmc.replace(/洪泽县公安局/g,"洪泽县公安分局") );
+					}else{
+						$("#qs_dw").html(data.qsdwmc);
+					}
+					$("#qs_r").html(data.qsxm);
+					
+					$("#qs_nyr").html( getDateSplicingYMD(data.qssj) );
+					$("#qs_sfm").html( getDateSplicingHMS(data.qssj) );
+					
+					
+					if(data.fkdwmc.indexOf("洪泽县公安局") != -1){
+						$("#fk_dw").html( data.fkdwmc.replace(/洪泽县公安局/g,"洪泽县公安分局") );
+					}else{
+						$("#fk_dw").html(data.fkdwmc);
+					}
+					$("#fk_r").html(data.fkrxm);
+					
+										
+					$("#fk_nr").html(data.fknr);
+					
+					//一个高度30*(n/30)+20
+					var listHeight = 30*(data.fknr.length / 30) + 20 ;
+					addKeyFrames1( "-" + listHeight + "px" );
+					
+					var scrollSpeed =  data.fknr.length/30;
+					
+					//设置滚动速度
+					$(".rowup2").css("-webkit-animation", scrollSpeed + "s rowup2 linear infinite normal");
+					$(".rowup2").css("animation", scrollSpeed + "s rowup2 linear infinite normal");
+
+					$(".rowup2").hover(function(){  
+		                $(".rowup2").css("animation-play-state",  "paused");
+		            },function(){  
+		                $(".rowup2").css("animation-play-state",    "running");
+		            }) 
+				
+					$("#fk_nyr").html( getDateSplicingYMD(data.fksj) );
+					$("#fk_sfm").html( getDateSplicingHMS(data.fksj) );
+				}
+			})
+		}
+		
+		
+
+		function addKeyFrames(y) {
+			var style = document.createElement('style');
+			style.type = 'text/css';
+			var keyFrames = '\
+		    @-webkit-keyframes rowup1 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup1 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+			style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+			document.getElementsByTagName('head')[0].appendChild(style);
+		}
+		
+		function addKeyFrames1(y) {
+			var style = document.createElement('style');
+			style.type = 'text/css';
+			var keyFrames = '\
+		    @-webkit-keyframes rowup2 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup2 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+			style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+			document.getElementsByTagName('head')[0].appendChild(style);
+		}
+		
+		
+		//得到yyyy-MM-dd HH：mm：ss
+		function getDateSplicing(value){
+			var date = value.substring(0,4) + "-" + value.substring(4,6) + "-" + value.substring(6,8);
+			date = date + " " + value.substring(8,10) + ":" + value.substring(10,12) + ":" + value.substring(12,14);
+			return date;
+		}
+		
+		//得到yyyy-MM-dd 
+		function getDateSplicingYMD(value){
+			var date = value.substring(0,4) + "-" + value.substring(4,6) + "-" + value.substring(6,8);
+			return date;
+		}
+		
+		//得到  HH：mm：ss
+		function getDateSplicingHMS(value){
+			var date =  value.substring(8,10) + ":" + value.substring(10,12) + ":" + value.substring(12,14);
+			return date;
+		}
+		
+		//得到前8位
+		function getDateSubString(value){
+			return value.substring(0,8) ;
+		}
+		
+		//得到url的传递参数
+		function GetQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return decodeURI(r[2]);
+			return null;
+		}
+
+	</script>
+
+</html>

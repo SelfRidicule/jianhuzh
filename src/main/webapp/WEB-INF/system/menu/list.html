@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>菜单管理</title>
+<#include "temple/head.ftl">
+<link rel="stylesheet" href="${Session.BASE_URL}lying/css/common.css">
+<link rel="stylesheet"
+	href="${Session.BASE_URL}plugins/jstree/dist/themes/default/style.min.css" />
+</head>
+<body>
+	<div class="layui-card">
+		<div class="layui-card-header">菜单管理</div>
+		<div class="layui-card-body">
+			<div class="layui-row">
+				<div class="layui-col-xs2">
+					<div>
+
+						<div id="jstree_demo_div" class="layui-input-block"></div>
+
+					</div>
+
+				</div>
+				<div class="layui-col-xs10">
+					<form class="layui-form" action="" lay-filter="example">
+						<input type="hidden" id="id" name="id">
+						<div class="layui-form-item">
+							<label class="layui-form-label">菜单名称</label>
+							<div class="layui-input-block">
+								<input type="text" name="menuname" required
+									lay-verify="required" placeholder="菜单名称" autocomplete="off"
+									class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">上级菜单</label>
+							<div class="layui-input-inline">
+								<input type="text" name="upmenuid" required
+									lay-verify="required" placeholder="默认为0" value="0"
+									autocomplete="off" class="layui-input" disabled>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">菜单路径</label>
+							<div class="layui-input-block">
+								<input type="text" name="menuurl" required lay-verify="required"
+									placeholder="菜单路径" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">排序</label>
+							<div class="layui-input-inline">
+								<input type="text" name="weight" required lay-verify="required"
+									placeholder="菜单排序(整数)" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">菜单图标</label>
+							<div class="layui-input-inline">
+								<input type="text" name="menuicon" required
+									lay-verify="required" placeholder="Font Awesome 图标"
+									autocomplete="off" class="layui-input">
+							</div>
+							<div class=""
+								style="float: left; display: block; /* padding: 9px 0!important; */ line-height: 20px; margin-right: 10px;">
+								<a class="layui-btn" onclick="chooseIcon()">选择菜单图标</a>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">启用</label>
+							<div class="layui-input-block">
+								<input type="checkbox" name="status" lay-skin="switch">
+							</div>
+						</div>
+						<div class="layui-form-item layui-form-text">
+							<label class="layui-form-label">备注</label>
+							<div class="layui-input-block">
+								<textarea name="remark" placeholder="请输入内容"
+									class="layui-textarea"></textarea>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit lay-filter="save">保存</button>
+								<button id="addBBtn" class="layui-btn" lay-submit
+									lay-filter="addB" style="display: none">新建同级菜单</button>
+								<button id="addSonBtn" class="layui-btn" lay-submit
+									lay-filter="addSon" style="display: none">新建子菜单</button>
+								<button class="layui-btn layui-btn-danger" lay-submit
+									lay-filter="delete">删除菜单</button>
+								<#--
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                        </div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<#include "temple/bottom.ftl">
+    <script src="${Session.BASE_URL}plugins/jstree/dist/jstree.min.js"></script>
+
+	<script>
+    //Demo
+    layui.config({base: '${Session.BASE_URL}/lying/'}).use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(save)', function(data){
+            console.log(JSON.stringify(data.field));
+
+            $.ajax({
+                url:'${Session.BASE_URL}menu/saveMenu',
+                data:data.field,
+                type:'post',
+                success:function (result) {
+                    if(result.code=='SUCCESS'){
+                        var form = layui.form;
+                        //表单初始赋值
+                        form.val('example', {
+                            "id": result.data, //复选框选中状态
+                        })
+                    }
+                    layer.alert(result.msg);
+                }
+            })
+
+
+            return false;
+        });
+
+        //新增同级
+        form.on('submit(addB)', function(data){
+            form.val('example', {
+                "id":"",
+                "menuname":"",
+                "upmenuid":data.field.upmenuid,
+                "menuurl": "",
+                "weight": "",
+                "menuicon": "",
+                "remark": "",
+                "status": true
+            });
+
+            return false;
+        });
+
+        form.on('submit(addSon)', function(data){
+            form.val('example', {
+                "id":"",
+                "menuname":"",
+                "upmenuid":data.field.id,
+                "menuurl": "",
+                "weight": "",
+                "menuicon": "",
+                "remark": "",
+                "status": true
+            });
+            return false;
+        });
+        //删除按钮
+        form.on('submit(delete)', function(data){
+            $.ajax({
+                url:'${Session.BASE_URL}menu/delMenu',
+                data:{'menuId':data.field.id},
+                type:'post',
+                success:function (result) {
+                    layer.alert(result.msg);
+                }
+            })
+            form.val('example', {
+                "id":"",
+                "menuname":"",
+                "upmenuid":0,
+                "menuurl": "",
+                "weight": "",
+                "menuicon": "",
+                "remark": "",
+                "status": false
+            });
+            return false;
+        });
+
+
+    });
+
+    function setIcon(icon) {
+        var form = layui.form;
+        //表单初始赋值
+        form.val('example', {
+            "menuicon": icon, //复选框选中状态
+        })
+    }
+
+    function chooseIcon() {
+        layer.open({
+            type:2,
+            title:'选择菜单图标',
+            area:['90%', '90%'],
+            maxmin: true,
+            content:'${Session.BASE_URL}menu/fontAwesome'
+        });
+    }
+
+    $(function () {
+        $('#jstree_demo_div').jstree({
+            "core" : {
+                'data' : {
+                    "url" : "${Session.BASE_URL}/menu/menuList",
+                    "data" : function (node) {
+                        var upid = 0;
+                        if (node.id!='#'){
+                            upid = node.id;
+                        }
+                        return { "upId" : upid};
+                    }
+                }
+            },
+            "plugins" : [ "types" ]
+        });
+    });
+    var menuid = 0;
+    $('#jstree_demo_div').on("activate_node.jstree", function (node ,event) {
+        var ref = $('#jstree_demo_div').jstree(true);
+        var form = layui.form;
+        //表单初始赋值
+        form.val('example', {
+            "id":event.node.data.id,
+            "menuname":event.node.data.menuname,
+            "upmenuid":event.node.data.upmenuid,
+            "menuurl": event.node.data.menuurl,
+            "weight": event.node.data.weight,
+            "menuicon": event.node.data.menuicon,
+            "remark": event.node.data.remark,
+            "status": event.node.data.status==1?true:false,
+            "upmenuname": event.node.data.upmenuname
+        });
+        menuid = event.node.data.id;
+        /*if(event.node.data.upmenuid==0){
+            $("#addSonBtn").show();
+        }else{
+            $("#addSonBtn").hide();
+        }*/
+        //2018-8-28 支持三级菜单
+        if(event.node.parents.length<3){
+            $("#addSonBtn").show();
+        }else{
+            $("#addSonBtn").hide();
+        }
+
+
+        $("#addBBtn").show();
+    });
+</script>
+</body>
+</html>

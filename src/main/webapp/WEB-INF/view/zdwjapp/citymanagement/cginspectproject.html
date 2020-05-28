@@ -1,0 +1,1453 @@
+<!--
+	作者：周心昕
+	时间：2019-11-21
+	描述：城管检查项目表
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="${Session.BASE_URL}css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/public-jinhuo.css"/>
+    <script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="${Session.BASE_URL}js/jSignature.js"></script>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/img.css"/>
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    .mui-radio input[type=radio]:before{
+        font-size: 20px;
+    }
+
+    /*.jSignature{*/
+    /*    background-color: #c0c0c0;*/
+    /*}*/
+    /*解决移动端点击事件延迟 */
+</style>
+
+<body>
+<!--标题-->
+<header class="mui-bar mui-bar-nav bg-color-white">
+    <a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+    <h1 class="mui-title">检查项目表</h1>
+</header>
+<!--内容	-->
+<div class="mui-content">
+    <!--数据列表-->
+    <div id="opt" class="mui-input-row" style="margin-bottom: 0px;padding-top: 0px;">
+
+    </div>
+
+    <div style="background-color: white;border-bottom: solid 1px #EFEFF4">
+        <div style="padding-left: 4%;padding-right: 4%;padding-top: 4%;">检查意见</div>
+        <textarea
+                style="border-style:none;overflow:hidden;padding-left: 0px;padding-left: 4%;padding-right: 4%;padding-top: 4%;overflow: scroll;"
+                class="mui-text-left" id="txt"
+                maxlength="300" placeholder="请输入检查意见"></textarea>
+
+        <p id="jcyj" style="background-color: white;padding-left: 83%;margin-bottom: 0px"><span id="txtNum">0</span>/300</p>
+
+    </div>
+    <div class="mui-input-row" id="replace">
+        <div>添加照片</div>
+        <div class="picture-area">
+            <div id="addImg" style="padding-top: 10px;padding-left: 0px;">
+                <div class="addImg1" style="display:flex;flex-wrap:wrap;padding-left: 0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mui-input-row">
+        <div>检查人</div>
+        <div id="jcrcontent">
+
+        </div>
+        <div id="jcr" class="" style="margin-top: 10%">
+            <div class="" style="text-align: left;">
+                <button id="jcrBtn" style="background-color: #007AFF;width: 45%;" type="button"
+                        class="mui-btn btn-blue-middling">选择检查人
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mui-input-row">
+        <div>检查人签字</div>
+        <div id="signature" class="">
+
+        </div>
+        <span id="clear" style="position: absolute; margin-top: -40px; right: 25px; color: blue;">清除</span>
+<!--        <button id="btn">全屏按钮</button>-->
+    </div>
+
+    <!--按钮行-->
+    <div class="bg-color-white" style="width:100%;padding: 30px 15px 15px 15px;">
+        <div class="mui-row">
+            <div class="mui-col-xs-6" style="text-align: left;">
+                <button id="refuseBtn" style="background-color: #DC6617" type="button"
+                        class="mui-btn btn-blue-middling">驳回
+                </button>
+            </div>
+            <div class="mui-col-xs-6" style="text-align: right;">
+                <button id="passBtn" type="button" class="mui-btn btn-blue-middling">通过</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--自定义弹出层-->
+<div id="div"></div>
+<!--驳回弹出框-->
+<div id="popoverRefuse" class="mui-popover bg-color-white" style="height: 50%;width: 80%;">
+    <div class="mui-popover-arrow"></div>
+    <span id="popoverRefuseClose" class="mui-icon-extra mui-icon-extra-cha1 mui-pull-right popover-nav-icon"></span>
+    <div class="popover-nav-title">驳回原因</div>
+
+    <div style="height: 65%">
+        <textarea id="popoverRefuseInput2" class="popover-input" placeholder="请输入驳回原因"></textarea>
+    </div>
+    <div style="padding-top:20px;text-align: center;">
+        <button id="popoverRefuseBtn" type="button" class="mui-btn btn-blue">确认提交</button>
+    </div>
+</div>
+
+
+<!--选择交管弹出框-->
+<div id="scr" class="mui-popover bg-color-white" style="height: 100%;width: 80%;">
+    <div style="text-align: center;margin-top: 10px;">
+        <button id="popoverBtn" type="button" class="mui-btn btn-blue">完成</button>
+    </div>
+    <div class=" mui-scroll-wrapper" style="margin-top: 25%;">
+
+        <div class="mui-card">
+            <div id="cgxz" class="mui-input-group">
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="${Session.BASE_URL}js/mui.min.js"></script>
+<script src="${Session.BASE_URL}js/mui.zoom.js"></script>
+<script src="${Session.BASE_URL}js/mui.previewimage.js"></script>
+<script type="text/javascript">
+    // var fullscreen = false;
+    // let btn = document.getElementById('btn');
+    //
+    // let fullarea = document.getElementById('signature')
+
+    // btn.addEventListener('click',function(){
+    //
+    //     if (fullscreen) {       // 退出全屏
+    //
+    //         if (document.exitFullscreen) {
+    //
+    //             document.exitFullscreen();
+    //
+    //         } else if (document.webkitCancelFullScreen) {
+    //
+    //             document.webkitCancelFullScreen();
+    //
+    //         } else if (document.mozCancelFullScreen) {
+    //
+    //             document.mozCancelFullScreen();
+    //
+    //         } else if (document.msExitFullscreen) {
+    //
+    //             document.msExitFullscreen();
+    //
+    //         }
+    //
+    //     } else {        // 进入全屏
+    //
+    //         if (fullarea.requestFullscreen) {
+    //
+    //             fullarea.requestFullscreen();
+    //
+    //         } else if (fullarea.webkitRequestFullScreen) {
+    //
+    //             fullarea.webkitRequestFullScreen();
+    //
+    //         } else if (fullarea.mozRequestFullScreen) {
+    //
+    //             fullarea.mozRequestFullScreen();
+    //
+    //         } else if (fullarea.msRequestFullscreen) {
+    //
+    //             // IE11
+    //
+    //             fullarea.msRequestFullscreen();
+    //
+    //         }
+    //
+    //     }
+    //
+    //     fullscreen = !fullscreen;
+    //
+    // })
+
+    mui.previewImage();
+    (function ($) {
+        $(".mui-scroll-wrapper").scroll({});
+    })(mui);
+    var filepather = "";
+    // mui.previewImage();
+    mui.init({
+        swipeBack: true //右滑关闭功能
+    });
+
+    //监听拒绝审核按钮
+    document.querySelector('#refuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+
+    //监听拒绝审核弹窗中关闭图标
+    document.querySelector('#popoverRefuseClose').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+        //清空
+        document.getElementById('popoverRefuseInput1').value = '';
+        document.getElementById('popoverRefuseInput2').value = '';
+    });
+
+    //监听拒绝审核弹窗中确认提交按钮
+    document.querySelector('#popoverRefuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+    //初始化画布
+    $(function () {
+        var arguments = {
+            'width': '100%',
+            'height': '100%',
+            'color': '#000',
+            'lineWidth': '3',
+            'background-color': '#F2F2F2'
+        };
+        $("#signature").jSignature(arguments)
+    })
+
+
+    $('#clear').click(function () {
+        $("#signature").jSignature("reset");
+    });
+
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    /**
+          * 将以base64的图片url数据转换为Blob
+          */
+    function convertBase64UrlToBlob(urlData) {
+
+        //去掉url的头，并转换为byte
+        var bytes = window.atob(urlData.split(',')[1]);
+
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob([ab], {type: 'image/png'});
+    }
+
+    /**
+          * 上传签名
+          */
+    function uploadJSignature() {
+        var $sigdiv = $("#signature");
+        var datapair = $sigdiv.jSignature("getData", "image");
+
+        var data = "data:" + datapair[0] + "," + datapair[1];
+
+        // 使用formdata上传图片
+        var formData = new FormData();
+        //设置文件名
+        var filename = new Date().getTime() + ".png";
+        //添加图片Blob对象
+        formData.append("file", convertBase64UrlToBlob(data), filename);
+
+        $.ajax({
+            url: '${Session.BASE_URL}file/upload',
+            type: 'post',
+            data: formData,
+            async: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                filepather = result.data[0].filepath;
+                console.log(result)
+            }
+        })
+
+    }
+
+
+    var txt = document.getElementById("txt");
+    var txtNum = document.getElementById("txtNum");
+    txt.addEventListener("keyup", function () {
+        txtNum.textContent = txt.value.length;
+    })
+
+    var sw = false;      //定义关闭的开关
+    var txt = document.getElementById("txt");
+    var txtNum = document.getElementById("txtNum");
+    txt.addEventListener("keyup", function () {
+        if (sw == false) {
+            countTxt();
+        }
+    });
+    txt.addEventListener("compositionstart", function () {
+        sw = true;
+    });
+    txt.addEventListener("compositionend", function () {
+        sw = false;
+        countTxt();
+    });
+
+    function countTxt() {       //计数函数
+        if (sw == false) {        //只有开关关闭时，才赋值
+            txtNum.textContent = txt.value.length;
+        }
+    }
+
+    $(function () {
+        $("#passBtn").attr("disabled", true);
+        addNormalImg();
+    })
+
+    var count = 0;
+    var num = 0;
+
+    /* 动态生成上传图片按钮（使用） */
+    function addNormalImg() {
+        var addimg = '<div  style="width:45%; position: relative;margin-bottom:10pxpadding-left: 0px;">' +
+            '<form id="form' + (count + 1) + '" style="margin-top:10px; "><div id="needShow' + (count + 1) + '" onclick="testclick(this)" class="" style="display:none;padding-left: 0px;width:35px;background:url(${Session.BASE_URL}img/close.png) no-repeat;background-position: right;height:35px;position: absolute;top:-8px;right: -12px;"></div>'
+            + '<div class="addImg-top" style="width: 100%;padding-left: 0px;"><div style="width:100%;padding-left: 0px;"> <div id="showfile' + (count + 1) + '" class="showfile" onclick="openfile(this)">' +
+            '<img class="showFile' + (count + 1) + '" src="${Session.BASE_URL}img/add.png" data-url="" style="width: 112px;height: 77px;"></div></div><div style="width: 80%;height: 10%;padding-left: 0px;display: flex;flex-direction:row;justify-content:center;align-items:center;"><div style="width: 50%;height: 80%;display: flex;justify-content:center;align-items:center;padding-left: 0px;"><div style="display:none">' +
+            '<input type="file"  size="1" id="modeFile' + (count + 1) + '" name="files" data-click="0" onchange="PreviewImg1(this)"></div></div></div></div></form></div>';
+
+
+        $(".addImg1").append(addimg)
+        count = count + 1;
+    }
+
+    //上传图片时模拟点击事件
+    function openfile(obj) {
+        console.log(obj)
+        console.log(id)
+        var id = (obj.parentElement.parentElement.lastElementChild.firstElementChild.firstElementChild.firstElementChild.id);
+        var newid = '"#' + id + '"';
+
+        console.log(newid)
+        $("#" + id).click();
+    }
+
+    //删除图片
+    function testclick(mine) {
+        console.log($(mine).parent().parent().remove());
+        num = num - 1;
+        console.log("num=" + num)
+    }
+
+    function PreviewImg1(obj) {
+
+        console.log(obj)
+        console.log($(obj).val() + "=====================")
+        console.log(obj)
+        var newid = '"#' + obj.id + '"';
+
+
+        var file = obj.files[0];
+        console.log(obj);
+        console.log(file);
+        var filename = file.name;
+        var s = filename.lastIndexOf(".");
+        var ss = filename.substring(s + 1);
+
+        if (ss == "mp4") {
+
+        }
+        console.log("file.size = " + file.size);  //file.size 单位为byte
+        var id = obj.parentElement.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild;
+        id = id.className;
+
+
+        var needshowid = obj.parentElement.parentElement.parentElement.parentElement.parentElement.firstElementChild;
+        var reader = new FileReader();
+
+        $("#" + needshowid.id).css("display", "block");
+        //读取文件过程方法
+        reader.onloadstart = function (e) {
+            console.log("开始读取....");
+        }
+        reader.onprogress = function (e) {
+            console.log("正在读取中....");
+        }
+        reader.onabort = function (e) {
+            console.log("中断读取....");
+        }
+        reader.onerror = function (e) {
+            console.log("读取异常....");
+        }
+        reader.onload = function (e) {
+            console.log("成功读取....");
+            console.log(id)
+            var img = document.getElementsByClassName(id)[0];
+            img.src = e.target.result;
+            var formData = new FormData($("#form" + count)[0]);
+            loadimg(formData);
+            console.log($("#" + obj.id).attr("data-click"))
+            if ($("#" + obj.id).attr("data-click") != 1) {
+                addNormalImg();
+            }
+
+            $("#" + obj.id).attr("data-click", "1")//0
+
+            //或者 img.src = this.result;  //e.target == this
+        }
+
+        reader.readAsDataURL(file)
+
+    }
+
+    //上传图片
+    function loadimg(formData) {
+        $.ajax({
+            url: '${Session.BASE_URL}file/upload',
+            type: 'post',
+            data: formData,
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                console.log(result)
+                console.log(count)
+                num = num + 1;
+                console.log("num=" + num)
+                var count1 = count - 1;
+                if (result.code == "SUCCESS") {
+                    $(".showFile" + count1).attr("data-url", result.data[0].filepath);
+                }
+            }
+        })
+    }
+
+
+    $(".addImg-top").mousedown(function () {
+        /* mui.alert('新增成功', '提示', function() {
+            window.location.href="../info/mine";
+
+        }); */
+        timeout = setTimeout(function () {
+            $("#mydiv").text("in");
+        }, 2000);
+    });
+    var jcrlimit = 0;
+
+
+
+
+
+    //通过
+    $('#passBtn').click(function () {
+        if ($("#signature").jSignature("getData", "native").length == 0){
+            mui.alert("请签名")
+            return false;
+        }else {
+            uploadJSignature();
+            var id = getQueryString("id");
+            var status = getQueryString("status");
+            var data = {
+                id: id,
+                flag:1,
+                status:status,
+                managerrealsign:filepather
+            }
+            $.ajax({
+                url: '${Session.BASE_URL}process/AuditProcess',
+                type: 'post',
+                data: data,
+                success: function (result) {
+                    if (result.code == "SUCCESS") {
+                        mui.openWindow({
+                            url: '${Session.BASE_URL}api/v1/cgsklist'
+                        });
+
+                    }
+                }
+            })
+        }
+
+
+
+
+    });
+
+
+    //驳回
+    $('#popoverRefuseBtn').click(function () {
+        uploadJSignature();
+        var id = getQueryString("id");
+        var status = getQueryString("status");
+        var reason = $("#popoverRefuseInput2").val();
+
+        var buttonIdArr = "";
+        var statusArr = "";
+
+        for (var i = 0; i < nameArr.length; i++) {
+            if(nameArr.length-1 == i){
+                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                statusArr = statusArr + radioValue ;
+
+                buttonIdArr = buttonIdArr + idArr[i] ;
+            }else{
+                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                statusArr = statusArr + radioValue + ',' ;
+
+                buttonIdArr = buttonIdArr + idArr[i] + ',';
+            }
+        }
+
+        var data = {
+            id: id,
+            flag:-1,
+            status:status,
+            rejectContent: reason,
+            managerrealsign:filepather,
+            buttonIdArr: buttonIdArr,
+            statusArr: statusArr
+        }
+        var data1 = {
+            id: id ,
+            managerreal:-1,
+            rejectContent: reason,
+            buttonIdArr: buttonIdArr,
+            statusArr: statusArr
+            // ,
+            // buttonIdArr: buttonIdsArr,
+            // statusArr: statussArr
+        }
+        $.ajax({
+            url: '${Session.BASE_URL}process/mobileManagerRealData',
+            type: 'post',
+            data: data1,
+            success: function (result) {
+                if (result.code == "SUCCESS") {
+                    $.ajax({
+                        url: '${Session.BASE_URL}process/AuditProcess',
+                        type: 'post',
+                        data: data,
+                        success: function (result) {
+                            if (result.code == "SUCCESS") {
+                                mui.openWindow({
+                                    url: '${Session.BASE_URL}api/v1/cgsklist'
+                                });
+
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+
+    });
+    var ider = getQueryString("id");
+    $.ajax({
+
+        url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+        type: "GET",
+        data:{
+            id:ider
+        },
+        success: function(result) {
+            for (var i = 0; i <result.data.length ; i++) {
+
+                if (result.data[i].status == 1) {
+
+                    $("#passBtn").attr("disabled", false);
+
+                }
+
+                if (result.data[i].status == 1||result.data[i].status ==-1) {
+
+                    $("#jcrBtn").attr("style","display:none;");
+                }
+
+
+            }
+        }
+    })
+
+    //轮询
+    var id = getQueryString("id");
+    $(document).ready(function() {
+        (function poll() {
+            setTimeout(function() {
+                $.ajax({
+                    url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                    type: "GET",
+                    data:{
+                        id:id
+                    },
+                    success: function(result) {
+                        // status = result.data[0].status
+                        var insertDiv = document.getElementById("jcrcontent");
+                        var chkDIV = ''
+                        for (var i = 0; i <result.data.length ; i++) {
+
+                            if (result.data[i].status == 1) {
+                                $("#passBtn").attr("disabled", false);
+                            }
+                            if (result.data[i].status == 1||result.data[i].status ==-1) {
+                                $("#jcrBtn").attr("style","display:none;");
+                                $("#refuseBtn").attr("disabled", true);
+                            }
+
+                            if(result.data[i].status==1){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: green;margin-right: 8px"  value='+'通过'+'>'
+                                    + '</div>'
+                            }
+                            if(result.data[i].status==0){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: #007AFF;margin-right: 8px"  value='+'等待'+'>'
+                                    + '</div>'
+                            }
+                            if(result.data[i].status==-1){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: red;margin-right: 8px" value='+'驳回'+'>'
+                                    + '</div>'
+                            }
+
+                        }
+
+                        insertDiv.innerHTML= chkDIV;
+
+                        console.log("polling");
+                    },
+                    dataType: "json",
+                    complete: poll,
+                    timeout: 5000
+                }) //, 5000  <-- oops.
+            }, 5000); // <-- should be here instead
+        })();
+    });
+
+
+
+
+
+
+
+    //radio按钮
+    var idArr = [];
+    var nameArr = [];
+    var id = getQueryString("id");
+
+    $.ajax({
+        url: "${Session.BASE_URL}process/mobileProcesscaseDetail",
+        type: "GET",
+        data:{
+            id:id
+        },
+        success: function (result) {
+            //这里对用户是否已经进行提交判断,如果已经提交,那么展示的是详情,还可以继续推送
+            if(result.data.processcase.trafficreal==1||result.data.processcase.trafficreal==2){
+                status = result.data.processcase.status;
+                //获得前台的div
+                var insertDiv = document.getElementById("opt");
+
+                // 解析从服务器获得的数据,循环添加复选框
+                var chkDIV = '';
+
+                for (var i = 0; i < result.data.optisproceList.length; i++) {
+                    // if (result.data.processcase.trafficreal == 1) {
+                    //     $("#passBtn").attr("disabled", false);
+                    // }
+
+                    if(result.data.optisproceList[i].status==1){
+                        chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                            '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                            '<div>'+ (i+1) +'、'+ result.data.optisproceList[i].buttonname + '</div>' +
+                            '<div style="padding-top: 5%;">' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                            '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                            '<input  value="1" type="radio" checked style="left: 0">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                            '<input value="0" type="radio" disabled style="left: 0;">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                            '<input  value="-1" type="radio" disabled style="left: 0">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'+
+                            '</div>';
+                    }else if(result.data.optisproceList[i].status==0){
+                        chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                            '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                            '<div>' + (i+1) +'、'+ result.data.optisproceList[i].buttonname + '</div>' +
+                            '<div style="padding-top: 5%;">' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                            '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                            '<input  value="1" type="radio" disabled  style="left: 0">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                            '<input value="0" type="radio" checked style="left: 0;">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                            '<input  value="-1" type="radio" disabled style="left: 0">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'+
+                            '</div>';
+                    }else {
+                        chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                            '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                            '<div>'+ (i+1) +'、'+result.data.optisproceList[i].buttonname + '</div>' +
+                            '<div style="padding-top: 5%;">' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                            '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                            '<input  value="1" type="radio" disabled style="left: 0">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                            '<input value="0" type="radio" disabled style="left: 0;">' +
+                            '</div>' +
+                            '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                            '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                            '<input  value="-1" type="radio" checked style="left: 0">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'+
+                            '</div>';
+                    }
+
+                    insertDiv.innerHTML =chkDIV;
+                }
+                var relDiv ='';
+                var reDiv = document.getElementById("replace");
+                reDiv.innerHTML='';
+                relDiv +='<div>实勘照片</div>'+
+                    '<div className = "picture-area mui-content-padded" id = "enclosureurl" ></div>';
+                reDiv.innerHTML = relDiv;
+
+                //道路图片
+                if (result.data.processcase.realpic != null && result.data.processcase.realpic != '') {
+                    var imgs = result.data.processcase.realpic.split(",");
+                    var html = "";
+                    for (var i = 0; i < imgs.length; i++) {
+                        if (imgs[i] != "" && imgs != null) {
+                            html += '<img src="' + imgs[i] + '" style="width: 90px;height: 65px;margin-right: 16px;" data-preview-src="" data-preview-group="1"/>';
+                        }
+                    }
+                    $("#enclosureurl").html(html);
+                }
+                $("#txt").text(result.data.processcase.realcontent);
+
+                $("#jcyj").remove();
+                for (var i = 0; i < nameArr.length; i++) {
+
+                    $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                }
+
+
+                $('#txt').attr('readonly', 'readonly');
+
+                // $("#jcrBtn").attr("style","display:none;");
+
+                $.ajax({
+                    url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                    type: "GET",
+                    data:{
+                        id:id
+                    },
+                    success: function(result) {
+                        // status = result.data[0].status
+                        var insertDiv = document.getElementById("jcrcontent");
+                        var chkDIV = ''
+                        for (var i = 0; i <result.data.length ; i++) {
+
+                            if (result.data[i].status == 1) {
+                                $("#passBtn").attr("disabled", false);
+                            }
+
+                            if(result.data[i].status==1){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: green;margin-right: 8px"  value='+'通过'+'>'
+                                    + '</div>'
+                            }
+                            if(result.data[i].status==0){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: #007AFF;margin-right: 8px"  value='+'等待'+'>'
+                                    + '</div>'
+                            }
+                            if(result.data[i].status==-1){
+                                chkDIV +=  '<div class="mui-input-row">'
+                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: red;margin-right: 8px" value='+'驳回'+'>'
+                                    + '</div>'
+                            }
+
+                        }
+
+                        insertDiv.innerHTML= chkDIV;
+
+                    }
+                })
+
+
+
+
+                //弹出页面复选框
+                $.ajax({
+                    url: "${Session.BASE_URL}process/mobileTrafficUserList",
+                    type: "GET",
+                    success: function (result){
+                        //获得前台的div
+                        var insertDiv = document.getElementById("cgxz");
+                        //定义向前台插入的内容为空
+                        insertDiv.innerHTML = "";
+                        var chkinfo;
+                        var chkDIV;
+                        var lable;
+                        //创建用户id数组
+                        var chkArray = new Array();
+                        // 解析从服务器获得的数据,循环添加复选框
+                        for (var i = 0; i < result.data.length; i++) {
+                            chkArray.push(result.data[i].id);
+                            //为每一个复选框创建一个DIV
+                            chkDIV = document.createElement("div");
+                            //每一个复选框用input创建，类型为checkBox
+                            chkinfo = document.createElement("input");
+                            chkinfo.name = "cgselect";
+                            chkinfo.id = "cgselect"+result.data[i].id;
+                            chkinfo.type = "checkbox";
+                            chkinfo.onclick = "cgselects();";
+                            // chkinfo.onclick = test;
+                            //将每一个chinesename为复选框赋值
+                            chkinfo.value = result.data[i].id;
+                            //将复选框添加到Div中
+                            chkDIV.appendChild(chkinfo);
+                            //为Div设置样式
+                            chkDIV.className = "mui-input-row mui-checkbox mui-right";
+                            chkDIV.style = "padding-left:10%";
+                            chkDIV.appendChild(document.createTextNode(result.data[i].username));
+                            //将创建的div添加到前台预留的DIV下
+                            insertDiv.appendChild(chkDIV);
+
+                        }
+
+                        //为防止用户的手机出现突发情况,已选择的默认打钩
+                        $.ajax({
+                            url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                            type: "GET",
+                            data:{id:id},
+                            success: function (result) {
+                                for (var i = 0; i < result.data.length; i++) {
+                                    //如果数组中有对应的用户id,默认选中
+                                    if(chkArray.includes(result.data[i].userid)){
+                                        console.log(result.data[i].userid)
+                                        $("#cgselect"+result.data[i].userid).attr("checked",true);
+                                    }
+
+                                }
+                            }
+                        });
+
+
+
+                    }
+
+                });
+
+
+
+                function cgselects(){
+                    this.checked = checked;
+                    //$(this).attr("disabled", "disabled");
+                }
+
+                //选择检查人
+                document.querySelector('#jcrBtn').addEventListener('tap', function () {
+                    /**
+                     * 获取input = radio 单选框中选中的值
+                     * @param tagNameAttr string  radio组中input的name属性值
+                     * return 返回被选中radio的值
+                     */
+                    var txt = $("#txt").val();
+                    var pics = $(".addImg-top").find('img');
+                    if (txt == "" || txt == null) {
+                        mui.alert("请输入检查意见");
+                    } else if (pics.length == 1) {
+                        mui.alert("请上传图片");
+                    } else {
+
+
+                        for (var i = 0; i < nameArr.length; i++) {
+
+                            $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                        }
+
+
+                        $('#txt').attr('readonly', 'readonly');
+                        mui("#scr").popover('toggle', document.getElementById("div"));
+                    }
+
+
+                });
+
+
+
+                document.querySelector('#popoverBtn').addEventListener('tap', function () {
+                    console.log("检查人"+jcrlimit)
+                    // if (jcrlimit == 0) {
+                        var id = getQueryString("id");
+                        var txt = $("#txt").val();
+                        var uploadPic =  result.data.processcase.realpic;
+                        console.log("图片地址"+uploadPic)
+                        var radio_tag = $("input[type='radio']");
+
+                        var useridArr = "";
+                        var checkbox_tag = $("input[type='checkbox']");
+                        for (var i = 0; i < checkbox_tag.length; i++) {
+                            if (checkbox_tag[i].checked) {
+                                var checkvalue = checkbox_tag[i].value;
+                                useridArr += checkvalue + ",";
+                            }
+
+                        }
+                        if (useridArr.length > 0) {
+                            useridArr = useridArr.substr(0, useridArr.length - 1);
+                        }
+                        var data = {
+                            id: id,
+                            realcontent: txt,
+                            realpic: uploadPic,
+                            uploadpic: uploadPic
+                            // ,
+                            // buttonIdArr: buttonIdsArr,
+                            // statusArr: statussArr
+                        }
+
+                        $.ajax({
+                            url: '${Session.BASE_URL}process/mobileManagerRealData',
+                            type: 'post',
+                            data: data,
+                            success: function (result) {
+                                if (result.code == "SUCCESS") {
+                                    $.ajax({
+                                        url: '${Session.BASE_URL}process/mobileManagerSelectTraffic',
+                                        type: 'post',
+                                        data: {
+                                            useridArr: useridArr,
+                                            id: id
+                                        },
+                                        success: function (result) {
+                                            if (result.code == "SUCCESS") {
+                                                $.ajax({
+                                                    url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                                                    type: "GET",
+                                                    data: {
+                                                        id: id
+                                                    },
+                                                    success: function (result) {
+                                                        var insertDiv = document.getElementById("jcrcontent");
+                                                        var chkDIV = ''
+                                                        for (var i = 0; i <result.data.length ; i++) {
+
+                                                            if (result.data[i].status == 1) {
+                                                                $("#passBtn").attr("disabled", false);
+                                                            }
+                                                            if(result.data[i].status==1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: green;margin-right: 8px"  value='+'通过'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==0){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: #007AFF;margin-right: 8px"  value='+'等待'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==-1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: red;margin-right: 8px" value='+'驳回'+'>'
+                                                                    + '</div>'
+                                                            }
+
+
+                                                        }
+
+                                                        insertDiv.innerHTML= chkDIV;
+
+                                                    }
+                                                });
+                                            }
+                                            mui('#scr').popover('toggle');
+                                        }
+                                    })
+
+
+
+
+
+                                    jcrlimit++;
+                                }
+                              //  mui.toast(result.msg)
+
+                            }
+                        })
+                        for (var i = 0; i < nameArr.length; i++) {
+
+                            $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                        }
+
+                        $('#txt').attr('readonly', 'readonly');
+                        $(".showfile").removeAttr("onclick");
+
+
+                });
+
+
+
+            }else if(result.data.processcase.trafficreal==0){
+                //否则是第一次进入页面
+                $.ajax({
+                    url: "${Session.BASE_URL}button/mobileButtonList",
+                    type: "GET",
+                    success: function (result) {
+                        //获得前台的div
+                        var insertDiv = document.getElementById("opt");
+                        // 解析从服务器获得的数据,循环添加复选框
+                        for (var i = 0; i < result.data.length; i++) {
+                            idArr.push(result.data[i].id)
+                            nameArr.push("radio"+ i);
+
+
+                            var chkDIV;
+                            chkDIV = document.createElement('div');
+                            chkDIV.className = "mui-input-row";
+                            chkDIV.style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;"
+                            chkDIV.innerHTML =
+                                '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                                '<div>'+ (i+1) +'、'+ result.data[i].name + '</div>' +
+                                '<div style="padding-top: 5%;">' +
+                                '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                                '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                                '<input name=' + nameArr[i] + '  value="1" type="radio" checked style="left: 0">' +
+                                '</div>' +
+                                '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                                '<label style="padding-left:10px;padding-right: 0;padding-top: 6px;font-size: 16px;">无</label>' +
+                                '<input  name=' + nameArr[i] + ' value="0" type="radio" style="left: 0;">' +
+                                '</div>' +
+                                '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                                '<label style="padding-left:10px;padding-right: 0;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                                '<input  name=' + nameArr[i]  + ' value="-1" type="radio" style="left: 0">' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+                            insertDiv.appendChild(chkDIV);
+                        }
+
+
+                    }
+
+                });
+
+
+
+                //弹出页面复选框
+                $.ajax({
+                    url: "${Session.BASE_URL}process/mobileTrafficUserList",
+                    type: "GET",
+                    success: function (result) {
+
+                        //获得前台的div
+                        var insertDiv = document.getElementById("cgxz");
+                        //定义向前台插入的内容为空
+                        insertDiv.innerHTML = "";
+                        var chkinfo;
+                        var chkDIV;
+                        var lable;
+                        // 解析从服务器获得的数据,循环添加复选框
+                        for (var i = 0; i < result.data.length; i++) {
+                            //为每一个复选框创建一个DIV
+                            chkDIV = document.createElement("div");
+                            //每一个复选框用input创建，类型为checkBox
+                            chkinfo = document.createElement("input");
+                            chkinfo.name = "cgselect";
+                            chkinfo.id = "cgselect";
+                            chkinfo.type = "checkbox";
+                            chkinfo.onclick = "cgselects();";
+                            // chkinfo.onclick = test;
+                            //将每一个chinesename为复选框赋值
+                            chkinfo.value = result.data[i].id;
+                            //将复选框添加到Div中
+                            chkDIV.appendChild(chkinfo);
+                            //为Div设置样式
+                            chkDIV.className = "mui-input-row mui-checkbox mui-right";
+                            chkDIV.style = "padding-left:10%";
+                            chkDIV.appendChild(document.createTextNode(result.data[i].username));
+                            //将创建的div添加到前台预留的DIV下
+                            insertDiv.appendChild(chkDIV);
+                        }
+
+                    }
+
+                });
+                function cgselects(){
+                     this.checked = checked;
+                    //$(this).attr("disabled", "disabled");
+                 }
+
+                //选择检查人
+                document.querySelector('#jcrBtn').addEventListener('tap', function () {
+                    /**
+                     * 获取input = radio 单选框中选中的值
+                     * @param tagNameAttr string  radio组中input的name属性值
+                     * return 返回被选中radio的值
+                     */
+                    var txt = $("#txt").val();
+                    var pics = $(".addImg-top").find('img');
+                    if (txt == "" || txt == null) {
+                        mui.alert("请输入检查意见");
+                    } else if (pics.length == 1) {
+                        mui.alert("请上传图片");
+                    } else {
+
+
+                        for (var i = 0; i < nameArr.length; i++) {
+
+                            $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                        }
+
+
+                        $('#txt').attr('readonly', 'readonly');
+                        mui("#scr").popover('toggle', document.getElementById("div"));
+                    }
+
+
+                });
+
+
+                //完成
+                document.querySelector('#popoverBtn').addEventListener('tap', function () {
+                    //判断是否已经提交,为0就存入按钮id以及按钮的值
+                    if (jcrlimit == 0) {
+                        var id = getQueryString("id");
+                        var txt = $("#txt").val();
+                        var uploadPic = "";
+                        var pics = $(".addImg-top").find('img');
+                        for (var i = 0; i < pics.length - 1; i++) {
+                            uploadPic += $(pics).eq(i).attr("data-url") + ",";
+                        }
+                        uploadPic = uploadPic.substring(0 ,uploadPic.length-1);
+                        var radio_tag = $("input[type='radio']");
+
+                        var buttonIdArr = "";
+                        var statusArr = "";
+
+                        for (var i = 0; i < nameArr.length; i++) {
+                            if(nameArr.length-1 == i){
+                                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                                statusArr = statusArr + radioValue ;
+
+                                buttonIdArr = buttonIdArr + idArr[i] ;
+                            }else{
+                                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                                statusArr = statusArr + radioValue + ',' ;
+
+                                buttonIdArr = buttonIdArr + idArr[i] + ',';
+                            }
+                        }
+
+
+                        var useridArr = "";
+                        var checkbox_tag = $("input[type='checkbox']");
+                        for (var i = 0; i < checkbox_tag.length; i++) {
+                            if (checkbox_tag[i].checked) {
+                                var checkvalue = checkbox_tag[i].value;
+                                useridArr += checkvalue + ",";
+                            }
+
+                        }
+                        if (useridArr.length > 0) {
+                            useridArr = useridArr.substr(0, useridArr.length - 1);
+                        }
+
+
+
+                        console.log(buttonIdArr)
+
+                        console.log("路径"+uploadPic);
+                        var data = {
+                            id: id,
+                            realcontent: txt,
+                            realpic: uploadPic,
+                            uploadpic: uploadPic,
+                            buttonIdArr: buttonIdArr,
+                            statusArr: statusArr
+                        }
+
+                        $.ajax({
+                            url: '${Session.BASE_URL}process/mobileManagerRealData',
+                            type: 'post',
+                            data: data,
+                            success: function (result) {
+                                if (result.code == "SUCCESS") {
+                                    $.ajax({
+                                        url: '${Session.BASE_URL}process/mobileManagerSelectTraffic',
+                                        type: 'post',
+                                        data: {
+                                            useridArr: useridArr,
+                                            id: id
+                                        },
+                                        success: function (result) {
+                                            if (result.code == "SUCCESS") {
+                                                $.ajax({
+                                                    url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                                                    type: "GET",
+                                                    data: {
+                                                        id: id
+                                                    },
+                                                    success: function (result) {
+                                                        var insertDiv = document.getElementById("jcrcontent");
+                                                        var chkDIV = ''
+                                                        for (var i = 0; i <result.data.length ; i++) {
+
+                                                            if (result.data[i].status == 1) {
+                                                                $("#passBtn").attr("disabled", false);
+                                                            }
+                                                            if(result.data[i].status==1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: green;margin-right: 8px"  value='+'通过'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==0){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: #007AFF;margin-right: 8px"  value='+'等待'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==-1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: red;margin-right: 8px" value='+'驳回'+'>'
+                                                                    + '</div>'
+                                                            }
+
+
+                                                        }
+
+                                                        insertDiv.innerHTML= chkDIV;
+
+                                                    }
+                                                });
+                                            }
+                                            mui('#scr').popover('toggle');
+                                        }
+                                    })
+
+
+
+
+
+                                    jcrlimit++;
+                                }
+                              //  mui.toast(result.msg)
+
+                            }
+                        })
+                        for (var i = 0; i < nameArr.length; i++) {
+
+                            $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                        }
+
+                        $('#txt').attr('readonly', 'readonly');
+                        $(".showfile").removeAttr("onclick");
+
+                        //        } else {
+                        //
+                        // }
+                        //否则不存入按钮id以及按钮值,防止按钮展示冲突
+                    }else {
+                        var id = getQueryString("id");
+                        var txt = $("#txt").val();
+                        var uploadPic = "";
+                        var pics = $(".addImg-top").find('img');
+                        for (var i = 0; i < pics.length - 1; i++) {
+                            uploadPic += $(pics).eq(i).attr("data-url") + ",";
+                        }
+                        uploadPic = uploadPic.substring(0 ,uploadPic.length-1);
+                        var radio_tag = $("input[type='radio']");
+
+                        var buttonIdArr = "";
+                        var statusArr = "";
+
+                        for (var i = 0; i < nameArr.length; i++) {
+                            if(nameArr.length-1 == i){
+                                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                                statusArr = statusArr + radioValue ;
+
+                                buttonIdArr = buttonIdArr + idArr[i] ;
+                            }else{
+                                var radioValue = $('input[name=' + nameArr[i] + ']:checked').val();
+                                statusArr = statusArr + radioValue + ',' ;
+
+                                buttonIdArr = buttonIdArr + idArr[i] + ',';
+                            }
+                        }
+                        var useridArr = "";
+                        var checkbox_tag = $("input[type='checkbox']");
+                        for (var i = 0; i < checkbox_tag.length; i++) {
+                            if (checkbox_tag[i].checked) {
+                                var checkvalue = checkbox_tag[i].value;
+                                useridArr += checkvalue + ",";
+                            }
+
+                        }
+                        if (useridArr.length > 0) {
+                            useridArr = useridArr.substr(0, useridArr.length - 1);
+                        }
+
+                        var userIdArr = new Array();
+                        var checkbox_tags = $("input[type='checkbox']");
+                        for (var i = 0; i < checkbox_tags.length; i++) {
+                            if (checkbox_tags[i].checked) {
+                                userIdArr.push(checkbox_tags[i].value);
+                            }
+
+                        }
+
+                        console.log(buttonIdArr)
+
+                        console.log("路径"+uploadPic);
+                        var data = {
+                            id: id,
+                            realcontent: txt,
+                            realpic: uploadPic,
+                            uploadpic: uploadPic
+                        }
+
+                        $.ajax({
+                            url: '${Session.BASE_URL}process/mobileManagerRealData',
+                            type: 'post',
+                            data: data,
+                            success: function (result) {
+                                if (result.code == "SUCCESS") {
+                                    $.ajax({
+                                        url: '${Session.BASE_URL}process/mobileManagerSelectTraffic',
+                                        type: 'post',
+                                        data: {
+                                            useridArr: useridArr,
+                                            id: id
+                                        },
+                                        success: function (result) {
+                                            if (result.code == "SUCCESS") {
+                                                $.ajax({
+                                                    url: "${Session.BASE_URL}process/mobileTrafficLoopExamine",
+                                                    type: "GET",
+                                                    data: {
+                                                        id: id
+                                                    },
+                                                    success: function (result) {
+                                                        var insertDiv = document.getElementById("jcrcontent");
+                                                        var chkDIV = ''
+                                                        for (var i = 0; i <result.data.length ; i++) {
+
+                                                            if (result.data[i].status == 1) {
+                                                                $("#passBtn").attr("disabled", false);
+                                                            }
+                                                            if(result.data[i].status==1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: green;margin-right: 8px"  value='+'通过'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==0){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: #007AFF;margin-right: 8px"  value='+'等待'+'>'
+                                                                    + '</div>'
+                                                            }
+                                                            if(result.data[i].status==-1){
+                                                                chkDIV +=  '<div class="mui-input-row">'
+                                                                    +   '<label style="margin-left: 20px">'+result.data[i].username+'</label>'+'<input type="text" disabled style="color: red;margin-right: 8px" value='+'驳回'+'>'
+                                                                    + '</div>'
+                                                            }
+
+
+                                                        }
+
+                                                        insertDiv.innerHTML= chkDIV;
+
+                                                    }
+                                                });
+                                            }
+                                            mui('#scr').popover('toggle');
+                                        }
+                                    })
+
+
+
+
+
+                                    jcrlimit++;
+                                }
+                               // mui.toast(result.msg)
+
+                            }
+                        })
+                        for (var i = 0; i < nameArr.length; i++) {
+
+                            $('input[name=' + nameArr[i] + ']').attr("disabled", true)
+
+                        }
+
+                        $('#txt').attr('readonly', 'readonly');
+                        $(".showfile").onclick = null;
+
+                    }
+                });
+
+            }
+
+
+
+        }
+
+    });
+
+
+
+</script>
+</html>

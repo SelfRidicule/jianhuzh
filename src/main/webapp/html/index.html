@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon"/>
+    <title>洪泽公安会议系统</title>
+    <style>
+      .sysname {
+        font-size: 40px;
+        transition-duration: 1s;
+        transition-timing-function: ease-in-put;
+        font-weight: 200;
+        font-family: "Source Sans Pro", sans-serif;
+        color: white;
+        padding: 10px 0px 0px 10px;
+      }
+    </style>
+
+    <link rel="stylesheet" href="../lying/layui/css/layui.css" />
+    <link rel="stylesheet" href="../lying/lau/lau.css" />
+    <link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+      .ym-content-penal {
+        margin: 20px;
+        padding: 20px;
+        box-shadow: 1px 1px 10px #dddddd;
+        border: 1px #dddddd solid;
+      }
+      [permission] {
+        display: none;
+      }
+    </style>
+
+    <script>
+      window.top === window.self || (window.top.location.href = window.self.location.href);
+    </script>
+  </head>
+  <body class="layui-layout-body layui-unselect">
+    <style id="adminTheme"></style>
+    <!-- <div class="layui-layout layui-layout-admin"> -->
+    <div class="layui-layout layui-layout-admin">
+      <!-- 顶部导航开始 -->
+      <div class="layui-header">
+        <!-- 后台logo -->
+        <!-- <div class="layui-nav layui-layout-left"> -->
+        <!-- <img class="logo" src="../img/sys-logo.png" /> -->
+        <h1 class="sysname">洪泽公安会议系统</h1>
+        <!-- </div> -->
+        <!-- 顶部右边菜单 -->
+        <ul class="menu-user layui-nav layui-layout-right">
+          <!-- 切换配色 -->
+          <!-- <li class="layui-nav-item" lay-unselect><a id="changeTheme" -->
+          <!-- href="javascript:">切换配色</a> -->
+          <!-- </li> -->
+          <!-- 用户选项 -->
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <!-- <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> -->
+              <i class="layui-icon layui-icon-username"></i>
+              <span id="username"></span>
+            </a>
+            <dl class="layui-nav-child">
+              <!--
+                <dd><a>基本资料</a></dd>
+                         <dd><a>安全设置</a></dd>
+              -->
+              <dd><a href="../">注销</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a href="../">注销</a></li>
+          <!--
+            <li class="layui-nav-item" lay-unselect><a lau-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a></li>
+          -->
+        </ul>
+      </div>
+      <!-- 顶部导航结束 -->
+
+      <!-- 侧边菜单开始 -->
+      <div class="layui-side" data-href="../menu.json">
+        <div class="lau-side-fold">
+          <i class="layui-icon layui-icon-shrink-right"></i>
+        </div>
+        <div class="layui-side-scroll">
+          <ul class="layui-nav layui-nav-tree">
+            <!-- 这里可以写菜单结构,也可以放空,使用异步加载 -->
+          </ul>
+        </div>
+      </div>
+      <!-- 侧边菜单结束 -->
+
+      <!-- 内容主体区域开始 -->
+      <div
+        class="layui-body"
+        data-type=""
+        data-title="欢迎页"
+        data-icon="layui-icon-home"
+        data-href="../html/console_bak.html"
+      ></div>
+      <!-- 内容主体区域结束 -->
+    </div>
+  </body>
+  <script src="../lying/layui/layui.js"></script>
+  <!-- <script src="../plugins/jquery-1.11.0.min.js"></script> -->
+  <!-- <script src="../js/menu.js"></script> -->
+  <script src="../js/changeTheme.js"></script>
+  <script>
+    "use strict";
+    // console.log(layui.data('user').username);
+    // console.log($("#username").innerText);
+
+    layui
+      .config({ base: "../lying/" })
+      .extend({ lau: "lau/menu" })
+      // .extend({ lau: "lau/lau" })
+      .use(["lau"], function() {
+        const lau = layui.lau,
+          layer = layui.layer,
+          $ = layui.$;
+
+        // const username = layui.data('user').username;
+        if(!layui.data("user").username) {
+          window.location.href = "../login";
+        }
+
+        $("#username")[0].innerText = layui.data("user").username;
+
+        /* var user =  "${user}";
+        console.log(user) */
+        //监听事件,这个不一定要用lau-event,可以自己写
+        $(document).on("click", "[lau-event]", function() {
+          var _this = $(this);
+          switch (_this.attr("lau-event")) {
+            case "about":
+              $.get("/html/about.html", function(html) {
+                lau.drawer({ content: html });
+              });
+              break;
+            case "download":
+              layer.confirm(
+                "下载的源码仅供学习使用，如需用于正式项目，请购买授权！",
+                function(index) {
+                  window.open("https://github.com/carolkey/lying-admin/");
+                  layer.close(index1);
+                }
+              );
+              break;
+            case "sideMenu0":
+              lau.sideMenuChange(0);
+              break;
+            case "sideMenu1":
+              lau.sideMenuChange(1);
+              break;
+          }
+        });
+      });
+  </script>
+</html>

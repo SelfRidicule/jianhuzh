@@ -1,0 +1,749 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>数据统计</title>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}lying/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}lying/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}plugins/formSelects/formSelects-v4.css"/>
+
+
+    <script type="text/javascript" src="${Session.BASE_URL}js/echarts.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background-color: white;
+            overflow: hidden;/*隐藏右侧滚动条 */
+        }
+        .layui-table-page{
+            text-align: center;
+        }
+        .layui-btn {
+            height: 25px;
+            width: 40px;
+            line-height: 25px;
+            padding-left: 12px;
+            background-color: white;
+            color: black;
+            border: 1px solid #0082e4;
+            margin :5px 10px 10px 10px;
+        }
+
+        .numberDiv {
+            border-radius:5px 5px 5px 5px;
+            box-shadow:0px -4px 0px #008de7;
+            width: 23%;
+            height: 120px;
+            margin-right: 20px;
+
+        }
+        .condition button{
+            border-radius:5px 5px 5px 5px;
+            box-shadow: 0px 2px 9px #b7bbb8;
+        }
+        img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .layui-inline button{
+            border-radius:5px 5px 5px 5px;
+        }
+    </style>
+</head>
+<body>
+<div  style="margin: 10px 15px 10px 15px; height: 95%; width: 98%;">
+
+    <div style="height: 7%; width: 100%;">
+        <div style="border-left: 5px solid #027bd8; padding-left: 8px; font-size:17px;">
+
+          <form  class="layui-form">
+
+            当前统计时间：
+            <div class="layui-input-inline">
+                <input id="statisticsTime" type="text" class="layui-input"  placeholder="请选择">
+            </div>
+
+
+          &nbsp;
+          季度 :
+
+
+          <div class="layui-input-inline">
+            <select id="quarter"  name="city"  lay-filter="quartergroup">
+              <option value="">请选择季度</option>
+              <option value="1">第一季度</option>
+              <option value="2">第二季度</option>
+              <option value="3">第三季度</option>
+              <option value="4">第四季度</option>
+            </select>
+          </div>
+
+
+            &nbsp;
+            月份 :
+
+            <div class="layui-input-inline">
+                    <select id="month" name="city"  lay-filter="monthgroup" lay-verify="required">
+                        <option value="">请选择月份</option>
+                        <option value="1">一月</option>
+                        <option value="2">二月</option>
+                        <option value="3">三月</option>
+                        <option value="4">四月</option>
+                        <option value="5">五月</option>
+                        <option value="6">六月</option>
+                        <option value="7">七月</option>
+                        <option value="8">八月</option>
+                        <option value="9">九月</option>
+                        <option value="10">十月</option>
+                        <option value="11">十一月</option>
+                        <option value="12">十二月</option>
+                    </select>
+            </div>
+
+          </form>
+
+        </div>
+    </div>
+    <div style="width: 100%; background-color: #f2f2f2; margin-bottom: 7px;">
+        <div style="background-color: #fff">
+            <div class="layui-inline numberDiv">
+                <div style="height: 30%; padding: 10px 15px 0 15px;">
+                    <div style="float: left;color: #007bd5">审批总数</div>
+                </div>
+                <div style="height: 60%; text-align: center;display: flex">
+                    <div style="text-align: left;margin-left: 15px;">
+                        <h1>共计<span id="total"></span>次</h1>
+                    </div>
+                    <div style="margin-left: 140px">
+                        <div id="totalTb">同比20%</div>
+                        <div id="totalHb">同比20%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-inline numberDiv">
+                <div style="height: 30%; padding: 10px 15px 0 15px;">
+                    <div style="float: left;color: #007bd5">申请通过总数</div>
+                </div>
+                <div style="height: 60%; text-align: center;display: flex">
+                    <div style="text-align: left;margin-left: 15px;">
+                        <h1>共计<span id="adopt"></span>次</h1>
+                    </div>
+                    <div style="margin-left: 140px">
+                        <div id="adoptTb">同比20%</div>
+                        <div id="adoptHb">环比20%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-inline numberDiv">
+                <div style="height: 30%; padding: 10px 15px 0 15px;">
+                    <div style="float: left;color: #007bd5">申请未通过总数</div>
+                </div>
+                <div style="height: 60%; text-align: center;display: flex">
+                    <div style="text-align: left;margin-left: 15px;">
+                        <h1>共计<span id="notPass"></span>次</h1>
+                    </div>
+                    <div style="margin-left: 140px">
+                        <div id="notPassTb">同比20%</div>
+                        <div id="notPassHb">环比20%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-inline numberDiv">
+                <div style="height: 30%; padding: 10px 15px 0 15px;">
+                    <div style="float: left;color: #007bd5">申请被驳回总数</div>
+                </div>
+                <div style="height: 60%; text-align: center;display: flex">
+                    <div style="text-align: left;margin-left: 15px;">
+                        <h1>共计<span id="reject"></span>次</h1>
+                    </div>
+                    <div style="margin-left: 140px">
+                        <div id="rejectTb">同比20%</div>
+                        <div id="rejectHb">环比20%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 40%; width: 100%; margin-top: 5px; margin-bottom: 5px;display: flex">
+        <!-- 柱状图 -->
+        <div  style="width: 60%;">
+            <div style="color: #2585d9">申请审批通过率统计</div>
+            <div id="chart1" style="height: 100%;width: 100%"></div>
+        </div>
+        <!-- 饼图 -->
+        <div  style="width: 20%;">
+            <div style="color: #2585d9;height: 15%">挖掘道路类型统计</div>
+            <div id="chart2" style="height: 100%;width: 100%"></div>
+        </div>
+        <!-- 饼图 -->
+        <div  style="width: 20%;">
+            <div style="color: #2585d9;height: 15%">挖掘道路类别统计</div>
+            <div id="chart3" style="height: 100%;width: 100%"></div>
+        </div>
+    </div>
+
+    <div class="layui-row" style="padding: 10px 15px;">
+      <div style="color: #027bd8; width: 100%; height: 20px; margin-top: 20px;">打印许可证、承诺书列表</div>
+        <table id="demo" lay-filter="test1"></table>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/echarts.min.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}plugins/formSelects/formSelects-v4.js"></script>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX + 1}}
+</script>
+<script type="text/html" id="sbsj">
+    {{layui.util.toDateString(d.createtime, 'yyyy-MM-dd')}}
+</script>
+<script type="text/html" id="sgsj">
+    {{layui.util.toDateString(d.construcstarttime, 'yyyy-MM-dd') + '至' + layui.util.toDateString(d.construcendtime, 'yyyy-MM-dd') }}
+</script>
+
+<script type="text/html" id="detailDemo">
+    <a lay-event="detail" style="color: #009AEB;">详情</a>
+</script>
+<script type="text/html" id="statusTemplate">
+  {{#  if(d.status==1){ }}
+    初审
+  {{#  } else if(d.status==2){ }}
+    邀请实勘
+  {{#  } else if(d.status==3){ }}
+  实勘审核
+  {{#  } else if(d.status==4){ }}
+  打印材料
+  {{#  } else if(d.status==5){ }}
+  开始施工
+  {{#  } else if(d.status==6){ }}
+  邀请验收
+  {{#  } else if(d.status==7){ }}
+  城管验收
+  {{#  } else if(d.status==8){ }}
+  验收完成
+  {{#  } else if(d.status==-1){ }}
+  初审驳回
+  {{#  } else if(d.status==-3){ }}
+  实勘驳回
+  {{#  } }}
+</script>
+
+<script type="text/javascript">
+    window.onload = function() {
+      zzt()
+    };
+
+
+    var myDate = new Date();
+    var tYear = myDate.getFullYear(); //获取完整的年份(4位)
+
+    var year = tYear;
+    var month =  "";
+    var quarter =  "";
+
+    document.getElementById("statisticsTime").value = year;
+
+
+
+    layui.use('form', function(){
+      var form = layui.form ;
+
+      // select下拉框选中触发事件
+      form.on("select(quartergroup)", function(data){
+        quarter = data.value;
+
+        zzt()
+      });
+
+      // select下拉框选中触发事件
+      form.on("select(monthgroup)", function(data){
+        month = data.value;
+
+        zzt()
+      });
+
+    });
+
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //选中后的回调
+        laydate.render({
+          elem: '#statisticsTime'
+          ,type: 'year'
+          ,done: function(value, date){
+            year = value;
+            zzt();
+          }
+        });
+
+    });
+
+
+
+
+    //加载数据表格
+    layui.use('table', function(){
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo' //指定原始表格元素选择器（推荐id选择器）
+            // ,height: '280px'
+            //,data:json
+            ,url: '${Session.BASE_URL}process/auditBackPrintList'
+            ,processData: false//取消帮我们格式化数据，是什么就是什么
+            ,request: {pageName: 'pageNum' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            } //如果无需自定义请求参数，可不加该参数
+            ,response: { //statusName: 'code' //数据状态的字段名称，默认：code
+                statusCode: "SUCCESS" //成功的状态码，默认：0
+            }
+            ,id:'id,materialid'
+            ,cols: [[
+                //表头
+                {field: 'id', title: '序号', align: 'center',}
+                ,{field: 'createtime', title: '上报时间', align: 'center',templet:'#sbsj'}
+                ,{field: 'applyunit', title: '申请单位', align: 'center'}
+               ,{field: 'applyperson', title: '申请单位负责人',  align: 'center'}
+                ,{field: 'applyphone', title: '单位责任人电话',  align: 'center'}
+                ,{field: 'construcunit', title: '施工地点', align: 'center'}
+                ,{field: 'construcstarttime', title: '施工时间',  align: 'center',templet:'#sgsj'}
+                ,{field: 'status', title: '状态', align: 'center' ,templet:'#statusTemplate'}
+                ,{field: 'action', title: '操作', align: 'center', toolbar: '#detailDemo'}
+            ]]
+            //,…… //更多参数参考右侧目录：基本参数选项
+            ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['count', 'prev', 'page', 'next', 'skip']
+                ,theme: 'FM' //自定义主题：layui-laypage-hrpd
+                ,curr: 1 //重新从第 1 页开始
+            }
+            ,limit: 4 //每页默认显示的数量
+        });
+
+        //监听工具条
+        table.on('tool(test1)', function (obj) {
+            var data = obj.data
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if (obj.event === 'detail') {
+                //查看详情
+                window.location.href='${Session.BASE_URL}admin/v1/sqglList?id='+data.id;
+            }
+        });
+
+        //监听查询按钮
+        layui.$('#searchs').on('click', function () {
+            var type = layui.$(this).data('type');
+            console.log(type)
+            active[type] ? active[type].call(this) : '';
+        });
+        //获取选中状态
+        var active = {
+            searchs: function () { //获取选中数据
+                var keys = $("#keys").val();
+                var status = $("#status").val();
+                var createtime = $("#createtime").val();
+                var data = {
+                    keyword:keys,
+                    status:status,
+                    createtime:createtime
+                };
+                tableIns.reload({
+                    where: data
+                    ,page:{
+                        curr:1  //从第一页开始
+                    }
+                    ,url:'${Session.BASE_URL}process/auditBackExaminePage'
+                });
+            }
+        };
+    });
+
+    //柱状图
+    var dataZoomtrue = true;
+
+    function zzt() {
+        console.log(statisticsTime)
+        $.ajax({
+            url:'${Session.BASE_URL}process/auditBackApplyChart',
+            type:'GET', //GET
+            dataType:'json',
+            data:{
+              year:year,
+              month:month,
+              status:1,
+              quarter:quarter
+            },
+            success:function (result) {
+                if (result.code == "SUCCESS") {
+                    //通过
+                    var successCount = new Array()
+                    //未通过
+                    var rejectCount = new Array()
+                    //x轴
+                    var x = new Array()
+                    for(var i = 0 ;i<result.data.length ; i++){
+                        x.push(result.data[i].name);
+                        successCount.push(result.data[i].successCount);
+                        rejectCount.push(result.data[i].rejectCount);
+                    }
+                    if(result.data.length > 6){
+                        var dataZoomtrue = true;
+                    }else{
+                        var dataZoomtrue = false;
+                    }
+
+                    var myChart1 = echarts.init(document.getElementById('chart1'), 'light');
+                    option1 = {
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        dataZoom: [{
+                            type: 'slider',
+                            show: dataZoomtrue,
+                            xAxisIndex: [0],
+                            left: '9%',
+                            bottom: -5,
+                            start: 10,
+                            end: 90 //初始化滚动条
+                        }],
+                        legend: {
+                            data:['通过总数','未通过总数']
+                        },
+                        grid: {
+                            left: '0%',
+                            right: '4%',
+                            bottom: '2%',
+                            containLabel: true
+                        },
+                        color: ['#008de7','#3de1bf'],
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data : x
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'通过总数',
+                                type:'bar',
+                                data:successCount
+                            },
+                            {
+                                name:'未通过总数',
+                                type:'bar',
+                                stack: '广告',
+                                data: rejectCount
+                            }
+                        ]
+                    }
+                    myChart1.setOption(option1);
+                }
+            }
+        })
+
+
+    //道路类型统计
+      roadTypeCount();
+
+      //道路类别统计
+      roadGenceCount();
+
+      //审批
+      sq();
+
+      //通过
+      tg();
+
+      //未通过
+      wtg();
+
+      //申请驳回
+      skbh();
+    }
+
+
+    //道路类型统计
+    function  roadTypeCount() {
+      var  valk = 0
+      var  valzg = 0
+      var  valc = 0
+      var  valz = 0
+      $.ajax({
+        url: "${Session.BASE_URL}process/auditBackRoadTypeCount",
+        type: "POST",
+        data:{
+          year : year ,
+          month : month ,
+          quarter : quarter
+        },
+        success:function(result){
+          console.log(result)
+          if(result.code == "SUCCESS"){
+            valk = result.data.kslCount;
+            valzg = result.data.zglCount;
+            valc = result.data.cglCount;
+            valz = result.data.zlCount;
+          }else{
+
+          }
+
+          //饼图1
+          var myChart2 = echarts.init(document.getElementById('chart2'), 'light');
+          option2 = {
+            tooltip: {
+              trigger: 'item',
+              formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+              orient: 'vertical',
+              x: 'left',
+              data:['快速路','主干路','次干路','支路']
+            },
+            series: [
+              {
+                name:'访问来源',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: false,
+                    position: 'center'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '30',
+                      fontWeight: 'bold'
+                    }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data:[
+                  {value:valk, name:'快速路'},
+                  {value:valzg, name:'主干路'},
+                  {value:valc, name:'次干路'},
+                  {value:valz, name:'支路'}
+                ]
+              }
+            ]
+          };
+          myChart2.setOption(option2);
+        }
+      })
+    }
+
+
+
+
+
+    //道路类别统计
+    function  roadGenceCount() {
+      var valj = 0
+      var valf = 0
+      var valr = 0
+      var vall = 0
+
+      $.ajax({
+        url: "${Session.BASE_URL}process/auditBackRoadCategoryCount",
+        type: "POST",
+        data:{
+          year : year ,
+          month : month ,
+          quarter : quarter
+        },
+        success:function(result){
+          console.log(result)
+          if(result.code == "SUCCESS"){
+            valj = result.data.jdcdCount;
+            valf = result.data.fjdcdCount;
+            valr = result.data.rxdCount;
+            vall = result.data.lhdCount;
+          }else{
+
+          }
+
+          //饼图2
+          var myChart3 = echarts.init(document.getElementById('chart3'), 'light');
+
+          option3 = {
+            tooltip: {
+              trigger: 'item',
+              formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+              orient: 'vertical',
+              x: 'left',
+              data:['机动车','非机动车','人行道','绿化带']
+            },
+            series: [
+              {
+                name:'访问来源',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                  normal: {
+                    show: false,
+                    position: 'center'
+                  },
+                  emphasis: {
+                    show: true,
+                    textStyle: {
+                      fontSize: '30',
+                      fontWeight: 'bold'
+                    }
+                  }
+                },
+                labelLine: {
+                  normal: {
+                    show: false
+                  }
+                },
+                data:[
+                  {value:valj, name:'机动车'},
+                  {value:valf, name:'非机动车'},
+                  {value:valr, name:'人行道'},
+                  {value:vall, name:'绿化带'}
+                ]
+              }
+            ]
+          };
+          myChart3.setOption(option3);
+        }
+
+
+      })
+    }
+
+
+
+
+    
+    function sq() {
+
+        $.ajax({
+            url:'${Session.BASE_URL}process/auditBackSuccessRjectCount',
+            type:'GET', //GET
+            dataType:'json',
+            data:{
+              year:year,
+              month:month,
+              status:1,
+              quarter:quarter
+            },
+            success:function (result) {
+                console.log(result.data)
+                $("#total").html(result.data.gj)
+                $("#totalTb").html("同比" + result.data.tb+"%")
+                if(!result.data.hb){
+                    $("#totalHb").html("")
+                }else {
+                    $("#totalHb").html("同比" + result.data.hb+"%")
+                }
+            }
+
+
+
+        })
+    }
+
+    function tg() {
+
+        $.ajax({
+            url:'${Session.BASE_URL}process/auditBackSuccessRjectCount',
+            type:'GET', //GET
+            dataType:'json',
+            data:{
+              year:year,
+              month:month,
+              status:2,
+              quarter:quarter
+            },
+            success:function (result) {
+                console.log(result.data)
+                $("#adopt").html(result.data.gj)
+                $("#adoptTb").html("同比" + result.data.tb+"%")
+                if(!result.data.hb){
+                    $("#adoptHb").html("")
+                }else {
+                    $("#adoptHb").html("同比" + result.data.hb+"%")
+                }
+            }
+        })
+    }
+
+    function wtg() {
+
+        $.ajax({
+            url:'${Session.BASE_URL}process/auditBackSuccessRjectCount',
+            type:'GET', //GET
+            dataType:'json',
+            data:{
+              year:year,
+              month:month,
+              status: -1,
+              quarter:quarter
+            },
+            success:function (result) {
+                console.log(result.data)
+                $("#notPass").html(result.data.gj)
+                $("#notPassTb").html("同比" + result.data.tb+"%")
+                if(!result.data.hb){
+                    $("#notPassHb").html("")
+                }else {
+                    $("#notPassHb").html("同比" + result.data.hb+"%")
+                }
+            }
+        })
+    }
+
+    function skbh() {
+
+        $.ajax({
+            url:'${Session.BASE_URL}process/auditBackSuccessRjectCount',
+            type:'GET', //GET
+            dataType:'json',
+            data:{
+              year:year,
+              month:month,
+              status : -3,
+              quarter:quarter
+            },
+            success:function (result) {
+                console.log(result.data)
+                $("#reject").html(result.data.gj)
+                $("#rejectTb").html("同比" + result.data.tb+"%")
+                if(!result.data.hb){
+                    $("#rejectHb").html("")
+                }else {
+                    $("#rejectHb").html("同比" + result.data.hb+"%")
+                }
+            }
+        })
+    }
+    
+    
+    
+
+
+</script>
+</html>

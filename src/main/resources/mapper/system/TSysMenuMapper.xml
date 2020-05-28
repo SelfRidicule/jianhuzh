@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.dao.system.TSysMenuDAO">
+	<resultMap id="BaseResultMap" type="com.zhongzhou.entity.system.TSysMenu">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="upmenuid" jdbcType="INTEGER" property="upmenuid" />
+		<result column="menuname" jdbcType="VARCHAR" property="menuname" />
+		<result column="menuurl" jdbcType="VARCHAR" property="menuurl" />
+		<result column="menuicon" jdbcType="VARCHAR" property="menuicon" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="weight" jdbcType="INTEGER" property="weight" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="rolehas" jdbcType="VARCHAR" property="rolehas" />
+		<collection property="permissionList"
+			ofType="com.zhongzhou.entity.system.TSysPermission">
+			<id column="permissionid" jdbcType="INTEGER" property="id" />
+			<result column="permissionname" jdbcType="VARCHAR" property="permissionname" />
+			<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+		</collection>
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, upmenuid, menuname, menuurl, menuicon, status, weight, remark
+	</sql>
+	<select id="selectByExample" parameterType="com.zhongzhou.entity.system.TSysMenuCriteria"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_sys_menu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sys_menu
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_sys_menu
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.zhongzhou.entity.system.TSysMenuCriteria">
+		delete from t_sys_menu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.zhongzhou.entity.system.TSysMenu">
+		insert into t_sys_menu (id, upmenuid, menuname,
+		menuurl, menuicon, status,
+		weight, remark)
+		values (#{id,jdbcType=INTEGER}, #{upmenuid,jdbcType=INTEGER},
+		#{menuname,jdbcType=VARCHAR},
+		#{menuurl,jdbcType=VARCHAR}, #{menuicon,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{weight,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zhongzhou.entity.system.TSysMenu"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="upmenuid != null">
+				upmenuid,
+			</if>
+			<if test="menuname != null">
+				menuname,
+			</if>
+			<if test="menuurl != null">
+				menuurl,
+			</if>
+			<if test="menuicon != null">
+				menuicon,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="weight != null">
+				weight,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="upmenuid != null">
+				#{upmenuid,jdbcType=INTEGER},
+			</if>
+			<if test="menuname != null">
+				#{menuname,jdbcType=VARCHAR},
+			</if>
+			<if test="menuurl != null">
+				#{menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="menuicon != null">
+				#{menuicon,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="weight != null">
+				#{weight,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into t_sys_menu (id, upmenuid, menuname,
+		menuurl, menuicon, status,
+		weight, remark)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id,jdbcType=INTEGER}, #{item.upmenuid,jdbcType=INTEGER},
+			#{item.menuname,jdbcType=VARCHAR},
+			#{item.menuurl,jdbcType=VARCHAR}, #{item.menuicon,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR},
+			#{item.weight,jdbcType=INTEGER}, #{item.remark,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	<insert id="insertBatchSelective" parameterType="java.util.List">
+		insert into t_sys_menu
+		(id, upmenuid, menuname, menuurl, menuicon, status, weight, remark)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="item.id != null">
+					#{item.id,jdbcType=INTEGER},
+				</if>
+				<if test="item.id == null">
+					NULL,
+				</if>
+				<if test="item.upmenuid != null">
+					#{item.upmenuid,jdbcType=INTEGER},
+				</if>
+				<if test="item.upmenuid == null">
+					NULL,
+				</if>
+				<if test="item.menuname != null">
+					#{item.menuname,jdbcType=VARCHAR},
+				</if>
+				<if test="item.menuname == null">
+					NULL,
+				</if>
+				<if test="item.menuurl != null">
+					#{item.menuurl,jdbcType=VARCHAR},
+				</if>
+				<if test="item.menuurl == null">
+					NULL,
+				</if>
+				<if test="item.menuicon != null">
+					#{item.menuicon,jdbcType=VARCHAR},
+				</if>
+				<if test="item.menuicon == null">
+					NULL,
+				</if>
+				<if test="item.status != null">
+					#{item.status,jdbcType=VARCHAR},
+				</if>
+				<if test="item.status == null">
+					NULL,
+				</if>
+				<if test="item.weight != null">
+					#{item.weight,jdbcType=INTEGER},
+				</if>
+				<if test="item.weight == null">
+					NULL,
+				</if>
+				<if test="item.remark != null">
+					#{item.remark,jdbcType=VARCHAR},
+				</if>
+				<if test="item.remark == null">
+					NULL,
+				</if>
+			</trim>
+		</foreach>
+	</insert>
+	<select id="countByExample" parameterType="com.zhongzhou.entity.system.TSysMenuCriteria"
+		resultType="java.lang.Long">
+		select count(*) from t_sys_menu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<select id="selectAllWithPermissionByUserGroupId" resultMap="BaseResultMap">
+		SELECT m.*,p.id permissionid ,p.permissionname,p.createtime FROM
+		t_sys_role_menu_permission rmp
+		LEFT JOIN t_sys_usergroup_role ur ON rmp.roleid = ur.roleid
+		LEFT JOIN t_sys_menu m ON rmp.menuid = m.id
+		LEFT JOIN t_sys_permission p ON rmp.permissionid = p.id
+		WHERE ur.usergroupid = #{usergroupid} and m.status = 1
+		GROUP BY m.id,p.id
+		order by m.weight DESC
+	</select>
+	<select id="selectAllWithPermissionByRoleId" resultType="com.zhongzhou.entity.system.TSysMenu">
+		SELECT
+		m.*, p.id permissionid,
+		p.permissionname,
+		p.createtime
+		FROM
+		t_sys_role_menu_permission rmp
+		LEFT JOIN t_sys_menu m ON rmp.menuid = m.id
+		LEFT JOIN t_sys_permission p ON rmp.permissionid = p.id
+		WHERE rmp.roleid = #{roleid}
+		and m.status = 1
+		GROUP BY m.id,p.id
+		order by m.weight  DESC 
+	</select>
+	
+	
+	<select id="selectAllWithMenuByRoleId" resultType="com.zhongzhou.entity.system.TSysMenu">
+		select sr.* from (
+
+			SELECT
+					m.*, 
+					p.id permissionid,
+					p.permissionname,
+					p.createtime
+					FROM
+					t_sys_role_menu_permission rmp
+					LEFT JOIN t_sys_menu m ON rmp.menuid = m.id
+					LEFT JOIN t_sys_permission p ON rmp.permissionid = p.id
+					WHERE rmp.roleid = #{roleid}
+					and m.status = 1
+				 	GROUP BY m.id,p.id
+					order by m.weight , m.menuname DESC 
+		
+		) sr  
+		GROUP BY sr.menuname
+		 
+	</select>
+	
+	<select id="selectRoleMenusInAllMenusByUpId" resultMap="BaseResultMap">
+
+		SELECT
+		m.*, rmp.roleid rolehas,
+		p.id permissionid,
+		p.permissionname,
+		p.createtime
+		FROM
+		`t_sys_menu` m
+		LEFT JOIN t_sys_role_menu_permission rmp ON m.id = rmp.menuid
+		AND roleid = #{roleid}
+		LEFT JOIN t_sys_permission p ON rmp.permissionid = p.id
+		WHERE
+		upmenuid = #{upid}
+		ORDER BY
+		m.weight DESC
+
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_sys_menu
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.upmenuid != null">
+				upmenuid = #{record.upmenuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.menuname != null">
+				menuname = #{record.menuname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menuurl != null">
+				menuurl = #{record.menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menuicon != null">
+				menuicon = #{record.menuicon,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				status = #{record.status,jdbcType=VARCHAR},
+			</if>
+			<if test="record.weight != null">
+				weight = #{record.weight,jdbcType=INTEGER},
+			</if>
+			<if test="record.remark != null">
+				remark = #{record.remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_sys_menu
+		set id = #{record.id,jdbcType=INTEGER},
+		upmenuid = #{record.upmenuid,jdbcType=INTEGER},
+		menuname = #{record.menuname,jdbcType=VARCHAR},
+		menuurl = #{record.menuurl,jdbcType=VARCHAR},
+		menuicon = #{record.menuicon,jdbcType=VARCHAR},
+		status = #{record.status,jdbcType=VARCHAR},
+		weight = #{record.weight,jdbcType=INTEGER},
+		remark = #{record.remark,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zhongzhou.entity.system.TSysMenu">
+		update t_sys_menu
+		<set>
+			<if test="upmenuid != null">
+				upmenuid = #{upmenuid,jdbcType=INTEGER},
+			</if>
+			<if test="menuname != null">
+				menuname = #{menuname,jdbcType=VARCHAR},
+			</if>
+			<if test="menuurl != null">
+				menuurl = #{menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="menuicon != null">
+				menuicon = #{menuicon,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="weight != null">
+				weight = #{weight,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zhongzhou.entity.system.TSysMenu">
+		update t_sys_menu
+		set upmenuid = #{upmenuid,jdbcType=INTEGER},
+		menuname = #{menuname,jdbcType=VARCHAR},
+		menuurl = #{menuurl,jdbcType=VARCHAR},
+		menuicon = #{menuicon,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		weight = #{weight,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+		update t_sys_menu
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="upmenuid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.upmenuid}
+				</foreach>
+			</trim>
+			<trim prefix="menuname =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuname}
+				</foreach>
+			</trim>
+			<trim prefix="menuurl =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuurl}
+				</foreach>
+			</trim>
+			<trim prefix="menuicon =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuicon}
+				</foreach>
+			</trim>
+			<trim prefix="status =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.status}
+				</foreach>
+			</trim>
+			<trim prefix="weight =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.weight}
+				</foreach>
+			</trim>
+			<trim prefix="remark =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.remark}
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" index="index" item="item"
+			open="(" separator=",">
+			#{item.id}
+		</foreach>
+	</update>
+	<update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+		update t_sys_menu
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="upmenuid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.upmenuid != null ">
+						when #{item.id} then #{item.upmenuid}
+					</if>
+					<if test="item.upmenuid == null ">
+						when #{item.id} then t_sys_menu.upmenuid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuname =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.menuname != null ">
+						when #{item.id} then #{item.menuname}
+					</if>
+					<if test="item.menuname == null ">
+						when #{item.id} then t_sys_menu.menuname
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuurl =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.menuurl != null ">
+						when #{item.id} then #{item.menuurl}
+					</if>
+					<if test="item.menuurl == null ">
+						when #{item.id} then t_sys_menu.menuurl
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuicon =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.menuicon != null ">
+						when #{item.id} then #{item.menuicon}
+					</if>
+					<if test="item.menuicon == null ">
+						when #{item.id} then t_sys_menu.menuicon
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="status =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.status != null ">
+						when #{item.id} then #{item.status}
+					</if>
+					<if test="item.status == null ">
+						when #{item.id} then t_sys_menu.status
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="weight =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.weight != null ">
+						when #{item.id} then #{item.weight}
+					</if>
+					<if test="item.weight == null ">
+						when #{item.id} then t_sys_menu.weight
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="remark =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.remark != null ">
+						when #{item.id} then #{item.remark}
+					</if>
+					<if test="item.remark == null ">
+						when #{item.id} then t_sys_menu.remark
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" index="index" item="item"
+			open="(" separator=",">
+			#{item.id}
+		</foreach>
+	</update>
+	<update id="updateBatchByExample" parameterType="map">
+		update t_sys_menu
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="upmenuid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.upmenuid}
+				</foreach>
+			</trim>
+			<trim prefix="menuname =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuname}
+				</foreach>
+			</trim>
+			<trim prefix="menuurl =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuurl}
+				</foreach>
+			</trim>
+			<trim prefix="menuicon =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuicon}
+				</foreach>
+			</trim>
+			<trim prefix="status =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.status}
+				</foreach>
+			</trim>
+			<trim prefix="weight =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.weight}
+				</foreach>
+			</trim>
+			<trim prefix="remark =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.remark}
+				</foreach>
+			</trim>
+		</trim>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateBatchByExampleSelective" parameterType="map">
+		update t_sys_menu
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="upmenuid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.upmenuid != null ">
+						when #{item.id} then #{item.upmenuid}
+					</if>
+					<if test="item.upmenuid == null ">
+						when #{item.id} then t_sys_menu.upmenuid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuname =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.menuname != null ">
+						when #{item.id} then #{item.menuname}
+					</if>
+					<if test="item.menuname == null ">
+						when #{item.id} then t_sys_menu.menuname
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuurl =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.menuurl != null ">
+						when #{item.id} then #{item.menuurl}
+					</if>
+					<if test="item.menuurl == null ">
+						when #{item.id} then t_sys_menu.menuurl
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuicon =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.menuicon != null ">
+						when #{item.id} then #{item.menuicon}
+					</if>
+					<if test="item.menuicon == null ">
+						when #{item.id} then t_sys_menu.menuicon
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="status =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.status != null ">
+						when #{item.id} then #{item.status}
+					</if>
+					<if test="item.status == null ">
+						when #{item.id} then t_sys_menu.status
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="weight =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.weight != null ">
+						when #{item.id} then #{item.weight}
+					</if>
+					<if test="item.weight == null ">
+						when #{item.id} then t_sys_menu.weight
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="remark =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.remark != null ">
+						when #{item.id} then #{item.remark}
+					</if>
+					<if test="item.remark == null ">
+						when #{item.id} then t_sys_menu.remark
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+
+	<select id="selectAllGroupByMenuIDRoleId" resultType="com.zhongzhou.entity.system.TSysMenu">
+		SELECT
+		m.*
+		FROM
+		t_sys_role_menu_permission rmp
+		LEFT JOIN t_sys_menu m ON rmp.menuid = m.id
+		WHERE rmp.roleid = 3
+		GROUP BY m.id
+		order by m.weight DESC
+	</select>
+
+</mapper>

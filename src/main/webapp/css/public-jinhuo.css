@@ -1,0 +1,353 @@
+/*
+	作者：王俊
+	时间：2019-09-20
+	描述：永修禁货
+*/
+/*公共css*/
+@charset "utf-8";
+
+/*自定义class工具*/
+.margin-top-10 {
+	margin-top: 10px;
+}
+
+.bg-color-white {
+	background-color: #FFFFFF!important;
+}
+
+/*设置背景色和字体*/
+html,
+body {
+	background-color: #EFEFF4;
+	color: #333333;
+}
+
+* {
+	font-family: "Microsoft YaHei";
+}
+
+p {
+	font-size: 14px;
+}		
+
+/*按钮样式*/
+.btn-blue {
+	font-size: 15px; 
+	background-color: #007AFF;
+	color: #FFFFFF;
+	width: 100px;
+	/*border-radius: 25px;
+   	border: 4px solid #017AD7*/
+}
+
+.btn-silvery {
+	font-size: 15px; 
+	background-color: #EFEFF4;
+	color: #666666;
+	width: 100px;
+}
+
+.btn-grey {
+	font-size: 15px; 
+	background-color: #C7C7CC;
+	color: #666666;
+	width: 100px;
+	/*border-radius: 25px;
+    border: 4px solid #EEEEEE*/
+}
+
+.btn-blue-middling {
+	font-size: 15px; 
+	background-color: #007AFF;
+	color: #FFFFFF;
+	height: 50px;
+	width: 93%;
+}
+
+.btn-silvery-middling {
+	font-size: 15px; 
+	background-color: #EFEFF4;
+	color: #666666;
+	height: 50px;
+	width: 93%;
+}
+
+.btn-blue-big {
+	font-size: 18px; 
+	background-color: #007AFF;
+	color: #FFFFFF;
+	width: 100%;
+	height: 100%;
+}
+
+.btn-grey-big {
+	font-size: 18px; 
+	background-color: #C7C7CC;
+	color: #666666;
+	width: 100%;
+	height: 100%;
+}
+
+/*审批进程状态角标*/
+.badges-state {
+	height: 24px;
+	line-height: 18px;
+	font-size: 14px;
+	text-align: center;
+	padding: 3px 10px;
+}
+
+/*审核中-待审核-初审*/
+.badges-state-one {
+	background-color: #FFDAB9;
+	color: #EE7942;
+}
+
+/*待发放通行证-复审*/
+.badges-state-two {
+	background-color: #F0FFFF;
+	color: #458B74;
+}
+
+/*已通过-已发放通行*/
+.badges-state-three {
+	background-color: lightblue;
+	color: blue;
+}
+
+/*被驳回*/
+.badges-state-four {
+	background-color: pink;
+	color: #FF4500;
+}	
+
+/*设置头部*/
+.mui-bar-nav {
+	background-color: #ffffff!important;
+	box-shadow: 0 0 1px #ccc;
+}
+
+.mui-bar-nav .mui-icon-left-nav {
+	color: black;
+}
+
+.mui-bar-nav h1 {
+	font-size: 20px;
+}
+
+/*头部下边灰色阴影高度*/
+.nav-footer {
+	height: 5px;
+}
+
+/*今日通知*/
+.notice {
+	background: #FFFFFF;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	height: 50px;
+	line-height: 50px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.notice-today {
+	font-family: "MFLangQian_Noncommercial Regular";
+	font-size: 15px;
+	color: #FF0202; 
+	float: left;
+	padding-right: 15px;
+	height: 44px;
+	line-height: 44px;
+	margin-top: 3px;
+	border-right: 2px solid #CCCCCC;
+}
+
+.notice-today-icon {
+	color: #FF0202;
+	float: left;
+	line-height: 50px;
+	font-size: 24px;
+	margin-left: 15px;
+}
+
+.notice-today-content {
+	font-family: "microsoft yahei";
+	font-size: 15px;
+	color: #575757;
+	display: block;
+	text-align: center;
+}
+
+/*顶部横向区域滚动*/
+.mui-control-item {
+	font-size: 16px;
+}
+
+/*卡片面板*/
+.mui-card {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+/*卡片面板字段名称*/
+.mui-card span {
+	font-size: 15px;
+	color: #333333;
+}
+/*卡片面板内容*/
+.mui-card p {
+	font-size: 14px;
+	margin-bottom: 0;
+	color: #333333;
+}
+
+/*工作进度时间轴*/
+.time-axis span{
+	font-size: 15px;
+}
+
+/*行信息*/
+.mui-input-row {
+	background-color: #FFFFFF;
+	color: #333333;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	font-size: 15px;
+	margin-bottom: 1px;
+	height: auto!important;
+}
+
+.mui-input-row label {
+	width: auto!important;
+	font-family: "Microsoft YaHei";
+}
+
+.mui-input-row a {
+	float: right;
+	text-align: right;
+	font-size: 15px;
+	line-height: 40px;
+	padding-right: 15px;
+	color: #333333;
+	width: auto !important;
+	max-width:60%;
+}
+
+/*输入框*/
+.mui-input-row input,.mui-input-row textarea {
+	float: right;
+	text-align: right;
+	font-size: 15px;
+	/*line-height: 40px;*/
+	padding-right: 15px;
+	width: auto !important;
+	max-width:60%;
+	/*color: #8F8F94;*/
+	color: #333333;
+}
+
+/*证件照区域*/
+.mui-input-row div {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.picture-area {
+	margin-top: 15px;
+	margin-bottom: 18px;
+}
+
+/*图片大小*/
+/*.picture--small {
+	width: 90px;height: 65px;
+}
+
+.picture--middling {
+	width: 150px;
+	height: 95px
+}
+
+.picture--big  {
+	width: 180px;
+	height: 100px;
+}
+
+.picture-space {
+	margin-left: 16px;
+}*/
+
+/*单选*/
+.mui-radio.mui-left input[type=radio] {
+	left: 0px;
+}
+
+.mui-radio.mui-left label {
+	padding-right: 0px;
+	padding-left: 20px;
+	padding-top: 13px;
+}
+
+/*控制弹出层位置*/	
+#div {
+	width: 0px;
+	height: 0px;
+	background: red;
+	position: fixed;
+	top: 80%;
+	left: 50%;
+}
+	
+/*移除底部或顶部三角,需要在删除此代码*/
+.mui-popover .mui-popover-arrow:after {
+	width: 0px;
+}
+
+/*弹窗头部*/
+.mui-popover .popover-nav-title {
+	height:50px;
+	font-size:20px;
+	line-height:50px;
+	font-weight:400;
+	text-align: center;
+	border-bottom: 3px solid lightgrey;
+}
+
+/*弹窗关闭图标*/
+.mui-popover .popover-nav-icon {
+	line-height: 50px;
+	font-size: 18px;
+	padding-right: 20px;
+}
+
+/*弹窗输入区域上部提示信息*/
+.mui-popover .popover-message {
+	height:50px;
+	font-size:17px;
+	/* font-weight:300; */
+	padding-left: 15px;
+	padding-top: 15px;
+}
+
+/*弹窗输入区域*/
+.mui-popover .popover-input {
+	width:100%;
+	height:100%;
+	padding: 5px 10px;
+	font-size: 15px;
+	color: #333333;
+	/*font-family: "microsoft yahei";*/
+}
+.mui-pull-bottom-wrapper{
+	text-align: center;
+}
+.mui-card {
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+	margin: 8px;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+

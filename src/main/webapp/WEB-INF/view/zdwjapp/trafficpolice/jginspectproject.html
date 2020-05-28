@@ -1,0 +1,460 @@
+<!--
+	作者：周心昕
+	时间：2019-11-12
+	描述：交警检查项目表
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="${Session.BASE_URL}css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/public-jinhuo.css"/>
+    <script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="${Session.BASE_URL}js/jSignature.js"></script>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/img.css"/>
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+    .mui-radio input[type=radio]:before{
+        font-size: 20px;
+    }
+    /*解决移动端点击事件延迟 */
+</style>
+
+<body>
+
+<header class="mui-bar mui-bar-nav bg-color-white">
+    <a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+     <h1 class="mui-title">检查项目表</h1>
+</header>
+<!--内容	-->
+<div class="mui-content">
+    <div id="opt" class="mui-input-row" style="margin-bottom: 0px;
+    padding-top: 0px;
+">
+
+    </div>
+
+    <div style="background-color: white;border-bottom: solid 1px #EFEFF4">
+        <div style="padding-left: 4%;padding-right: 4%;padding-top: 4%;">检查意见</div>
+        <textarea
+                style="border-style:none;overflow:hidden;padding-left: 0px;padding-left: 4%;padding-right: 4%;padding-top: 4%;"
+                class="mui-text-left" id="txt"
+                maxlength="300" disabled ></textarea>
+
+        <p style="background-color: white;padding-left: 83%;"></p>
+
+    </div>
+    <div class="mui-input-row">
+        <div>实勘照片</div>
+        <div class="picture-area mui-content-padded" id="enclosureurl">
+        </div>
+    </div>
+
+    <div class="mui-input-row">
+        <div>检查人签字</div>
+        <div id="signature"></div>
+        <span id="clear" style="position: absolute; margin-top: -40px; right: 25px; color: blue;" >清除</span>
+    </div>
+
+    <!--按钮行-->
+    <div class="bg-color-white" style="width:100%;padding: 30px 15px 15px 15px;">
+        <div class="mui-row">
+            <div class="mui-col-xs-6" style="text-align: left;">
+                <button id="refuseBtn" style="background-color: #DC6617" type="button"
+                        class="mui-btn btn-blue-middling">驳回
+                </button>
+            </div>
+            <div class="mui-col-xs-6" style="text-align: right;"  >
+                <button id="passBtn" type="button" class="mui-btn btn-blue-middling">通过</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--自定义弹出层-->
+<div id="div"></div>
+<!--拒绝审核弹出窗-->
+<div id="popoverRefuse" class="mui-popover bg-color-white" style="height: 50%;width: 80%;">
+    <div class="mui-popover-arrow"></div>
+    <span id="popoverRefuseClose" class="mui-icon-extra mui-icon-extra-cha1 mui-pull-right popover-nav-icon"></span>
+    <div class="popover-nav-title">驳回原因</div>
+    <!--        <div style="padding-left: 15px;padding-right: 15px;height: 40px;">-->
+    <!--            &lt;!&ndash;					<span class="mui-icon mui-icon-arrowdown mui-pull-right" style="height: 100%;padding-top:2px;margin-bottom:8px;width: 10%;line-height: 40px;border-top: 2px solid grey;border-right: 1px solid grey;border-bottom: 1px solid lightgrey;"></span> &ndash;&gt;-->
+    <!--            <select id="popoverRefuseInput1" style="font-size: 14px;-->
+    <!--            height: auto;-->
+    <!--            margin-top: 1px;-->
+    <!--            border: 1px solid !important;-->
+    <!--            color:  #333333;-->
+    <!--            background-color: #fff;-->
+    <!--			width: 100%">-->
+    <!--                <option value="驾驶人有违法行为未处理,请消除违法行为后再次提交申请。">驾驶人有违法行为未处理,请消除违法行为后再次提交申请。</option>-->
+    <!--                <option value="车辆有违法行为未处理!请消除违法行为后,再次提交申请。">车辆有违法行为未处理!请消除违法行为后,再次提交申请。</option>-->
+    <!--                <option value="拍摄图片不清晰请重新提交申请!">拍摄图片不清晰请重新提交申请!</option>-->
+    <!--                <option value="提交的车辆牌号与行驶证不符,请重新核对后,再次提交申请。">提交的车辆牌号与行驶证不符,请重新核对后,再次提交申请。</option>-->
+    <!--                <option value="">其他</option>-->
+    <!--            </select>-->
+    <!--        </div>-->
+    <div style="height: 65%">
+        <textarea id="popoverRefuseInput2" class="popover-input" placeholder="请输入驳回原因"></textarea>
+    </div>
+    <div style="padding-top:20px;text-align: center;">
+        <button id="popoverRefuseBtn" type="button" class="mui-btn btn-blue">确认提交</button>
+    </div>
+</div>
+</body>
+<script src="${Session.BASE_URL}js/mui.min.js"></script>
+<script src="${Session.BASE_URL}js/mui.zoom.js"></script>
+<script src="${Session.BASE_URL}js/mui.previewimage.js"></script>
+
+<script type="text/javascript">
+    var filepather = "";
+    var status ="";
+     mui.previewImage();
+    mui.init({
+        swipeBack: true //右滑关闭功能
+    });
+
+    //监听拒绝审核按钮
+    document.querySelector('#refuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+    //监听拒绝审核弹窗中关闭图标
+    document.querySelector('#popoverRefuseClose').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+        //清空
+        document.getElementById('popoverRefuseInput1').value = '';
+        document.getElementById('popoverRefuseInput2').value = '';
+    });
+
+    //监听拒绝审核弹窗中确认提交按钮
+    document.querySelector('#popoverRefuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    //初始化画布
+    $(function () {
+        var arguments = {
+            'width': '100%',
+            'height': '100%',
+            'color':'#000',
+            'lineWidth': '3',
+            'background-color':'#F2F2F2'
+        };
+        $("#signature").jSignature(arguments)
+    })
+
+
+    $('#clear').click(function () {
+        $("#signature").jSignature("reset");
+    });
+
+
+    /**
+          * 将以base64的图片url数据转换为Blob
+          */
+    function convertBase64UrlToBlob(urlData){
+
+        //去掉url的头，并转换为byte
+        var bytes = window.atob(urlData.split(',')[1]);
+
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob( [ab] , {type : 'image/png'});
+    }
+
+    /**
+          * 上传签名
+          */
+    function uploadJSignature() {
+
+        var $sigdiv = $("#signature");
+        var datapair = $sigdiv.jSignature("getData", "image");
+
+        var data =  "data:" + datapair[0] + "," + datapair[1];
+
+        // 使用formdata上传图片
+        var formData = new FormData();
+        //设置文件名
+        var filename = new Date().getTime() + ".png";
+        //添加图片Blob对象
+        formData.append("file", convertBase64UrlToBlob(data) , filename);
+
+        $.ajax({
+            url : '${Session.BASE_URL}file/upload',
+            type: 'post',
+            data: formData,
+            async: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                filepather = result.data[0].filepath;
+                console.log(result)
+            }
+        })
+
+    }
+
+    // //解析url参数
+    // function getQueryString(name) {
+    //     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    //     var r = window.location.search.substr(1).match(reg);
+    //     if (r != null) {
+    //         return unescape(r[2]);
+    //     }
+    //     return null;
+    // };
+
+
+    //
+    // var txt = document.getElementById("txt");
+    // var txtNum = document.getElementById("txtNum");
+    // txt.addEventListener("keyup", function () {
+    //     txtNum.textContent = txt.value.length;
+    // })
+    //
+    // var sw = false;      //定义关闭的开关
+    // var txt = document.getElementById("txt");
+    // var txtNum = document.getElementById("txtNum");
+    // txt.addEventListener("keyup", function () {
+    //     if (sw == false) {
+    //         countTxt();
+    //     }
+    // });
+    // txt.addEventListener("compositionstart", function () {
+    //     sw = true;
+    // });
+    // txt.addEventListener("compositionend", function () {
+    //     sw = false;
+    //     countTxt();
+    // });
+    //
+    // function countTxt() {       //计数函数
+    //     if (sw == false) {        //只有开关关闭时，才赋值
+    //         txtNum.textContent = txt.value.length;
+    //     }
+    // }
+
+    $(function () {
+        // addNormalImg();
+        //loadpunishcount();
+    })
+
+    var count = 0;
+    var num = 0;
+
+
+
+
+
+
+
+    var id = getQueryString("id");
+
+    $.ajax({
+        url: "${Session.BASE_URL}process/mobileProcesscaseDetail",
+        type: "GET",
+        data:{
+          id:id
+        },
+        success: function (result) {
+            status = result.data.processcase.status;
+            //获得前台的div
+            var insertDiv = document.getElementById("opt");
+            // 解析从服务器获得的数据,循环添加复选框
+            var chkDIV = '';
+            for (var i = 0; i < result.data.optisproceList.length; i++) {
+                // if (result.data.processcase.trafficreal == 1) {
+                //     $("#passBtn").attr("disabled", false);
+                // }
+
+                if(result.data.optisproceList[i].status==1){
+                    chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                        '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                        '<div>'+ (i+1) +'、'+ result.data.optisproceList[i].buttonname + '</div>' +
+                        '<div style="padding-top: 5%;">' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                        '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                        '<input  value="1" type="radio" checked style="left: 0">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                        '<input value="0" type="radio" disabled style="left: 0;">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                        '<input  value="-1" type="radio" disabled style="left: 0">' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'+
+                        '</div>';
+                }else if(result.data.optisproceList[i].status==0){
+                    chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                        '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                        '<div>' + (i+1) +'、'+ result.data.optisproceList[i].buttonname + '</div>' +
+                        '<div style="padding-top: 5%;">' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                        '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                        '<input  value="1" type="radio" disabled  style="left: 0">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                        '<input value="0" type="radio" checked style="left: 0;">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                        '<input  value="-1" type="radio" disabled style="left: 0">' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'+
+                        '</div>';
+                }else {
+                    chkDIV  +='<div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;padding-left: 0px;padding-right: 0px;">'+
+                        '<div class="mui-pull-left" style="padding-left: 0;padding-right: 0;padding-top: 2%;">' +
+                        '<div>'+ (i+1) +'、'+result.data.optisproceList[i].buttonname + '</div>' +
+                        '<div style="padding-top: 5%;">' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;">' +
+                        '<label style="padding-left: 10px;padding-right: 25px;padding-top: 6px;font-size: 16px;">有</label>' +
+                        '<input  value="1" type="radio" disabled style="left: 0">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 15px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">无</label>' +
+                        '<input value="0" type="radio" disabled style="left: 0;">' +
+                        '</div>' +
+                        '<div class="mui-radio mui-pull-left" style="padding-right: 0;margin-left: 35px">' +
+                        '<label style="padding-left: 10px;padding-right: 0px;padding-top: 6px;font-size: 16px;">不需要</label>' +
+                        '<input  value="-1" type="radio" checked style="left: 0">' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'+
+                        '</div>';
+                }
+
+                insertDiv.innerHTML =chkDIV;
+            }
+
+            //道路图片
+            if (result.data.processcase.realpic != null && result.data.processcase.realpic != '') {
+                var imgs = result.data.processcase.realpic.split(",");
+                var html = "";
+                for (var i = 0; i < imgs.length; i++) {
+                    if (imgs[i] != "" && imgs != null) {
+                        html += '<p><img src="' + imgs[i] + '" style="width: 90px;height: 65px;margin-right: 16px;" data-preview-src="" data-preview-group="1"/></p>';
+                    }
+                }
+                $("#enclosureurl").html(html);
+            }
+            $("#txt").text(result.data.processcase.realcontent);
+
+
+
+        }
+
+    });
+
+     //通过
+     $('#passBtn').click(function () {
+         uploadJSignature();
+         var id = getQueryString("id");
+         var data = {
+             processcaseId: id,
+             flag:1,
+             status:status
+         }
+         $.ajax({
+             url: '${Session.BASE_URL}process/mobileTrafficVerify',
+             type: 'post',
+             data: data,
+             success: function (result) {
+                     $.ajax({
+                         url: '${Session.BASE_URL}process/AuditProcess',
+                         type: 'post',
+                         data: {
+                             id:id,
+                             flag:1,
+                             trafficrealsign:filepather,
+                             status:status
+                         },
+                         success: function (result) {
+                             if (result.code == "SUCCESS") {
+                                 mui.openWindow({
+                                     url: '${Session.BASE_URL}api/v1/jgsklist'
+                                 });
+
+                             }
+                         }
+                     })
+             }
+         })
+
+     });
+
+
+
+    //拒绝审批
+    $('#popoverRefuseBtn').click(function () {
+        uploadJSignature();
+        var reason  = $("#popoverRefuseInput2").val()
+        var id = getQueryString("id");
+        var data = {
+            processcaseId: id,
+            flag:-1,
+            status:status
+        }
+        $.ajax({
+            url: '${Session.BASE_URL}process/mobileTrafficVerify',
+            type: 'post',
+            data: data,
+            success: function (result) {
+                    $.ajax({
+                        url: '${Session.BASE_URL}process/AuditProcess',
+                        type: 'post',
+                        data: {
+                            id:id,
+                            flag:-1,
+                            trafficrealsign:filepather,
+                            status:status,
+                            rejectContent:reason
+                        },
+                        success: function (result) {
+                            if (result.code == "SUCCESS") {
+                                mui.openWindow({
+                                    url: '${Session.BASE_URL}api/v1/jgsklist'
+                                });
+
+                            }
+                        }
+                    })
+            }
+        })
+    });
+
+
+
+</script>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 配置包扫描器 -->
+	<context:component-scan base-package="com.zhongzhou" />
+	<!-- 具体controller包的路径取决于你新建的java代码的controller层包 -->
+	<!-- 配置注解驱动 -->
+	<mvc:annotation-driven />
+	<!--静态资源访问 -->
+	<!--<mvc:default-servlet-handler/> -->
+
+	<!--开启切面 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理 -->
+	<mvc:resources mapping="/img/**" location="/img/" />
+	<mvc:resources mapping="/plugins/**" location="/plugins/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/font/**" location="/font/" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/upload/**" location="/upload/" />
+	<mvc:resources mapping="/temp/**" location="/temp/" />
+	<mvc:resources mapping="/lying/**" location="/lying/" />
+	<mvc:resources mapping="/json/**" location="/json/" />
+	<mvc:resources mapping="/api/**" location="/api/" />
+	<mvc:resources mapping="/html5/**" location="/html/" />
+	<mvc:resources mapping="/layer/**" location="/layer/" />
+	<mvc:resources mapping="/jk/**" location="/jk/" />
+	<!--视图解析器 -->
+	<!-- 配置视图解析器 如何把handler 方法返回值解析为实际的物理视图 在JSP和Freemarker的配置项中都有一个order property，把freemarker的order设置为0，jsp为1。 
+		意思是找view时，先找html文件，再找jsp文件做为视图。 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/,/"></property>
+		<property name="suffix" value=".html" />
+		<property name="order" value="1"></property>
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+	</bean>
+
+	<!-- html视图解析器 必须先配置freemarkerConfig,注意html是没有prefix前缀属性的 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".html" />
+		<property name="order" value="0"></property>
+		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<property name="requestContextAttribute" value="request" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+	</bean>
+
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!--<property name="templateLoaderPaths" value="/WEB-INF/view/,/WEB-INF/system/" 
+			/> -->
+		<property name="templateLoaderPaths" value="/WEB-INF/view/,/WEB-INF/system/,/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="default_encoding">UTF-8</prop>
+				<prop key="number_format">0.##########</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="classic_compatible">true</prop>
+				<prop key="template_exception_handler">ignore</prop>
+			</props>
+		</property>
+	</bean>
+	<!--拦截器 -->
+	<mvc:interceptors>
+		<!-- 定义拦截器 -->
+		<mvc:interceptor>
+			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
+			<mvc:mapping path="/**" />
+			<!-- 不需要拦截的地址 -->
+			<mvc:exclude-mapping path="/home/testDemo" />
+			<mvc:exclude-mapping path="/home/testCount" />
+			<mvc:exclude-mapping path="/station/login" />
+			<mvc:exclude-mapping path="/admin/v1/policeAdmin" />
+            <mvc:exclude-mapping path="/admin/v1/policeStation" />
+            <mvc:exclude-mapping path="/sysuser/weixin/construcWxLogin" />
+            <mvc:exclude-mapping path="/sysuser/weixin/indexredirects" />
+            <mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/ajaxLogin" />
+            <mvc:exclude-mapping path="/api/v1/phoneLogin" />
+            <mvc:exclude-mapping path="/sysuser/mobile/selfLogin" />
+			<mvc:exclude-mapping path="/jinhuoFirst" />
+			<mvc:exclude-mapping path="/img/**" />
+			<mvc:exclude-mapping path="/js/**" />
+			<mvc:exclude-mapping path="/css/**" />
+			<mvc:exclude-mapping path="/font/**" />
+			<mvc:exclude-mapping path="/fonts/**" />
+			<mvc:exclude-mapping path="/upload/**" />
+			<mvc:exclude-mapping path="/temp/**" />
+			<mvc:exclude-mapping path="/lying/**" />
+			<mvc:exclude-mapping path="/plugins/**" />
+			<mvc:exclude-mapping path="/json/**" />
+			<mvc:exclude-mapping path="/weixin/**" />
+			<mvc:exclude-mapping path="/n/**" />
+			<bean class="com.zhongzhou.interceptor.SystemInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+	<!-- 设置上传文件最大值 1M=1*1024*1024(B)=1048576 bytes -->
+	<!-- 设置上传文件最大值 500M=500*1024*1024(B)=1048576 bytes -->
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="524288000" />
+	</bean>
+
+
+
+</beans>

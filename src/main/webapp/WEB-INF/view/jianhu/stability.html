@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>网格信息</title>
+    <link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css"/>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/backstageList.jpg");
+        background-position: top;
+        /* 背景图不平铺 */
+        /*background-repeat: no-repeat;*/
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: 100% 100%;
+    }
+
+    table {
+        border: none;
+    }
+
+    #search {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 30px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: white;
+        transition-duration: 0.25s;
+        font-weight: 300;
+        /*			-webkit-box-shadow: 0 0 10px #54A3CE;
+        */
+    }
+
+    #query {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #add {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #uploadExcel {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #export {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #fanhui {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    .list {
+        margin: 0 0 0 5px;
+        position: absolute;
+        top: 114px;
+        left: 70px;
+        height: 80vh;
+        width: 91vw;
+        /*background-color: #000000;*/
+    }
+
+    .layui-table {
+        background-color: rgb(255, 255, 255, 0);
+        color: #fff;
+    }
+
+    .layui-table[lay-skin=row] {
+        border-width: 6px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #fff;
+    }
+
+    .layui-laypage .layui-laypage-curr em {
+        color: #000;
+    }
+
+    .layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span {
+        color: #fff;
+    }
+
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+        border: 1px solid rgb(255, 255, 255, 0);
+    }
+
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+        background-color: rgb(93, 156, 255, 0.07);
+    }
+
+    iframe {
+        background-color: rgb(12, 25, 52);
+    }
+
+    #tips, #updatetips {
+        position: absolute;
+        z-index: 999;
+        width: 900px;
+        margin-top: 10%;
+        margin-left: 25%;
+        display: none;
+        background-color: #152848;
+        border: 1px solid #6ad1ff;
+    }
+
+    #head, #updatehead {
+        width: 900px;
+        height: 42px;
+        line-height: 42px;
+        background: url("${Session.BASE_URL}img/tabbar.png") center center no-repeat;
+        color: #6ad1ff;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        box-sizing: border-box;
+        border-bottom: 1px solid #6ad1ff;
+    }
+
+    .tab-content {
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #fff;
+        width: 900px;
+        height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .rows {
+        display: flex;
+        margin: 15px 0;
+    }
+
+    .rows > div {
+        flex: 1;
+        padding: 0 40px;
+    }
+
+    .row-textarea {
+        margin: 15px 0;
+        padding: 0 40px;
+    }
+
+    .row-textarea h4 {
+        margin-bottom: 10px;
+    }
+
+    .row-textarea textarea {
+        width: 728px;
+        height: 100px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        padding: 8px;
+    }
+
+    .rows h4 {
+        margin-bottom: 10px;
+    }
+
+    .rows input {
+        padding: 7px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        width: 300px;
+    }
+
+    .tab-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 80px;
+        margin-bottom: 20px;
+    }
+
+    .tab-btn button {
+        padding: 7px 17px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        margin-right: 40px;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        background-color: #FFFFFF;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #4C99C2;
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        background-color: rgba(0, 0, 0, 0);
+        border-left: 1px solid rgba(0, 0, 0, 0);
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 13px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        /*background-color: rgba(0, 0, 0, 0.5);*/
+        background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        min-height: 28px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .redDot{
+      color: red;
+      margin-right: 10px;
+    }
+</style>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+<body onload="showLeftTime()">
+
+<div id="show"
+     style="width: 210px;height: 150px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 12%;">
+</div>
+<div class="list">
+    <input type="text" id="search" placeholder="请输入关键字进行查询" autocomplete="off"/>
+    <button style="margin-left: 4px;" data-type="query" id="query">查询</button>
+    <button style="margin-left: 4px;" id="add" onclick="openTips()">新增</button>
+
+    <div style="float: right">
+        <button style="margin-right: 4px;" id="uploadExcel">导入</button>
+        <button style="margin-right: 100px;" id="export">导出模板</button>
+        <button id="fanhui">返回</button>
+    </div>
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+<div id="tips">
+    <div id="head">
+        新增信息
+    </div>
+    <div id="cen" class="tab-content" >
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>村居：</h4>
+                <input id="rusticate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>网格序列：</h4>
+                <input id="gridsequence" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>网格人员类别：</h4>
+                <input id="gridpersontype" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>网格员姓名：</h4>
+                <input id="gridpersonname" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>身份证号码：</h4>
+                <input id="idcard" type="text"/>
+            </div>
+            <div>
+                <h4>性别：</h4>
+                <input id="sex" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>年龄：</h4>
+                <input id="age" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>联系方式：</h4>
+                <input id="gridpersonphone" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>政治面貌：</h4>
+                <input id="politicallook" type="text"/>
+            </div>
+            <div>
+                <h4>文化程度：</h4>
+                <input id="education" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>婚姻状况：</h4>
+                <input id="marital" type="text"/>
+            </div>
+            <div>
+                <h4>现居住地址：</h4>
+                <input id="currentaddress" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>其他社会身份：</h4>
+                <input id="otheridentity" type="text"/>
+            </div>
+            <div>
+                <h4>管理户数：</h4>
+                <input id="managerhouse" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>网格编码：</h4>
+                <input id="gridcode" type="text"/>
+            </div>
+            <div>
+                <h4>网格范围：</h4>
+                <input id="gridscope" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>备注：</h4>
+                <input id="comment" type="text"/>
+            </div>
+        </div>
+
+        <div class="tab-btn">
+            <button id="save">保存</button>
+            <button id="colse" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+<div id="updatetips">
+    <div id="updatehead">
+        修改信息
+    </div>
+    <div id="updatecen"  class="tab-content" >
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>村居：</h4>
+                <input id="updaterusticate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>网格序列：</h4>
+                <input id="updategridsequence" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>网格人员类别：</h4>
+                <input id="updategridpersontype" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>网格员姓名：</h4>
+                <input id="updategridpersonname" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>身份证号码：</h4>
+                <input id="updateidcard" type="text"/>
+            </div>
+            <div>
+                <h4>性别：</h4>
+                <input id="updatesex" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>年龄：</h4>
+                <input id="updateage" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>联系方式：</h4>
+                <input id="updategridpersonphone" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>政治面貌：</h4>
+                <input id="updatepoliticallook" type="text"/>
+            </div>
+            <div>
+                <h4>文化程度：</h4>
+                <input id="updateeducation" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>婚姻状况：</h4>
+                <input id="updatemarital" type="text"/>
+            </div>
+            <div>
+                <h4>现居住地址：</h4>
+                <input id="updatecurrentaddress" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>其他社会身份：</h4>
+                <input id="updateotheridentity" type="text"/>
+            </div>
+            <div>
+                <h4>管理户数：</h4>
+                <input id="updatemanagerhouse" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>网格编码：</h4>
+                <input id="updategridcode" type="text"/>
+            </div>
+            <div>
+                <h4>网格范围：</h4>
+                <input id="updategridscope" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>备注：</h4>
+                <input id="updatecomment" type="text"/>
+            </div>
+        </div>
+
+
+        <div class="tab-btn">
+            <button id="update">保存</button>
+            <button id="updatecolse" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+<!--<script type="text/javascript" src="../layer/layer.js"></script>-->
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX + 1}}
+</script>
+<script type="text/html" id="operation">
+    <a lay-event="update" style="color: #F28E74;margin: 0 5px;">修改</a>
+    <a lay-event="del" style="color: #D3C155;margin: 0 5px;">删除</a>
+</script>
+<script>
+
+    // 身份证正则
+    var regId=/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/
+    // 手机号正则
+    var phoneReg = /^1[3456789]\d{9}$/
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        console.log("shijian")
+        //常规用法
+
+        laydate.render({
+            elem: '#time'
+        });
+        laydate.render({
+            elem: '#updatetime'
+        });
+    });
+    //上传excel的js,调用官方的上传组件
+    layui.use(['element', 'upload'], function () {
+        element = layui.element;
+        upload = layui.upload;
+        //指定允许上传的文件类型
+        upload.render({
+            //按钮的id
+            elem: '#uploadExcel'
+            , url: '${Session.BASE_URL}stability/uploadExcel?policestationId=${policestation.id}'
+            , accept: 'file' //普通文件
+            , multiple: true //多媒体文件
+            , done: function (res) {
+                if (res.code == 'SUCCESS') {
+                    window.parent.layui.layer.msg("上传成功");
+                    setTimeout(function(){
+                      location.reload();
+                    },1000);
+                }
+            }
+        });
+    });
+    layui.use('table', function () {
+        // var table = layui.table;
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo',
+            url: '${Session.BASE_URL}stability/dataList',
+            height: 'full-250',
+            request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limi
+            }, //如果无需自定义请求参数，可不加该参数
+            where: {
+                policestationid: '${policestation.id}'
+            },
+            response: {
+                statusCode: "SUCCESS" //规定成功的状态码，默认：0
+            },
+            cols: [[
+                {field: 'rusticate', align: 'center', title: '村居'},
+                {field: 'gridsequence', align: 'center', title: '网格序列'},
+                {field: 'gridpersonname', align: 'center', title: '网格员姓名'},
+                {field: 'idcard', align: 'center', title: '身份证号码'},
+                {field: 'gridpersonphone', align: 'center', title: '联系方式'},
+                {field: 'otheridentity', align: 'center', title: '其他社会身份'},
+                {field: 'gridcode', align: 'center', title: '网格编码'},
+                {field: 'gridscope', align: 'center', title: '网格范围'},
+                {field: 'caozuo', align: 'center', title: '操作', templet: "#operation"}
+            ]],
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 5 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+
+            },
+            done: function (res, curr, count) {
+                // 表格渲染完成之后的回调
+                var that = this.elem.next();
+                res.data.forEach(function (item, index) {
+                    if (index % 2 == 0) {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0)");
+                    } else {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0.07)");
+                    }
+                });
+            }
+        });
+
+        //监听工具条
+        //这里的tool(test)监听
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var tableid = data.id
+            if (obj.event === 'update') {
+                //修改
+                $("#updatetips").css("display", "block");
+
+                $.ajax({
+                    url: '${Session.BASE_URL}stability/queryId',
+                    type: 'GET', //GET
+                    dataType: 'json',
+                    data: {id: data.id},
+                    success: function (result) {
+                        // $("#updategridname").val(result.data.gridname);
+                        // $("#updategridpersonname").val(result.data.gridpersonname);
+                        // $("#updategridpersonphone").val(result.data.gridpersonphone);
+                        $("#updaterusticate").val(result.data.rusticate);
+                        $("#updategridsequence").val(result.data.gridsequence);
+                        $("#updategridpersontype").val(result.data.gridpersontype);
+                        $("#updategridpersonname").val(result.data.gridpersonname);
+                        $("#updateidcard").val(result.data.idcard);
+                        $("#updatesex").val(result.data.sex);
+                        $("#updateage").val(result.data.age);
+                        $("#updategridpersonphone").val(result.data.gridpersonphone);
+                        $("#updatepoliticallook").val(result.data.politicallook);
+                        $("#updateeducation").val(result.data.education);
+                        $("#updatemarital").val(result.data.marital);
+                        $("#updatecurrentaddress").val(result.data.currentaddress);
+                        $("#updateotheridentity").val(result.data.otheridentity);
+                        $("#updatemanagerhouse").val(result.data.managerhouse);
+                        $("#updategridcode").val(result.data.gridcode);
+                        $("#updategridscope").val(result.data.gridscope);
+                        $("#updatecomment").val(result.data.comment);
+                    }
+                })
+
+                $("#update").click(function () {
+                    var rusticate = $("#updaterusticate").val();
+                    var gridsequence = $("#updategridsequence").val();
+                    var gridpersontype = $("#updategridpersontype").val();
+                    var gridpersonname = $("#updategridpersonname").val();
+                    var idcard = $("#updateidcard").val();
+                    var sex = $("#updatesex").val();
+                    var age = $("#updateage").val();
+                    var gridpersonphone = $("#updategridpersonphone").val();
+                    var politicallook = $("#updatepoliticallook").val();
+                    var education = $("#updateeducation").val();
+                    var marital = $("#updatemarital").val();
+                    var currentaddress = $("#updatecurrentaddress").val();
+                    var otheridentity = $("#updateotheridentity").val();
+                    var managerhouse = $("#updatemanagerhouse").val();
+                    var gridcode = $("#updategridcode").val();
+                    var gridscope = $("#updategridscope").val();
+                    var comment = $("#updatecomment").val();
+
+                    if(rusticate == ''){
+                        layer.msg('请填写村居')
+                    }else if(gridsequence == ''){
+                        layer.msg('请填写网格序列')
+                    }else if(gridpersonname == ''){
+                        layer.msg('请填写网格员姓名')
+                    }else if(idcard!==''){
+                        if(regId.test(idcard)==false){
+                            layer.msg('请填写正确的身份证号码')
+                        }
+                    }else if(gridpersonphone == ''){
+                        layer.msg('请填写联系方式')
+                    }else if(!phoneReg.test(idcard)){
+                        layer.msg('请填写正确的手机号')
+                    }else if(gridcode == ''){
+                        layer.msg('请填写网格编码')
+                    }else {
+                        var data = {
+                            id: tableid,
+                            rusticate: rusticate,
+                            gridsequence: gridsequence,
+                            gridpersontype: gridpersontype,
+                            gridpersonname: gridpersonname,
+                            idcard: idcard,
+                            sex: sex,
+                            age: age,
+                            gridpersonphone: gridpersonphone,
+                            politicallook: politicallook,
+                            education: education,
+                            marital: marital,
+                            currentaddress: currentaddress,
+                            otheridentity: otheridentity,
+                            managerhouse: managerhouse,
+                            gridcode: gridcode,
+                            gridscope: gridscope,
+                            comment: comment,
+                            policestationid: '${policestation.id}'
+                        };
+                        $.ajax({
+                            url: '${Session.BASE_URL}stability/update',
+                            type: 'GET', //GET
+                            dataType: 'json',
+                            data: data,
+                            success: function (result) {
+                                if (result.code == "SUCCESS") {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    layer.msg("修改成功！")
+                                    setTimeout(function () {
+                                        window.parent.location.reload();
+                                    },1000)
+                                }
+                            }
+                        })
+                    }
+                })
+            } else if (obj.event === 'del') {
+                //删除
+                layer.confirm('您确定要删除吗？', function (index) {
+                    var id = data.id
+                    $.ajax({
+                        url: '${Session.BASE_URL}stability/delete',
+                        data: {id: id},
+                        success: function (result) {
+                            if (result.code == 'SUCCESS') {
+                                console.log(123);
+                                window.parent.layui.layer.msg("删除成功");//提示消息
+                                location.reload();     //删除之后,刷新表格
+                            } else {
+                                window.parent.layui.layer.msg("删除失败");//提示消息
+                            }
+                        }
+                    })
+                    layer.close(index); //关闭弹出层
+                });
+            }
+        });
+
+
+        $("#export").click(function () {
+            window.location.href = '${Session.BASE_URL}api/网格信息.xls';
+        });
+
+        //监听查询按钮
+        layui.$('#query').on('click', function () {
+            var type = layui.$(this).data('type');
+            console.log(type)
+            active[type] ? active[type].call(this) : '';
+        });
+        //获取选中状态
+        var active = {
+            query: function () { //获取选中数据
+                var keyword = $("#search").val();
+                var data = {
+                    keyword: keyword,
+                    policestationid: '${policestation.id}'
+// 					pageNum: 1,
+// 					pageSize:10
+                };
+                tableIns.reload({
+                    where: data
+                    , url: '${Session.BASE_URL}stability/dataList'
+                    , page: {
+                        curr: 1  //从第一页开始
+                    }
+                });
+            }
+        };
+    });
+
+
+    //添加
+
+    $("#save").click(function () {
+        var rusticate = $("#rusticate").val();
+        var gridsequence = $("#gridsequence").val();
+        var gridpersontype = $("#gridpersontype").val();
+        var gridpersonname = $("#gridpersonname").val();
+        var idcard = $("#idcard").val();
+        var sex = $("#sex").val();
+        var age = $("#age").val();
+        var gridpersonphone = $("#gridpersonphone").val();
+        var politicallook = $("#politicallook").val();
+        var education = $("#education").val();
+        var marital = $("#marital").val();
+        var currentaddress = $("#currentaddress").val();
+        var otheridentity = $("#otheridentity").val();
+        var managerhouse = $("#managerhouse").val();
+        var gridcode = $("#gridcode").val();
+        var gridscope = $("#gridscope").val();
+        var comment = $("#comment").val();
+
+        if(rusticate == ''){
+            layer.msg('请填写村居')
+        }else if(gridsequence == ''){
+            layer.msg('请填写网格序列')
+        }else if(gridpersonname == ''){
+            layer.msg('请填写网格员姓名')
+        }else if(idcard!==''){
+            if(regId.test(idcard)==false){
+                layer.msg('请填写正确的身份证号码')
+            }
+        }else if(gridpersonphone == ''){
+            layer.msg('请填写联系方式')
+        }else if(!phoneReg.test(gridpersonphone)){
+            layer.msg('请填写正确的手机号')
+        }else if(gridcode == ''){
+            layer.msg('请填写网格编码')
+        }else {
+            var data = {
+                rusticate: rusticate,
+                gridsequence: gridsequence,
+                gridpersontype: gridpersontype,
+                gridpersonname: gridpersonname,
+                idcard: idcard,
+                sex: sex,
+                age: age,
+                gridpersonphone: gridpersonphone,
+                politicallook: politicallook,
+                education: education,
+                marital: marital,
+                currentaddress: currentaddress,
+                otheridentity: otheridentity,
+                managerhouse: managerhouse,
+                gridcode: gridcode,
+                gridscope: gridscope,
+                comment: comment,
+                policestationid: '${policestation.id}'
+            };
+            $.ajax({
+                url: '${Session.BASE_URL}stability/add',
+                type: 'GET', //GET
+                dataType: 'json',
+                data: data,
+                success: function (result) {
+                    if (result.code == "SUCCESS") {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        layer.msg("添加成功！")
+                        setTimeout(function () {
+                            window.parent.location.reload();
+                        },1000)
+                    }
+                }
+            })
+        }
+
+    })
+
+
+    $("#fanhui").click(function () {
+        window.history.back(-1);
+    })
+
+    function openTips() {
+        $("#tips").css("display", "block");
+    }
+
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+        $("#title").val("");
+        $("#time").val("");
+    }
+
+    $("#updatecolse").click(function () {
+        $("#updatetips").css("display", "none");
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,2184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.dao.PublicsentimentDAO">
+    <resultMap id="BaseResultMap" type="com.zhongzhou.entity.Publicsentiment">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="policestationid" jdbcType="INTEGER" property="policestationid" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="codenum" jdbcType="VARCHAR" property="codenum" />
+        <result column="hostposition" jdbcType="VARCHAR" property="hostposition" />
+        <result column="mediateaddress" jdbcType="VARCHAR" property="mediateaddress" />
+        <result column="mainmacts" jdbcType="VARCHAR" property="mainmacts" />
+        <result column="agreement" jdbcType="VARCHAR" property="agreement" />
+        <result column="mediatedate" jdbcType="VARCHAR" property="mediatedate" />
+        <result column="onehostname" jdbcType="VARCHAR" property="onehostname" />
+        <result column="twohostname" jdbcType="VARCHAR" property="twohostname" />
+        <result column="onecurrentname" jdbcType="VARCHAR" property="onecurrentname" />
+        <result column="twocurrentname" jdbcType="VARCHAR" property="twocurrentname" />
+        <result column="onecurrentsex" jdbcType="VARCHAR" property="onecurrentsex" />
+        <result column="twocurrentsex" jdbcType="VARCHAR" property="twocurrentsex" />
+        <result column="onecurrentage" jdbcType="VARCHAR" property="onecurrentage" />
+        <result column="twocurrentage" jdbcType="VARCHAR" property="twocurrentage" />
+        <result column="onecurrentnation" jdbcType="VARCHAR" property="onecurrentnation" />
+        <result column="twocurrentnation" jdbcType="VARCHAR" property="twocurrentnation" />
+        <result column="onecurrentbirthdate" jdbcType="VARCHAR" property="onecurrentbirthdate" />
+        <result column="twocurrentbirthdate" jdbcType="VARCHAR" property="twocurrentbirthdate" />
+        <result column="onecurrentidcard" jdbcType="VARCHAR" property="onecurrentidcard" />
+        <result column="twocurrentidcard" jdbcType="VARCHAR" property="twocurrentidcard" />
+        <result column="onecurrentcompany" jdbcType="VARCHAR" property="onecurrentcompany" />
+        <result column="twocurrentcompany" jdbcType="VARCHAR" property="twocurrentcompany" />
+        <result column="onecurrentposition" jdbcType="VARCHAR" property="onecurrentposition" />
+        <result column="twocurrentposition" jdbcType="VARCHAR" property="twocurrentposition" />
+        <result column="onecurrentfamily" jdbcType="VARCHAR" property="onecurrentfamily" />
+        <result column="twocurrentfamily" jdbcType="VARCHAR" property="twocurrentfamily" />
+        <result column="oneformname" jdbcType="VARCHAR" property="oneformname" />
+        <result column="twoformname" jdbcType="VARCHAR" property="twoformname" />
+        <result column="onerepresent" jdbcType="VARCHAR" property="onerepresent" />
+        <result column="tworepresent" jdbcType="VARCHAR" property="tworepresent" />
+        <result column="onejob" jdbcType="VARCHAR" property="onejob" />
+        <result column="twojob" jdbcType="VARCHAR" property="twojob" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, title, content, source, policestationid, time, codenum, hostposition, mediateaddress,
+    mainmacts, agreement, mediatedate, onehostname, twohostname, onecurrentname, twocurrentname,
+    onecurrentsex, twocurrentsex, onecurrentage, twocurrentage, onecurrentnation, twocurrentnation,
+    onecurrentbirthdate, twocurrentbirthdate, onecurrentidcard, twocurrentidcard, onecurrentcompany,
+    twocurrentcompany, onecurrentposition, twocurrentposition, onecurrentfamily, twocurrentfamily,
+    oneformname, twoformname, onerepresent, tworepresent, onejob, twojob
+  </sql>
+    <select id="selectByExample" parameterType="com.zhongzhou.entity.PublicsentimentCriteria" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from publicsentiment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from publicsentiment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from publicsentiment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.zhongzhou.entity.PublicsentimentCriteria">
+        delete from publicsentiment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.zhongzhou.entity.Publicsentiment"  useGeneratedKeys="true" keyProperty="id">
+    insert into publicsentiment (id, title, content,
+      source, policestationid, time,
+      codenum, hostposition, mediateaddress,
+      mainmacts, agreement, mediatedate,
+      onehostname, twohostname, onecurrentname,
+      twocurrentname, onecurrentsex, twocurrentsex,
+      onecurrentage, twocurrentage, onecurrentnation,
+      twocurrentnation, onecurrentbirthdate,
+      twocurrentbirthdate, onecurrentidcard,
+      twocurrentidcard, onecurrentcompany, twocurrentcompany,
+      onecurrentposition, twocurrentposition,
+      onecurrentfamily, twocurrentfamily, oneformname,
+      twoformname, onerepresent, tworepresent,
+      onejob, twojob)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{source,jdbcType=VARCHAR}, #{policestationid,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR},
+      #{codenum,jdbcType=VARCHAR}, #{hostposition,jdbcType=VARCHAR}, #{mediateaddress,jdbcType=VARCHAR},
+      #{mainmacts,jdbcType=VARCHAR}, #{agreement,jdbcType=VARCHAR}, #{mediatedate,jdbcType=VARCHAR},
+      #{onehostname,jdbcType=VARCHAR}, #{twohostname,jdbcType=VARCHAR}, #{onecurrentname,jdbcType=VARCHAR},
+      #{twocurrentname,jdbcType=VARCHAR}, #{onecurrentsex,jdbcType=VARCHAR}, #{twocurrentsex,jdbcType=VARCHAR},
+      #{onecurrentage,jdbcType=VARCHAR}, #{twocurrentage,jdbcType=VARCHAR}, #{onecurrentnation,jdbcType=VARCHAR},
+      #{twocurrentnation,jdbcType=VARCHAR}, #{onecurrentbirthdate,jdbcType=VARCHAR},
+      #{twocurrentbirthdate,jdbcType=VARCHAR}, #{onecurrentidcard,jdbcType=VARCHAR},
+      #{twocurrentidcard,jdbcType=VARCHAR}, #{onecurrentcompany,jdbcType=VARCHAR}, #{twocurrentcompany,jdbcType=VARCHAR},
+      #{onecurrentposition,jdbcType=VARCHAR}, #{twocurrentposition,jdbcType=VARCHAR},
+      #{onecurrentfamily,jdbcType=VARCHAR}, #{twocurrentfamily,jdbcType=VARCHAR}, #{oneformname,jdbcType=VARCHAR},
+      #{twoformname,jdbcType=VARCHAR}, #{onerepresent,jdbcType=VARCHAR}, #{tworepresent,jdbcType=VARCHAR},
+      #{onejob,jdbcType=VARCHAR}, #{twojob,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhongzhou.entity.Publicsentiment"  useGeneratedKeys="true" keyProperty="id">
+        insert into publicsentiment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="source != null">
+                source,
+            </if>
+            <if test="policestationid != null">
+                policestationid,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="codenum != null">
+                codenum,
+            </if>
+            <if test="hostposition != null">
+                hostposition,
+            </if>
+            <if test="mediateaddress != null">
+                mediateaddress,
+            </if>
+            <if test="mainmacts != null">
+                mainmacts,
+            </if>
+            <if test="agreement != null">
+                agreement,
+            </if>
+            <if test="mediatedate != null">
+                mediatedate,
+            </if>
+            <if test="onehostname != null">
+                onehostname,
+            </if>
+            <if test="twohostname != null">
+                twohostname,
+            </if>
+            <if test="onecurrentname != null">
+                onecurrentname,
+            </if>
+            <if test="twocurrentname != null">
+                twocurrentname,
+            </if>
+            <if test="onecurrentsex != null">
+                onecurrentsex,
+            </if>
+            <if test="twocurrentsex != null">
+                twocurrentsex,
+            </if>
+            <if test="onecurrentage != null">
+                onecurrentage,
+            </if>
+            <if test="twocurrentage != null">
+                twocurrentage,
+            </if>
+            <if test="onecurrentnation != null">
+                onecurrentnation,
+            </if>
+            <if test="twocurrentnation != null">
+                twocurrentnation,
+            </if>
+            <if test="onecurrentbirthdate != null">
+                onecurrentbirthdate,
+            </if>
+            <if test="twocurrentbirthdate != null">
+                twocurrentbirthdate,
+            </if>
+            <if test="onecurrentidcard != null">
+                onecurrentidcard,
+            </if>
+            <if test="twocurrentidcard != null">
+                twocurrentidcard,
+            </if>
+            <if test="onecurrentcompany != null">
+                onecurrentcompany,
+            </if>
+            <if test="twocurrentcompany != null">
+                twocurrentcompany,
+            </if>
+            <if test="onecurrentposition != null">
+                onecurrentposition,
+            </if>
+            <if test="twocurrentposition != null">
+                twocurrentposition,
+            </if>
+            <if test="onecurrentfamily != null">
+                onecurrentfamily,
+            </if>
+            <if test="twocurrentfamily != null">
+                twocurrentfamily,
+            </if>
+            <if test="oneformname != null">
+                oneformname,
+            </if>
+            <if test="twoformname != null">
+                twoformname,
+            </if>
+            <if test="onerepresent != null">
+                onerepresent,
+            </if>
+            <if test="tworepresent != null">
+                tworepresent,
+            </if>
+            <if test="onejob != null">
+                onejob,
+            </if>
+            <if test="twojob != null">
+                twojob,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+                #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="policestationid != null">
+                #{policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="codenum != null">
+                #{codenum,jdbcType=VARCHAR},
+            </if>
+            <if test="hostposition != null">
+                #{hostposition,jdbcType=VARCHAR},
+            </if>
+            <if test="mediateaddress != null">
+                #{mediateaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="mainmacts != null">
+                #{mainmacts,jdbcType=VARCHAR},
+            </if>
+            <if test="agreement != null">
+                #{agreement,jdbcType=VARCHAR},
+            </if>
+            <if test="mediatedate != null">
+                #{mediatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="onehostname != null">
+                #{onehostname,jdbcType=VARCHAR},
+            </if>
+            <if test="twohostname != null">
+                #{twohostname,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentname != null">
+                #{onecurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentname != null">
+                #{twocurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentsex != null">
+                #{onecurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentsex != null">
+                #{twocurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentage != null">
+                #{onecurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentage != null">
+                #{twocurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentnation != null">
+                #{onecurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentnation != null">
+                #{twocurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentbirthdate != null">
+                #{onecurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentbirthdate != null">
+                #{twocurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentidcard != null">
+                #{onecurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentidcard != null">
+                #{twocurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentcompany != null">
+                #{onecurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentcompany != null">
+                #{twocurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentposition != null">
+                #{onecurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentposition != null">
+                #{twocurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentfamily != null">
+                #{onecurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentfamily != null">
+                #{twocurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="oneformname != null">
+                #{oneformname,jdbcType=VARCHAR},
+            </if>
+            <if test="twoformname != null">
+                #{twoformname,jdbcType=VARCHAR},
+            </if>
+            <if test="onerepresent != null">
+                #{onerepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="tworepresent != null">
+                #{tworepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="onejob != null">
+                #{onejob,jdbcType=VARCHAR},
+            </if>
+            <if test="twojob != null">
+                #{twojob,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into publicsentiment (id, title, content,
+        source, policestationid, time,
+        codenum, hostposition, mediateaddress,
+        mainmacts, agreement, mediatedate,
+        onehostname, twohostname, onecurrentname,
+        twocurrentname, onecurrentsex,
+        twocurrentsex, onecurrentage,
+        twocurrentage, onecurrentnation,
+        twocurrentnation, onecurrentbirthdate,
+        twocurrentbirthdate, onecurrentidcard,
+        twocurrentidcard, onecurrentcompany,
+        twocurrentcompany, onecurrentposition,
+        twocurrentposition, onecurrentfamily,
+        twocurrentfamily, oneformname,
+        twoformname, onerepresent, tworepresent,
+        onejob, twojob)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.title,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR},
+            #{item.source,jdbcType=VARCHAR}, #{item.policestationid,jdbcType=INTEGER}, #{item.time,jdbcType=VARCHAR},
+            #{item.codenum,jdbcType=VARCHAR}, #{item.hostposition,jdbcType=VARCHAR}, #{item.mediateaddress,jdbcType=VARCHAR},
+            #{item.mainmacts,jdbcType=VARCHAR}, #{item.agreement,jdbcType=VARCHAR}, #{item.mediatedate,jdbcType=VARCHAR},
+            #{item.onehostname,jdbcType=VARCHAR}, #{item.twohostname,jdbcType=VARCHAR}, #{item.onecurrentname,jdbcType=VARCHAR},
+            #{item.twocurrentname,jdbcType=VARCHAR}, #{item.onecurrentsex,jdbcType=VARCHAR},
+            #{item.twocurrentsex,jdbcType=VARCHAR}, #{item.onecurrentage,jdbcType=VARCHAR},
+            #{item.twocurrentage,jdbcType=VARCHAR}, #{item.onecurrentnation,jdbcType=VARCHAR},
+            #{item.twocurrentnation,jdbcType=VARCHAR}, #{item.onecurrentbirthdate,jdbcType=VARCHAR},
+            #{item.twocurrentbirthdate,jdbcType=VARCHAR}, #{item.onecurrentidcard,jdbcType=VARCHAR},
+            #{item.twocurrentidcard,jdbcType=VARCHAR}, #{item.onecurrentcompany,jdbcType=VARCHAR},
+            #{item.twocurrentcompany,jdbcType=VARCHAR}, #{item.onecurrentposition,jdbcType=VARCHAR},
+            #{item.twocurrentposition,jdbcType=VARCHAR}, #{item.onecurrentfamily,jdbcType=VARCHAR},
+            #{item.twocurrentfamily,jdbcType=VARCHAR}, #{item.oneformname,jdbcType=VARCHAR},
+            #{item.twoformname,jdbcType=VARCHAR}, #{item.onerepresent,jdbcType=VARCHAR}, #{item.tworepresent,jdbcType=VARCHAR},
+            #{item.onejob,jdbcType=VARCHAR}, #{item.twojob,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertBatchSelective" parameterType="java.util.List">
+        insert into publicsentiment
+        (id, title, content, source, policestationid, time, codenum, hostposition, mediateaddress,
+        mainmacts, agreement, mediatedate, onehostname, twohostname, onecurrentname, twocurrentname,
+        onecurrentsex, twocurrentsex, onecurrentage, twocurrentage, onecurrentnation, twocurrentnation,
+        onecurrentbirthdate, twocurrentbirthdate, onecurrentidcard, twocurrentidcard, onecurrentcompany,
+        twocurrentcompany, onecurrentposition, twocurrentposition, onecurrentfamily, twocurrentfamily,
+        oneformname, twoformname, onerepresent, tworepresent, onejob, twojob)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=INTEGER},
+                </if>
+                <if test="item.id == null">
+                    NULL,
+                </if>
+                <if test="item.title != null">
+                    #{item.title,jdbcType=VARCHAR},
+                </if>
+                <if test="item.title == null">
+                    NULL,
+                </if>
+                <if test="item.content != null">
+                    #{item.content,jdbcType=VARCHAR},
+                </if>
+                <if test="item.content == null">
+                    NULL,
+                </if>
+                <if test="item.source != null">
+                    #{item.source,jdbcType=VARCHAR},
+                </if>
+                <if test="item.source == null">
+                    NULL,
+                </if>
+                <if test="item.policestationid != null">
+                    #{item.policestationid,jdbcType=INTEGER},
+                </if>
+                <if test="item.policestationid == null">
+                    NULL,
+                </if>
+                <if test="item.time != null">
+                    #{item.time,jdbcType=VARCHAR},
+                </if>
+                <if test="item.time == null">
+                    NULL,
+                </if>
+                <if test="item.codenum != null">
+                    #{item.codenum,jdbcType=VARCHAR},
+                </if>
+                <if test="item.codenum == null">
+                    NULL,
+                </if>
+                <if test="item.hostposition != null">
+                    #{item.hostposition,jdbcType=VARCHAR},
+                </if>
+                <if test="item.hostposition == null">
+                    NULL,
+                </if>
+                <if test="item.mediateaddress != null">
+                    #{item.mediateaddress,jdbcType=VARCHAR},
+                </if>
+                <if test="item.mediateaddress == null">
+                    NULL,
+                </if>
+                <if test="item.mainmacts != null">
+                    #{item.mainmacts,jdbcType=VARCHAR},
+                </if>
+                <if test="item.mainmacts == null">
+                    NULL,
+                </if>
+                <if test="item.agreement != null">
+                    #{item.agreement,jdbcType=VARCHAR},
+                </if>
+                <if test="item.agreement == null">
+                    NULL,
+                </if>
+                <if test="item.mediatedate != null">
+                    #{item.mediatedate,jdbcType=VARCHAR},
+                </if>
+                <if test="item.mediatedate == null">
+                    NULL,
+                </if>
+                <if test="item.onehostname != null">
+                    #{item.onehostname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onehostname == null">
+                    NULL,
+                </if>
+                <if test="item.twohostname != null">
+                    #{item.twohostname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twohostname == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentname != null">
+                    #{item.onecurrentname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentname == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentname != null">
+                    #{item.twocurrentname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentname == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentsex != null">
+                    #{item.onecurrentsex,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentsex == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentsex != null">
+                    #{item.twocurrentsex,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentsex == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentage != null">
+                    #{item.onecurrentage,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentage == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentage != null">
+                    #{item.twocurrentage,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentage == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentnation != null">
+                    #{item.onecurrentnation,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentnation == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentnation != null">
+                    #{item.twocurrentnation,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentnation == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentbirthdate != null">
+                    #{item.onecurrentbirthdate,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentbirthdate == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentbirthdate != null">
+                    #{item.twocurrentbirthdate,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentbirthdate == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentidcard != null">
+                    #{item.onecurrentidcard,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentidcard == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentidcard != null">
+                    #{item.twocurrentidcard,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentidcard == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentcompany != null">
+                    #{item.onecurrentcompany,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentcompany == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentcompany != null">
+                    #{item.twocurrentcompany,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentcompany == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentposition != null">
+                    #{item.onecurrentposition,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentposition == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentposition != null">
+                    #{item.twocurrentposition,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentposition == null">
+                    NULL,
+                </if>
+                <if test="item.onecurrentfamily != null">
+                    #{item.onecurrentfamily,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onecurrentfamily == null">
+                    NULL,
+                </if>
+                <if test="item.twocurrentfamily != null">
+                    #{item.twocurrentfamily,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twocurrentfamily == null">
+                    NULL,
+                </if>
+                <if test="item.oneformname != null">
+                    #{item.oneformname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.oneformname == null">
+                    NULL,
+                </if>
+                <if test="item.twoformname != null">
+                    #{item.twoformname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twoformname == null">
+                    NULL,
+                </if>
+                <if test="item.onerepresent != null">
+                    #{item.onerepresent,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onerepresent == null">
+                    NULL,
+                </if>
+                <if test="item.tworepresent != null">
+                    #{item.tworepresent,jdbcType=VARCHAR},
+                </if>
+                <if test="item.tworepresent == null">
+                    NULL,
+                </if>
+                <if test="item.onejob != null">
+                    #{item.onejob,jdbcType=VARCHAR},
+                </if>
+                <if test="item.onejob == null">
+                    NULL,
+                </if>
+                <if test="item.twojob != null">
+                    #{item.twojob,jdbcType=VARCHAR},
+                </if>
+                <if test="item.twojob == null">
+                    NULL,
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <select id="countByExample" parameterType="com.zhongzhou.entity.PublicsentimentCriteria" resultType="java.lang.Long">
+        select count(*) from publicsentiment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update publicsentiment
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.title != null">
+                title = #{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=VARCHAR},
+            </if>
+            <if test="record.source != null">
+                source = #{record.source,jdbcType=VARCHAR},
+            </if>
+            <if test="record.policestationid != null">
+                policestationid = #{record.policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="record.time != null">
+                time = #{record.time,jdbcType=VARCHAR},
+            </if>
+            <if test="record.codenum != null">
+                codenum = #{record.codenum,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hostposition != null">
+                hostposition = #{record.hostposition,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mediateaddress != null">
+                mediateaddress = #{record.mediateaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mainmacts != null">
+                mainmacts = #{record.mainmacts,jdbcType=VARCHAR},
+            </if>
+            <if test="record.agreement != null">
+                agreement = #{record.agreement,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mediatedate != null">
+                mediatedate = #{record.mediatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onehostname != null">
+                onehostname = #{record.onehostname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twohostname != null">
+                twohostname = #{record.twohostname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentname != null">
+                onecurrentname = #{record.onecurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentname != null">
+                twocurrentname = #{record.twocurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentsex != null">
+                onecurrentsex = #{record.onecurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentsex != null">
+                twocurrentsex = #{record.twocurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentage != null">
+                onecurrentage = #{record.onecurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentage != null">
+                twocurrentage = #{record.twocurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentnation != null">
+                onecurrentnation = #{record.onecurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentnation != null">
+                twocurrentnation = #{record.twocurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentbirthdate != null">
+                onecurrentbirthdate = #{record.onecurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentbirthdate != null">
+                twocurrentbirthdate = #{record.twocurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentidcard != null">
+                onecurrentidcard = #{record.onecurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentidcard != null">
+                twocurrentidcard = #{record.twocurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentcompany != null">
+                onecurrentcompany = #{record.onecurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentcompany != null">
+                twocurrentcompany = #{record.twocurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentposition != null">
+                onecurrentposition = #{record.onecurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentposition != null">
+                twocurrentposition = #{record.twocurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onecurrentfamily != null">
+                onecurrentfamily = #{record.onecurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twocurrentfamily != null">
+                twocurrentfamily = #{record.twocurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="record.oneformname != null">
+                oneformname = #{record.oneformname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twoformname != null">
+                twoformname = #{record.twoformname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onerepresent != null">
+                onerepresent = #{record.onerepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tworepresent != null">
+                tworepresent = #{record.tworepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.onejob != null">
+                onejob = #{record.onejob,jdbcType=VARCHAR},
+            </if>
+            <if test="record.twojob != null">
+                twojob = #{record.twojob,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update publicsentiment
+        set id = #{record.id,jdbcType=INTEGER},
+        title = #{record.title,jdbcType=VARCHAR},
+        content = #{record.content,jdbcType=VARCHAR},
+        source = #{record.source,jdbcType=VARCHAR},
+        policestationid = #{record.policestationid,jdbcType=INTEGER},
+        time = #{record.time,jdbcType=VARCHAR},
+        codenum = #{record.codenum,jdbcType=VARCHAR},
+        hostposition = #{record.hostposition,jdbcType=VARCHAR},
+        mediateaddress = #{record.mediateaddress,jdbcType=VARCHAR},
+        mainmacts = #{record.mainmacts,jdbcType=VARCHAR},
+        agreement = #{record.agreement,jdbcType=VARCHAR},
+        mediatedate = #{record.mediatedate,jdbcType=VARCHAR},
+        onehostname = #{record.onehostname,jdbcType=VARCHAR},
+        twohostname = #{record.twohostname,jdbcType=VARCHAR},
+        onecurrentname = #{record.onecurrentname,jdbcType=VARCHAR},
+        twocurrentname = #{record.twocurrentname,jdbcType=VARCHAR},
+        onecurrentsex = #{record.onecurrentsex,jdbcType=VARCHAR},
+        twocurrentsex = #{record.twocurrentsex,jdbcType=VARCHAR},
+        onecurrentage = #{record.onecurrentage,jdbcType=VARCHAR},
+        twocurrentage = #{record.twocurrentage,jdbcType=VARCHAR},
+        onecurrentnation = #{record.onecurrentnation,jdbcType=VARCHAR},
+        twocurrentnation = #{record.twocurrentnation,jdbcType=VARCHAR},
+        onecurrentbirthdate = #{record.onecurrentbirthdate,jdbcType=VARCHAR},
+        twocurrentbirthdate = #{record.twocurrentbirthdate,jdbcType=VARCHAR},
+        onecurrentidcard = #{record.onecurrentidcard,jdbcType=VARCHAR},
+        twocurrentidcard = #{record.twocurrentidcard,jdbcType=VARCHAR},
+        onecurrentcompany = #{record.onecurrentcompany,jdbcType=VARCHAR},
+        twocurrentcompany = #{record.twocurrentcompany,jdbcType=VARCHAR},
+        onecurrentposition = #{record.onecurrentposition,jdbcType=VARCHAR},
+        twocurrentposition = #{record.twocurrentposition,jdbcType=VARCHAR},
+        onecurrentfamily = #{record.onecurrentfamily,jdbcType=VARCHAR},
+        twocurrentfamily = #{record.twocurrentfamily,jdbcType=VARCHAR},
+        oneformname = #{record.oneformname,jdbcType=VARCHAR},
+        twoformname = #{record.twoformname,jdbcType=VARCHAR},
+        onerepresent = #{record.onerepresent,jdbcType=VARCHAR},
+        tworepresent = #{record.tworepresent,jdbcType=VARCHAR},
+        onejob = #{record.onejob,jdbcType=VARCHAR},
+        twojob = #{record.twojob,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhongzhou.entity.Publicsentiment">
+        update publicsentiment
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+                source = #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="policestationid != null">
+                policestationid = #{policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="codenum != null">
+                codenum = #{codenum,jdbcType=VARCHAR},
+            </if>
+            <if test="hostposition != null">
+                hostposition = #{hostposition,jdbcType=VARCHAR},
+            </if>
+            <if test="mediateaddress != null">
+                mediateaddress = #{mediateaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="mainmacts != null">
+                mainmacts = #{mainmacts,jdbcType=VARCHAR},
+            </if>
+            <if test="agreement != null">
+                agreement = #{agreement,jdbcType=VARCHAR},
+            </if>
+            <if test="mediatedate != null">
+                mediatedate = #{mediatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="onehostname != null">
+                onehostname = #{onehostname,jdbcType=VARCHAR},
+            </if>
+            <if test="twohostname != null">
+                twohostname = #{twohostname,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentname != null">
+                onecurrentname = #{onecurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentname != null">
+                twocurrentname = #{twocurrentname,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentsex != null">
+                onecurrentsex = #{onecurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentsex != null">
+                twocurrentsex = #{twocurrentsex,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentage != null">
+                onecurrentage = #{onecurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentage != null">
+                twocurrentage = #{twocurrentage,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentnation != null">
+                onecurrentnation = #{onecurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentnation != null">
+                twocurrentnation = #{twocurrentnation,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentbirthdate != null">
+                onecurrentbirthdate = #{onecurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentbirthdate != null">
+                twocurrentbirthdate = #{twocurrentbirthdate,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentidcard != null">
+                onecurrentidcard = #{onecurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentidcard != null">
+                twocurrentidcard = #{twocurrentidcard,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentcompany != null">
+                onecurrentcompany = #{onecurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentcompany != null">
+                twocurrentcompany = #{twocurrentcompany,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentposition != null">
+                onecurrentposition = #{onecurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentposition != null">
+                twocurrentposition = #{twocurrentposition,jdbcType=VARCHAR},
+            </if>
+            <if test="onecurrentfamily != null">
+                onecurrentfamily = #{onecurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="twocurrentfamily != null">
+                twocurrentfamily = #{twocurrentfamily,jdbcType=VARCHAR},
+            </if>
+            <if test="oneformname != null">
+                oneformname = #{oneformname,jdbcType=VARCHAR},
+            </if>
+            <if test="twoformname != null">
+                twoformname = #{twoformname,jdbcType=VARCHAR},
+            </if>
+            <if test="onerepresent != null">
+                onerepresent = #{onerepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="tworepresent != null">
+                tworepresent = #{tworepresent,jdbcType=VARCHAR},
+            </if>
+            <if test="onejob != null">
+                onejob = #{onejob,jdbcType=VARCHAR},
+            </if>
+            <if test="twojob != null">
+                twojob = #{twojob,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhongzhou.entity.Publicsentiment">
+    update publicsentiment
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      policestationid = #{policestationid,jdbcType=INTEGER},
+      time = #{time,jdbcType=VARCHAR},
+      codenum = #{codenum,jdbcType=VARCHAR},
+      hostposition = #{hostposition,jdbcType=VARCHAR},
+      mediateaddress = #{mediateaddress,jdbcType=VARCHAR},
+      mainmacts = #{mainmacts,jdbcType=VARCHAR},
+      agreement = #{agreement,jdbcType=VARCHAR},
+      mediatedate = #{mediatedate,jdbcType=VARCHAR},
+      onehostname = #{onehostname,jdbcType=VARCHAR},
+      twohostname = #{twohostname,jdbcType=VARCHAR},
+      onecurrentname = #{onecurrentname,jdbcType=VARCHAR},
+      twocurrentname = #{twocurrentname,jdbcType=VARCHAR},
+      onecurrentsex = #{onecurrentsex,jdbcType=VARCHAR},
+      twocurrentsex = #{twocurrentsex,jdbcType=VARCHAR},
+      onecurrentage = #{onecurrentage,jdbcType=VARCHAR},
+      twocurrentage = #{twocurrentage,jdbcType=VARCHAR},
+      onecurrentnation = #{onecurrentnation,jdbcType=VARCHAR},
+      twocurrentnation = #{twocurrentnation,jdbcType=VARCHAR},
+      onecurrentbirthdate = #{onecurrentbirthdate,jdbcType=VARCHAR},
+      twocurrentbirthdate = #{twocurrentbirthdate,jdbcType=VARCHAR},
+      onecurrentidcard = #{onecurrentidcard,jdbcType=VARCHAR},
+      twocurrentidcard = #{twocurrentidcard,jdbcType=VARCHAR},
+      onecurrentcompany = #{onecurrentcompany,jdbcType=VARCHAR},
+      twocurrentcompany = #{twocurrentcompany,jdbcType=VARCHAR},
+      onecurrentposition = #{onecurrentposition,jdbcType=VARCHAR},
+      twocurrentposition = #{twocurrentposition,jdbcType=VARCHAR},
+      onecurrentfamily = #{onecurrentfamily,jdbcType=VARCHAR},
+      twocurrentfamily = #{twocurrentfamily,jdbcType=VARCHAR},
+      oneformname = #{oneformname,jdbcType=VARCHAR},
+      twoformname = #{twoformname,jdbcType=VARCHAR},
+      onerepresent = #{onerepresent,jdbcType=VARCHAR},
+      tworepresent = #{tworepresent,jdbcType=VARCHAR},
+      onejob = #{onejob,jdbcType=VARCHAR},
+      twojob = #{twojob,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+        update publicsentiment
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.title}
+                </foreach>
+            </trim>
+            <trim prefix="content =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.content}
+                </foreach>
+            </trim>
+            <trim prefix="source =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.source}
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.policestationid}
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.time}
+                </foreach>
+            </trim>
+            <trim prefix="codenum =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.codenum}
+                </foreach>
+            </trim>
+            <trim prefix="hostposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.hostposition}
+                </foreach>
+            </trim>
+            <trim prefix="mediateaddress =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mediateaddress}
+                </foreach>
+            </trim>
+            <trim prefix="mainmacts =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mainmacts}
+                </foreach>
+            </trim>
+            <trim prefix="agreement =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.agreement}
+                </foreach>
+            </trim>
+            <trim prefix="mediatedate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mediatedate}
+                </foreach>
+            </trim>
+            <trim prefix="onehostname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onehostname}
+                </foreach>
+            </trim>
+            <trim prefix="twohostname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twohostname}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentname}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentname}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentsex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentsex}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentsex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentsex}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentage =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentage}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentage =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentage}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentnation =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentnation}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentnation =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentnation}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentbirthdate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentbirthdate}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentbirthdate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentbirthdate}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentidcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentidcard}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentidcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentidcard}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentcompany =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentcompany}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentcompany =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentcompany}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentposition}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentposition}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentfamily =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentfamily}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentfamily =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentfamily}
+                </foreach>
+            </trim>
+            <trim prefix="oneformname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.oneformname}
+                </foreach>
+            </trim>
+            <trim prefix="twoformname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twoformname}
+                </foreach>
+            </trim>
+            <trim prefix="onerepresent =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onerepresent}
+                </foreach>
+            </trim>
+            <trim prefix="tworepresent =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.tworepresent}
+                </foreach>
+            </trim>
+            <trim prefix="onejob =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onejob}
+                </foreach>
+            </trim>
+            <trim prefix="twojob =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twojob}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+        update publicsentiment
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.title != null ">
+                        when  #{item.id} then #{item.title}
+                    </if>
+                    <if test="item.title == null ">
+                        when  #{item.id} then publicsentiment.title
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="content =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.content != null ">
+                        when  #{item.id} then #{item.content}
+                    </if>
+                    <if test="item.content == null ">
+                        when  #{item.id} then publicsentiment.content
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="source =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.source != null ">
+                        when  #{item.id} then #{item.source}
+                    </if>
+                    <if test="item.source == null ">
+                        when  #{item.id} then publicsentiment.source
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.policestationid != null ">
+                        when  #{item.id} then #{item.policestationid}
+                    </if>
+                    <if test="item.policestationid == null ">
+                        when  #{item.id} then publicsentiment.policestationid
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.time != null ">
+                        when  #{item.id} then #{item.time}
+                    </if>
+                    <if test="item.time == null ">
+                        when  #{item.id} then publicsentiment.time
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="codenum =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.codenum != null ">
+                        when  #{item.id} then #{item.codenum}
+                    </if>
+                    <if test="item.codenum == null ">
+                        when  #{item.id} then publicsentiment.codenum
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="hostposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.hostposition != null ">
+                        when  #{item.id} then #{item.hostposition}
+                    </if>
+                    <if test="item.hostposition == null ">
+                        when  #{item.id} then publicsentiment.hostposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mediateaddress =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.mediateaddress != null ">
+                        when  #{item.id} then #{item.mediateaddress}
+                    </if>
+                    <if test="item.mediateaddress == null ">
+                        when  #{item.id} then publicsentiment.mediateaddress
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mainmacts =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.mainmacts != null ">
+                        when  #{item.id} then #{item.mainmacts}
+                    </if>
+                    <if test="item.mainmacts == null ">
+                        when  #{item.id} then publicsentiment.mainmacts
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="agreement =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.agreement != null ">
+                        when  #{item.id} then #{item.agreement}
+                    </if>
+                    <if test="item.agreement == null ">
+                        when  #{item.id} then publicsentiment.agreement
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mediatedate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.mediatedate != null ">
+                        when  #{item.id} then #{item.mediatedate}
+                    </if>
+                    <if test="item.mediatedate == null ">
+                        when  #{item.id} then publicsentiment.mediatedate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onehostname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onehostname != null ">
+                        when  #{item.id} then #{item.onehostname}
+                    </if>
+                    <if test="item.onehostname == null ">
+                        when  #{item.id} then publicsentiment.onehostname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twohostname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twohostname != null ">
+                        when  #{item.id} then #{item.twohostname}
+                    </if>
+                    <if test="item.twohostname == null ">
+                        when  #{item.id} then publicsentiment.twohostname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentname != null ">
+                        when  #{item.id} then #{item.onecurrentname}
+                    </if>
+                    <if test="item.onecurrentname == null ">
+                        when  #{item.id} then publicsentiment.onecurrentname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentname != null ">
+                        when  #{item.id} then #{item.twocurrentname}
+                    </if>
+                    <if test="item.twocurrentname == null ">
+                        when  #{item.id} then publicsentiment.twocurrentname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentsex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentsex != null ">
+                        when  #{item.id} then #{item.onecurrentsex}
+                    </if>
+                    <if test="item.onecurrentsex == null ">
+                        when  #{item.id} then publicsentiment.onecurrentsex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentsex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentsex != null ">
+                        when  #{item.id} then #{item.twocurrentsex}
+                    </if>
+                    <if test="item.twocurrentsex == null ">
+                        when  #{item.id} then publicsentiment.twocurrentsex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentage =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentage != null ">
+                        when  #{item.id} then #{item.onecurrentage}
+                    </if>
+                    <if test="item.onecurrentage == null ">
+                        when  #{item.id} then publicsentiment.onecurrentage
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentage =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentage != null ">
+                        when  #{item.id} then #{item.twocurrentage}
+                    </if>
+                    <if test="item.twocurrentage == null ">
+                        when  #{item.id} then publicsentiment.twocurrentage
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentnation =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentnation != null ">
+                        when  #{item.id} then #{item.onecurrentnation}
+                    </if>
+                    <if test="item.onecurrentnation == null ">
+                        when  #{item.id} then publicsentiment.onecurrentnation
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentnation =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentnation != null ">
+                        when  #{item.id} then #{item.twocurrentnation}
+                    </if>
+                    <if test="item.twocurrentnation == null ">
+                        when  #{item.id} then publicsentiment.twocurrentnation
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentbirthdate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentbirthdate != null ">
+                        when  #{item.id} then #{item.onecurrentbirthdate}
+                    </if>
+                    <if test="item.onecurrentbirthdate == null ">
+                        when  #{item.id} then publicsentiment.onecurrentbirthdate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentbirthdate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentbirthdate != null ">
+                        when  #{item.id} then #{item.twocurrentbirthdate}
+                    </if>
+                    <if test="item.twocurrentbirthdate == null ">
+                        when  #{item.id} then publicsentiment.twocurrentbirthdate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentidcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentidcard != null ">
+                        when  #{item.id} then #{item.onecurrentidcard}
+                    </if>
+                    <if test="item.onecurrentidcard == null ">
+                        when  #{item.id} then publicsentiment.onecurrentidcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentidcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentidcard != null ">
+                        when  #{item.id} then #{item.twocurrentidcard}
+                    </if>
+                    <if test="item.twocurrentidcard == null ">
+                        when  #{item.id} then publicsentiment.twocurrentidcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentcompany =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentcompany != null ">
+                        when  #{item.id} then #{item.onecurrentcompany}
+                    </if>
+                    <if test="item.onecurrentcompany == null ">
+                        when  #{item.id} then publicsentiment.onecurrentcompany
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentcompany =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentcompany != null ">
+                        when  #{item.id} then #{item.twocurrentcompany}
+                    </if>
+                    <if test="item.twocurrentcompany == null ">
+                        when  #{item.id} then publicsentiment.twocurrentcompany
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentposition != null ">
+                        when  #{item.id} then #{item.onecurrentposition}
+                    </if>
+                    <if test="item.onecurrentposition == null ">
+                        when  #{item.id} then publicsentiment.onecurrentposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentposition =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentposition != null ">
+                        when  #{item.id} then #{item.twocurrentposition}
+                    </if>
+                    <if test="item.twocurrentposition == null ">
+                        when  #{item.id} then publicsentiment.twocurrentposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentfamily =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentfamily != null ">
+                        when  #{item.id} then #{item.onecurrentfamily}
+                    </if>
+                    <if test="item.onecurrentfamily == null ">
+                        when  #{item.id} then publicsentiment.onecurrentfamily
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentfamily =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentfamily != null ">
+                        when  #{item.id} then #{item.twocurrentfamily}
+                    </if>
+                    <if test="item.twocurrentfamily == null ">
+                        when  #{item.id} then publicsentiment.twocurrentfamily
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="oneformname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.oneformname != null ">
+                        when  #{item.id} then #{item.oneformname}
+                    </if>
+                    <if test="item.oneformname == null ">
+                        when  #{item.id} then publicsentiment.oneformname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twoformname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twoformname != null ">
+                        when  #{item.id} then #{item.twoformname}
+                    </if>
+                    <if test="item.twoformname == null ">
+                        when  #{item.id} then publicsentiment.twoformname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onerepresent =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onerepresent != null ">
+                        when  #{item.id} then #{item.onerepresent}
+                    </if>
+                    <if test="item.onerepresent == null ">
+                        when  #{item.id} then publicsentiment.onerepresent
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="tworepresent =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.tworepresent != null ">
+                        when  #{item.id} then #{item.tworepresent}
+                    </if>
+                    <if test="item.tworepresent == null ">
+                        when  #{item.id} then publicsentiment.tworepresent
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onejob =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.onejob != null ">
+                        when  #{item.id} then #{item.onejob}
+                    </if>
+                    <if test="item.onejob == null ">
+                        when  #{item.id} then publicsentiment.onejob
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twojob =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.twojob != null ">
+                        when  #{item.id} then #{item.twojob}
+                    </if>
+                    <if test="item.twojob == null ">
+                        when  #{item.id} then publicsentiment.twojob
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchByExample" parameterType="map">
+        update publicsentiment
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.title}
+                </foreach>
+            </trim>
+            <trim prefix="content =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.content}
+                </foreach>
+            </trim>
+            <trim prefix="source =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.source}
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.policestationid}
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.time}
+                </foreach>
+            </trim>
+            <trim prefix="codenum =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.codenum}
+                </foreach>
+            </trim>
+            <trim prefix="hostposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.hostposition}
+                </foreach>
+            </trim>
+            <trim prefix="mediateaddress =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mediateaddress}
+                </foreach>
+            </trim>
+            <trim prefix="mainmacts =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mainmacts}
+                </foreach>
+            </trim>
+            <trim prefix="agreement =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.agreement}
+                </foreach>
+            </trim>
+            <trim prefix="mediatedate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.mediatedate}
+                </foreach>
+            </trim>
+            <trim prefix="onehostname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onehostname}
+                </foreach>
+            </trim>
+            <trim prefix="twohostname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twohostname}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentname}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentname}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentsex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentsex}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentsex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentsex}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentage =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentage}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentage =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentage}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentnation =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentnation}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentnation =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentnation}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentbirthdate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentbirthdate}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentbirthdate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentbirthdate}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentidcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentidcard}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentidcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentidcard}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentcompany =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentcompany}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentcompany =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentcompany}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentposition}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentposition}
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentfamily =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onecurrentfamily}
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentfamily =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twocurrentfamily}
+                </foreach>
+            </trim>
+            <trim prefix="oneformname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.oneformname}
+                </foreach>
+            </trim>
+            <trim prefix="twoformname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twoformname}
+                </foreach>
+            </trim>
+            <trim prefix="onerepresent =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onerepresent}
+                </foreach>
+            </trim>
+            <trim prefix="tworepresent =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.tworepresent}
+                </foreach>
+            </trim>
+            <trim prefix="onejob =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.onejob}
+                </foreach>
+            </trim>
+            <trim prefix="twojob =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.twojob}
+                </foreach>
+            </trim>
+        </trim>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateBatchByExampleSelective" parameterType="map">
+        update publicsentiment
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.title != null ">
+                        when  #{item.id} then #{item.title}
+                    </if>
+                    <if test="item.title == null ">
+                        when  #{item.id} then publicsentiment.title
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="content =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.content != null ">
+                        when  #{item.id} then #{item.content}
+                    </if>
+                    <if test="item.content == null ">
+                        when  #{item.id} then publicsentiment.content
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="source =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.source != null ">
+                        when  #{item.id} then #{item.source}
+                    </if>
+                    <if test="item.source == null ">
+                        when  #{item.id} then publicsentiment.source
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.policestationid != null ">
+                        when  #{item.id} then #{item.policestationid}
+                    </if>
+                    <if test="item.policestationid == null ">
+                        when  #{item.id} then publicsentiment.policestationid
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.time != null ">
+                        when  #{item.id} then #{item.time}
+                    </if>
+                    <if test="item.time == null ">
+                        when  #{item.id} then publicsentiment.time
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="codenum =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.codenum != null ">
+                        when  #{item.id} then #{item.codenum}
+                    </if>
+                    <if test="item.codenum == null ">
+                        when  #{item.id} then publicsentiment.codenum
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="hostposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.hostposition != null ">
+                        when  #{item.id} then #{item.hostposition}
+                    </if>
+                    <if test="item.hostposition == null ">
+                        when  #{item.id} then publicsentiment.hostposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mediateaddress =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.mediateaddress != null ">
+                        when  #{item.id} then #{item.mediateaddress}
+                    </if>
+                    <if test="item.mediateaddress == null ">
+                        when  #{item.id} then publicsentiment.mediateaddress
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mainmacts =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.mainmacts != null ">
+                        when  #{item.id} then #{item.mainmacts}
+                    </if>
+                    <if test="item.mainmacts == null ">
+                        when  #{item.id} then publicsentiment.mainmacts
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="agreement =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.agreement != null ">
+                        when  #{item.id} then #{item.agreement}
+                    </if>
+                    <if test="item.agreement == null ">
+                        when  #{item.id} then publicsentiment.agreement
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="mediatedate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.mediatedate != null ">
+                        when  #{item.id} then #{item.mediatedate}
+                    </if>
+                    <if test="item.mediatedate == null ">
+                        when  #{item.id} then publicsentiment.mediatedate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onehostname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onehostname != null ">
+                        when  #{item.id} then #{item.onehostname}
+                    </if>
+                    <if test="item.onehostname == null ">
+                        when  #{item.id} then publicsentiment.onehostname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twohostname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twohostname != null ">
+                        when  #{item.id} then #{item.twohostname}
+                    </if>
+                    <if test="item.twohostname == null ">
+                        when  #{item.id} then publicsentiment.twohostname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentname != null ">
+                        when  #{item.id} then #{item.onecurrentname}
+                    </if>
+                    <if test="item.onecurrentname == null ">
+                        when  #{item.id} then publicsentiment.onecurrentname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentname != null ">
+                        when  #{item.id} then #{item.twocurrentname}
+                    </if>
+                    <if test="item.twocurrentname == null ">
+                        when  #{item.id} then publicsentiment.twocurrentname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentsex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentsex != null ">
+                        when  #{item.id} then #{item.onecurrentsex}
+                    </if>
+                    <if test="item.onecurrentsex == null ">
+                        when  #{item.id} then publicsentiment.onecurrentsex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentsex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentsex != null ">
+                        when  #{item.id} then #{item.twocurrentsex}
+                    </if>
+                    <if test="item.twocurrentsex == null ">
+                        when  #{item.id} then publicsentiment.twocurrentsex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentage =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentage != null ">
+                        when  #{item.id} then #{item.onecurrentage}
+                    </if>
+                    <if test="item.onecurrentage == null ">
+                        when  #{item.id} then publicsentiment.onecurrentage
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentage =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentage != null ">
+                        when  #{item.id} then #{item.twocurrentage}
+                    </if>
+                    <if test="item.twocurrentage == null ">
+                        when  #{item.id} then publicsentiment.twocurrentage
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentnation =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentnation != null ">
+                        when  #{item.id} then #{item.onecurrentnation}
+                    </if>
+                    <if test="item.onecurrentnation == null ">
+                        when  #{item.id} then publicsentiment.onecurrentnation
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentnation =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentnation != null ">
+                        when  #{item.id} then #{item.twocurrentnation}
+                    </if>
+                    <if test="item.twocurrentnation == null ">
+                        when  #{item.id} then publicsentiment.twocurrentnation
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentbirthdate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentbirthdate != null ">
+                        when  #{item.id} then #{item.onecurrentbirthdate}
+                    </if>
+                    <if test="item.onecurrentbirthdate == null ">
+                        when  #{item.id} then publicsentiment.onecurrentbirthdate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentbirthdate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentbirthdate != null ">
+                        when  #{item.id} then #{item.twocurrentbirthdate}
+                    </if>
+                    <if test="item.twocurrentbirthdate == null ">
+                        when  #{item.id} then publicsentiment.twocurrentbirthdate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentidcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentidcard != null ">
+                        when  #{item.id} then #{item.onecurrentidcard}
+                    </if>
+                    <if test="item.onecurrentidcard == null ">
+                        when  #{item.id} then publicsentiment.onecurrentidcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentidcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentidcard != null ">
+                        when  #{item.id} then #{item.twocurrentidcard}
+                    </if>
+                    <if test="item.twocurrentidcard == null ">
+                        when  #{item.id} then publicsentiment.twocurrentidcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentcompany =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentcompany != null ">
+                        when  #{item.id} then #{item.onecurrentcompany}
+                    </if>
+                    <if test="item.onecurrentcompany == null ">
+                        when  #{item.id} then publicsentiment.onecurrentcompany
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentcompany =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentcompany != null ">
+                        when  #{item.id} then #{item.twocurrentcompany}
+                    </if>
+                    <if test="item.twocurrentcompany == null ">
+                        when  #{item.id} then publicsentiment.twocurrentcompany
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentposition != null ">
+                        when  #{item.id} then #{item.onecurrentposition}
+                    </if>
+                    <if test="item.onecurrentposition == null ">
+                        when  #{item.id} then publicsentiment.onecurrentposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentposition =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentposition != null ">
+                        when  #{item.id} then #{item.twocurrentposition}
+                    </if>
+                    <if test="item.twocurrentposition == null ">
+                        when  #{item.id} then publicsentiment.twocurrentposition
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onecurrentfamily =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onecurrentfamily != null ">
+                        when  #{item.id} then #{item.onecurrentfamily}
+                    </if>
+                    <if test="item.onecurrentfamily == null ">
+                        when  #{item.id} then publicsentiment.onecurrentfamily
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twocurrentfamily =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twocurrentfamily != null ">
+                        when  #{item.id} then #{item.twocurrentfamily}
+                    </if>
+                    <if test="item.twocurrentfamily == null ">
+                        when  #{item.id} then publicsentiment.twocurrentfamily
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="oneformname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.oneformname != null ">
+                        when  #{item.id} then #{item.oneformname}
+                    </if>
+                    <if test="item.oneformname == null ">
+                        when  #{item.id} then publicsentiment.oneformname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twoformname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twoformname != null ">
+                        when  #{item.id} then #{item.twoformname}
+                    </if>
+                    <if test="item.twoformname == null ">
+                        when  #{item.id} then publicsentiment.twoformname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onerepresent =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onerepresent != null ">
+                        when  #{item.id} then #{item.onerepresent}
+                    </if>
+                    <if test="item.onerepresent == null ">
+                        when  #{item.id} then publicsentiment.onerepresent
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="tworepresent =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.tworepresent != null ">
+                        when  #{item.id} then #{item.tworepresent}
+                    </if>
+                    <if test="item.tworepresent == null ">
+                        when  #{item.id} then publicsentiment.tworepresent
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="onejob =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.onejob != null ">
+                        when  #{item.id} then #{item.onejob}
+                    </if>
+                    <if test="item.onejob == null ">
+                        when  #{item.id} then publicsentiment.onejob
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="twojob =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.twojob != null ">
+                        when  #{item.id} then #{item.twojob}
+                    </if>
+                    <if test="item.twojob == null ">
+                        when  #{item.id} then publicsentiment.twojob
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+  <!--  后台 关键字 -->
+  <select id="auditBackExaminePage"   resultType="com.zhongzhou.entity.Publicsentiment">
+    select
+    *
+    from publicsentiment
+
+    <where>
+
+      <if test="keyword != null and keyword !=''">
+
+        (
+          onecurrentname like  CONCAT("%",#{keyword},"%")  or
+          twocurrentname like   CONCAT("%",#{keyword},"%") or
+          onecurrentidcard like   CONCAT("%",#{keyword},"%") or
+          twocurrentidcard like   CONCAT("%",#{keyword},"%") or
+          mainmacts  like   CONCAT("%",#{keyword},"%")
+        )
+
+      </if>
+      and policestationid = #{policestationid}
+    </where>
+    order by id desc
+  </select>
+
+
+</mapper>

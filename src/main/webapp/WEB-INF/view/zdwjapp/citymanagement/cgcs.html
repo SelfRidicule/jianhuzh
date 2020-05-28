@@ -1,0 +1,435 @@
+<!--
+	作者：周心昕
+	时间：2019-11-12
+	描述：申请管理-城管初审
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.min.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.picker.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.poppicker.css"/>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/public-jinhuo.css"/>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/img.css"/>
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    /*解决移动端点击事件延迟 */
+    .showfile {
+        width: 100%;
+        /* height: 110px; */
+        border: 1px dashed #c9c9c9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .showfile img {
+
+        width: 100%;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    .mui-content {
+        background-color: #fff;
+    }
+
+    input {
+        font-size: 15px;
+        background-color: #EEEEEE;
+        border-bottom: 1px solid #000;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        width: 30px;
+    }
+
+    .mui-h5 {
+        margin: auto;
+        margin-left: 155px;
+        background-color: #eee;
+        font-size: 14px;
+        color: #999999;
+        width: 120px;
+    }
+
+    .mui-h5 select option {
+        font-size: 15px;
+    }
+
+    #startTime, #endTime {
+        background-color: #FFFFFF;
+        width: 100px;
+    }
+
+    #startTime {
+        margin-left: 83px;
+    }
+
+    #wjmj {
+        font-size: 15px;
+    }
+
+
+
+</style>
+
+<body>
+<!--标题-->
+<header class="mui-bar mui-bar-nav bg-color-white">
+    <a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+    <h1 class="mui-title">占道挖掘申请审核</h1>
+</header>
+
+<!--内容	-->
+<div class="mui-content">
+    <!--数据列表-->
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>申请单位</label>
+        <a id="applycompany"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>单位负责人</label>
+        <a id="applycharge"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>负责人联系电话</label>
+        <a id="chargephone"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>施工单位</label>
+        <a id="constructioncompany"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>单位负责人</label>
+        <a id="sgapplycharge"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>负责人联系电话</label>
+        <a id="sgchargephone"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>申请原因</label>
+        <a id="applyreason"></a>
+    </div>
+    <div class="mui-input-row" style="border-bottom: solid 1px #e1e1e1;">
+        <label>施工详细地址</label>
+        <a id="constructionaddress"></a>
+    </div>
+    <div style="text-align: center;background-color: #f6f6f6;height:40px;padding-top: 11px;border-bottom: solid 1px #e1e1e1;">挖掘面积</div>
+    <div id="wjmj" style="background-color: #EEE;">
+
+    </div>
+
+    <div style="margin-top: 5% ;border-bottom: solid 1px #e1e1e1;height:40px;width:100%">
+        <div style="margin-left: 3%; display: flex;">
+            <div style="width:39%;">施工时间</div>
+            <div id="startTime" style="font-size:15px;margin-left: 0px;"></div>
+            <div style="width:8%;margin-left:2%;margin-right:1%">至</div>
+            <div id="endTime" style="font-size:15px;float:right;margin-right: 4%"></div>
+        </div>
+
+        <!--        <div style="margin-left: 3%;">施工时间-->
+        <!--            <a id="startTime" style="color: black;padding-left: 12%;margin: 4%;font-size: small"></a>至<a id="endTime"-->
+        <!--                                                                                                         style="color: black;padding-left: 10px;font-size: small"></a>-->
+        <!--        </div>-->
+    </div>
+    <div style="margin: 5px;">
+
+    </div>
+
+
+    <div class="mui-input-row">
+        <div>交通安全实施设置平面设计图</div>
+        <div class="picture-area mui-content-padded" id="enclosureurl">
+        </div>
+    </div>
+
+
+    <!--按钮行-->
+    <div class="bg-color-white" style="width:100%;padding: 30px 15px 15px 15px;">
+        <div class="mui-row">
+            <div class="mui-col-xs-6" style="text-align: left;">
+                <button id="refuseBtn" style="background-color: #DC6617" type="button"
+                        class="mui-btn btn-blue-middling">驳回
+                </button>
+            </div>
+            <div class="mui-col-xs-6" style="text-align: right;">
+                <button id="passBtn" type="button" class="mui-btn btn-blue-middling">通过</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--自定义弹出层-->
+<div id="div"></div>
+<!--拒绝审核弹出窗-->
+<div id="popoverRefuse" class="mui-popover bg-color-white" style="height: 50%;width: 80%;">
+    <div class="mui-popover-arrow"></div>
+    <span id="popoverRefuseClose" class="mui-icon-extra mui-icon-extra-cha1 mui-pull-right popover-nav-icon"></span>
+    <div class="popover-nav-title">驳回原因</div>
+
+    <div style="height: 65%">
+        <textarea id="popoverRefuseInput2" class="popover-input" placeholder="请输入驳回原因"></textarea>
+    </div>
+    <div style="padding-top:20px;text-align: center;">
+        <button id="popoverRefuseBtn" type="button" class="mui-btn btn-blue">确认提交</button>
+    </div>
+</div>
+</body>
+
+
+<script type="text/javascript" src="${Session.BASE_URL}js/mui.min.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/mui.picker.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/mui.poppicker.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script src="${Session.BASE_URL}js/mui.previewimage.js"></script>
+<script src="${Session.BASE_URL}js/mui.zoom.js"></script>
+<script type="text/javascript">
+    mui.previewImage();
+    var status = "";
+
+    var trafficfirst = "";
+
+    var managerfirst = "";
+
+    var trafficreal = "";
+
+    var managerreal = "";
+
+    mui.init({
+        swipeBack: true //右滑关闭功能
+    });
+    //监听拒绝审核按钮
+    document.querySelector('#refuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+    //监听拒绝审核弹窗中关闭图标
+    document.querySelector('#popoverRefuseClose').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+        //清空
+        document.getElementById('popoverRefuseInput1').value = '';
+        document.getElementById('popoverRefuseInput2').value = '';
+    });
+
+    //监听拒绝审核弹窗中确认提交按钮
+    document.querySelector('#popoverRefuseBtn').addEventListener('tap', function () {
+        mui("#popoverRefuse").popover('toggle', document.getElementById("div"));
+    });
+
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    function formatDate(date) {
+        var now = new Date(date);
+        var year = now.getFullYear();  //取得4位数的年份
+        var month = now.getMonth() + 1;  //取得日期中的月份，其中0表示1月，11表示12月
+        var date = now.getDate();      //返回日期月份中的天数（1到31）
+        var hour = now.getHours();     //返回日期中的小时数（0到23）
+        var minute = now.getMinutes(); //返回日期中的分钟数（0到59）
+        var second = now.getSeconds(); //返回日期中的秒数（0到59）
+        return year + "-" + month + "-" + date;
+    }
+
+    $(function () {
+        var id = getQueryString("id");
+        //加载信息
+        mui.ajax('${Session.BASE_URL}process/mobileProcesscaseDetail', {
+            data: {
+                'id': id
+            },
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (hr) {
+                if (hr.code == "SUCCESS") {
+                    status = hr.data.processcase.status;
+                    trafficfirst = hr.data.processcase.trafficfirst;
+
+                    managerfirst = hr.data.processcase.managerfirst;
+
+                    trafficreal = hr.data.processcase.trafficreal;
+                    managerreal = hr.data.processcase.managerreal;
+                    //值<-----
+                    $('#applycompany').text(hr.data.processcase.applyunit);
+                    $('#applycharge').text(hr.data.processcase.applyperson);
+                    $('#chargephone').text(hr.data.processcase.applyphone);
+                    $('#constructioncompany').text(hr.data.processcase.construcunit);
+                    $('#sgapplycharge').text(hr.data.processcase.construcperson);
+                    $('#sgchargephone').text(hr.data.processcase.construcphone);
+                    $('#applyreason').text(hr.data.processcase.reason);
+                    $('#constructionaddress').text(hr.data.processcase.address);
+                    //----->
+                    $('#startTime').text(formatDate(hr.data.processcase.construcstarttime));
+                    $('#endTime').text(formatDate(hr.data.processcase.construcendtime));
+                    var lengthArry = (hr.data.roadtypeList.length)
+                    if (hr.data.roadtypeList != null) {
+                        var html = "";
+                        for (let i = 0; i < lengthArry; i = i + 4) {
+                            console.log(hr.data.roadtypeList)
+                            html ='<div class="wjmj" style="border-bottom: 1px solid #d5d5d5">'
+                                +'		<div style="padding: 5px;border-bottom: 1px solid #d5d5d5;display: flex">'
+                                +'			<div style="margin-left: 1.9%;">道路类别</div>'
+                                +'    		<div style="margin-left: 61%">'+ dlcategory(hr.data.roadtypeList[i + 3].type)+'</div>'
+                                +'		</div>'
+                                +'		<div style="width:100%;margin: 12px 0;display: flex">'
+                                +'			<div style="padding-left:3%;width: 30%">机动车道</div>'
+                                +'			<div style="width:22%">长<input class="lengArr" style="text-align: center" readonly  value="'+ hr.data.roadtypeList[i].leng +'" />m</div>'
+                                +'			<div style="width:22%">宽<input class="widthArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i].width +'"/>m</div>'
+                                +'			<div>面积<input class="heightArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i].height +'"/>m²</div>'
+                                +'		</div>'
+                                +'		<div style="width:100%;margin: 12px 0;display: flex">'
+                                +'			 <div style="padding-left:3%;width: 30%">非机动车道</div>'
+                                +'			<div style="width:22%">长<input class="lengArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+1].leng +'" />m</div>'
+                                +'			<div style="width:22%">宽<input class="widthArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+1].width +'"/>m</div>'
+                                +'			<div>面积<input class="heightArr" readonly style="text-align: center" value="'+ hr.data.roadtypeList[i+1].height +'"/>m²</div>'
+                                +'		</div>'
+                                +'		<div style="width:100%;margin: 12px 0;display: flex">'
+                                +'			 <div style="padding-left:3%;width: 30%">人行道</div>'
+                                +'			<div style = "width:22%">长<input class="lengArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+2].leng +'" />m</div>'
+                                +'			<div  style = "width:22%">宽<input class="widthArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+2].width +'"/>m</div>'
+                                +'			<div>面积<input class="heightArr" readonly style="text-align: center" value="'+ hr.data.roadtypeList[i+2].height +'"/>m²</div>'
+                                +'		</div>'
+                                +'		<div style="width:100%;margin: 12px 0;display: flex">'
+                                +'			<div style="padding-left:3%;width: 30%">绿化带</div>'
+                                +'			<div style="width:22%">长<input class="lengArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+3].leng +'" />m</div>'
+                                +'			<div style="width:22%">宽<input class="widthArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+3].width +'"/>m</div>'
+                                +'			<div>面积<input class="heightArr" style="text-align: center" readonly value="'+ hr.data.roadtypeList[i+3].height +'"/>m²</div>'
+                                +'		</div>'
+                                +'</div>'
+                            $("#wjmj").append(html);
+                        }
+
+
+                    }
+
+                    //道路图片
+                    if (hr.data.processcase.securitypic != null && hr.data.processcase.securitypic != '') {
+                        var imgs = hr.data.processcase.securitypic.split(",");
+                        var html = "";
+                        for (var i = 0; i < imgs.length; i++) {
+                            if (imgs[i] != "" && imgs != null) {
+                                html += '<p><img src="' + imgs[i] + '" style="width: 90px;height: 65px;margin-right: 16px;" data-preview-src="" data-preview-group="1"/></p>';
+                            }
+                        }
+                        $("#enclosureurl").html(html);
+                    }
+                } else {
+                    console.log(hr.msg);
+                    mui.toast('没有找到相关信息');
+                    /*  //关闭等待框
+                     plus.nativeUI.closeWaiting();
+                     //显示当前页面
+                     mui.currentWebview.show("slide-in-right",300); */
+                }
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+
+
+        //通过
+        $('#passBtn').click(function () {
+            var id = getQueryString("id");
+            mui.ajax('${Session.BASE_URL}process/AuditProcess', {
+                data: {
+                    id: id,
+                    flag: 1,
+                    status: status,
+                    trafficfirst: trafficfirst,
+                    managerfirst: managerfirst,
+                    trafficreal: trafficreal,
+                    managerreal: managerreal
+                },
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (hr) {
+                    if (hr.code == "SUCCESS") {
+                        mui.openWindow({
+                            url: '${Session.BASE_URL}api/v1/cgsqgllist'
+                        });
+
+                    }
+                    // mui.toast(hr.msg);
+
+
+                },
+                error: function (xhr, type, errorThrown) {
+                    //异常处理；
+                    console.log(type);
+                }
+            });
+        });
+    });
+
+
+    //驳回
+    function RefuseStatus(flag, content) {
+        var id = getQueryString("id");
+        mui.ajax('${Session.BASE_URL}process/AuditProcess', {
+            data: {
+                id: id,
+                flag: flag,
+                rejectContent: content,
+                status: status
+            },
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (hr) {
+                if (hr.code == "SUCCESS") {
+                    mui.openWindow({
+                        url: '${Session.BASE_URL}api/v1/cgsqgllist'
+                    });
+                }
+                // mui.toast(hr.msg);
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    };
+
+
+    //拒绝审批
+    $('#popoverRefuseBtn').click(function () {
+        var content = $('#popoverRefuseInput2').val();
+        console.log(content)
+        RefuseStatus(-1, content);
+    });
+
+
+    function dlcategory(value) {
+        if (value == 0) {
+            return "快速路";
+        } else if (value == 1) {
+            return "主干路";
+        } else if (value == 2) {
+            return "次干路";
+        } else if (value == 3) {
+            return "支路";
+        }
+
+
+    }
+
+
+</script>
+
+</html>

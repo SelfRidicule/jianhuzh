@@ -1,0 +1,289 @@
+/*公共css*/
+@charset "utf-8";
+
+html,
+body {
+	background-color: #efeff4;
+	font-family:"Microsoft YaHei";
+}
+
+.mui-bar~.mui-content .mui-fullscreen {
+	top: 44px;
+	height: auto;
+}
+
+.mui-pull-top-tips {
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	margin-left: -25px;
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+	z-index: 1;
+}
+
+.mui-bar~.mui-pull-top-tips {
+	top: 24px;
+}
+
+.mui-pull-top-wrapper {
+	width: 42px;
+	height: 42px;
+	display: block;
+	text-align: center;
+	background-color: #efeff4;
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	background-clip: padding-box;
+	box-shadow: 0 4px 10px #bbb;
+	overflow: hidden;
+}
+
+.mui-pull-top-tips.mui-transitioning {
+	-webkit-transition-duration: 200ms;
+	transition-duration: 200ms;
+}
+
+.mui-pull-top-tips .mui-pull-loading {
+	/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+	margin: 0;
+}
+
+.mui-pull-top-wrapper .mui-icon,
+.mui-pull-top-wrapper .mui-spinner {
+	margin-top: 7px;
+}
+
+.mui-pull-top-wrapper .mui-icon.mui-reverse {
+	/*-webkit-transform: rotate(180deg) translateZ(0);*/
+}
+
+.mui-pull-bottom-tips {
+	text-align: center;
+	background-color: #efeff4;
+	font-size: 15px;
+	line-height: 40px;
+	color: #777;
+}
+
+.mui-pull-top-canvas {
+	overflow: hidden;
+	background-color: #fafafa;
+	border-radius: 40px;
+	box-shadow: 0 4px 10px #bbb;
+	width: 40px;
+	height: 40px;
+	margin: 0 auto;
+}
+
+.mui-pull-top-canvas canvas {
+	width: 40px;
+}
+
+.mui-slider-indicator.mui-segmented-control {
+	background-color: #efeff4;
+}
+
+.mui-plus header.mui-bar {
+	display: block;
+	background-color: #017ad7;
+}
+
+.mui-card {
+	margin: 0px;
+	margin-bottom: 10px;
+}
+/* tap-homepage的样式被内联样式代替
+.lis {
+	background-color: #f6f6f6;
+	margin: 5px;
+	border-radius: 6px;
+}*/
+
+.mui-table-view-cell:after {
+	left: 4px;
+}
+
+.imgs {
+	margin-top: 2px;
+}
+
+.mui-table-view .mui-media-object {
+	line-height: 36px;
+	max-width: 36px;
+	height: 36px;
+}
+
+/*.chart {
+	height: 200px;
+	margin: 0px;
+	padding: 0px;
+}*/
+
+/*标题样式*/
+.mui-card h2 {
+	border-left: 6px #007aff solid;
+	line-height: 18px;
+	font-size: 18px;
+	padding-left: 10px;
+	margin: 6px 0;
+}
+/*控制第一个标题的上高度*/
+.mui-card:nth-child(1){margin-top: 0px!important;}
+/*给标题左边框分配不同颜色*/
+.mui-card:nth-child(2) h2{ border-color: #4cd964 !important;}
+.mui-card:nth-child(3) h2{ border-color: #f0ad4e !important;}
+.mui-card:nth-child(4) h2{ border-color: #dd524d !important;}
+.mui-card:nth-child(5) h2{ border-color: #8a6de9 !important;}
+.mui-card:nth-child(6) h2{ border-color: #4dddce !important;}
+/*上方标题栏 下方工具条*/
+.mui-bar-nav{background-color: #ffffff!important;box-shadow: 0 0 1px #ccc;}
+.mui-bar-tab{background-color: #ffffff;box-shadow: 0 0 0}
+/*轮播组件tab上边框*/
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {border-top: none;border-bottom: none;}
+/*轮播组件tab背景*/
+.mui-slider-indicator.mui-segmented-control {background-color: #ffffff;}
+
+/* 重置<ul><li>标签样式*/
+.mui-card-header,.mui-card-header,.menu,.menu ul,.menu li{border: 0 !important;border-radius: 0 !important;}
+
+/*重置mui-card阴影*/
+/*.mui-card{box-shadow: 0 0 1px rgba(0,0,0,.3);}*/
+.mui-card,.upload-files,.last-input{box-shadow: 0 1px 1px rgba(0,0,0,.1);}
+
+
+/*重置mui-media-body行高*/
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+    font-size: 16px;
+    line-height: 16px;
+    height: 16px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+/*附件信息 照片模块*/
+.upload-files-title{width: 100%;padding: 8px 15px;background-color: #f1f1f1;}
+.upload-files{background: #fff!important;margin-bottom: 10px!important;}
+.upload-files li{ height: 25vw;padding:15px!important;}
+.upload-files img{object-fit: cover;width: 100%;height: 100%;}
+.upload-files a{width: 100%;height: 100%;border: 1px #ccc dashed ; padding: 0!important;}
+.upload-files .mui-icon{font-size: 1.8em!important;}
+.upload-files .mui-media-body{margin-top: 2px!important;}
+/*.addphoto{ margin-top: 20% ; color: #ddd;}*/
+
+
+/*输入页面样式统一*/
+.mui-input-group{background-color: #efeff4;}
+.mui-input-row{height: auto!important;/*display: flex;*/justify-content: space-around;}
+.mui-input-row{background-color:#fff}
+.mui-input-row label{width: auto;padding-top: 12px;padding-bottom: 12px;}
+.mui-input-row input{width: auto!important;max-width:60%;}
+.mui-input-row i{float: right;margin-top: 11px;margin-right: 15px;font-size: 18px;}
+.mui-input-row i + input{margin-right: 0;padding-right: 5px;}
+.input-radio{width: 80px; float: right; clear: none; border-bottom: none;/*margin-top: 2px;*//*margin-right: 10px;*/}
+.mui-radio.mui-left input[type=radio] {left: 0px;}
+.mui-radio.mui-left label {padding-right: 15px; padding-left: 34px;}
+/*.mui-input-group textarea{width: 60%!important;}*/
+.mui-input-row input,.mui-input-row textarea{float: right;text-align: right;}
+.last-input{height: auto!important;}
+.last-input:after{height: 0!important;}
+.submit-button{padding: 15px 15px;}
+.submit-button button{width: 100%;}
+.blue-text{color: #427096!important;font-weight: bold!important;background-color:#eee;}
+.grey-text{color: #999!important;background-color:#eee;}
+.grey-text:after{height: 0!important;}
+.enterprise-vehicle,.enterprise-illegal,.enterprise-correction{display: flex;}
+.enterprise-vehicle span,.enterprise-illegal span,.enterprise-correction span{
+	line-height: 40px;height: 40px;color: #333;}
+
+/*详情页统一*/
+.mui-input-row p{
+	line-height: 20px;
+	font-size: 14px;
+	float: right;
+	/*width: 40%;*/
+	padding: 8px 15px;
+	text-align: right;
+	margin: 0;
+	color: #333;
+	/*margin-right: 15px;   统一右边距15px*/
+}
+.long-text {
+	width: 90%!important;
+	float: left!important;
+	text-align: left!important;
+	margin-left: 15px!important;
+	padding-top: 0!important;
+	line-height: 1.6em;
+}
+/*重点人员 按钮*/
+.focus-input{
+	margin: 10px 0;
+}
+.focus-input .mui-switch.mui-active:before {
+    content: '是';
+}
+.focus-input .mui-switch:before {
+    content: '否';
+}
+.focus-input .mui-switch {
+    margin-right: 15px;
+    margin-top: 4px;
+}
+
+
+/*输入框placeholder颜色*/
+.mui-input-row input::-webkit-input-placeholder { /* Chrome */  color: #999; opacity: 1;}
+.mui-input-row input:-ms-input-placeholder { /* IE 10+ */  color: #999; opacity: 1;}
+.mui-input-row input::-moz-placeholder { /* Firefox 19+ */  color: #999;  opacity: 1;}
+.mui-input-row input:-moz-placeholder { /* Firefox 4 - 18 */  color: #999;  opacity: 1;}
+
+
+
+/*返回<按钮颜色*/
+.mui-icon-back:before, .mui-icon-left-nav:before {
+    color: #4E4F53;
+}
+
+
+/*交管联席-会议记录-与会人员样式*/
+.participant {
+	padding: 0 15px; 
+}
+.participant li{
+	width: 70px;
+	text-align: center;
+	float:left;
+	margin: 11px 0;
+	/*background-color: #007AFF;*/
+}
+.participant img{
+	width:40px;
+	height:40px;
+	vertical-align: middle;
+	border-radius: 50%;
+	object-fit: cover;
+	background-color: #ddd;
+}
+.participant .name{
+	display: block;
+	width:100%;
+	margin-top: 10px;
+	/*background-color: orange;*/
+	/*color: #2379D9;*/
+	font-size: 14px;
+}
+.participant .addpeople{
+	width:40px;
+	height:40px;
+	border-radius: 50%;
+	border: solid 1px #ccc;
+	margin: auto;
+}
+.participant .addpeople span{
+	margin-top: 7px;
+	color: #999;
+}

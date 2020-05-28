@@ -1,0 +1,685 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.min.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.picker.css"/>
+    <link rel="stylesheet" href="${Session.BASE_URL}css/mui.poppicker.css"/>
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/img.css"/>
+</head>
+<style>
+    * {
+        touch-action: pan-y;
+    }
+
+    /*解决移动端点击事件延迟 */
+    .showfile {
+        width: 100%;
+        /* height: 110px; */
+        /*border: 1px dashed #c9c9c9;*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .showfile img {
+
+        width: 100%;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .mui-content {
+        background-color: #fff;
+    }
+
+    input {
+        font-size: 15px;
+        background-color: #EEEEEE;
+        border-bottom: 1px solid #000;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        width: 30px;
+    }
+
+    .mui-h5 {
+        margin: auto;
+        margin-left: 110px;
+        background-color: #eee;
+        font-size: 14px;
+        color: #999999;
+    }
+
+    .mui-h5 select option {
+        font-size: 15px;
+    }
+
+    #construcstarttime, #construcendtime {
+        background-color: #FFFFFF;
+        width: 80px;
+    }
+    #wjmj {
+        font-size: 15px;
+        padding-left: 15px;
+    }
+
+    .numArr1, .numArr2, .numArr3, .numArr4 {
+        padding: 5px 0;
+    }
+    .mui-input-row{
+        border-bottom: 1px solid #f0edf1;
+    }
+</style>
+
+<body>
+<!--标题-->
+<header class="mui-bar mui-bar-nav bg-color-white">
+    <a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+    <h1 class="mui-title">申请占道挖掘</h1>
+    <div id="retVal" hidden>1</div>
+</header>
+
+<!--内容	-->
+<div class="mui-content">
+    <!--数据列表-->
+    <div class="mui-input-row">
+        <label>申请单位</label>
+        <input style="height: 34px" id="applyunit" type="text" placeholder="请输入申请单位名称">
+    </div>
+    <div class="mui-input-row">
+        <label>单位负责人</label>
+        <input style="height: 34px" id="applyperson" type="text" placeholder="请输入单位负责人姓名">
+    </div>
+    <div class="mui-input-row">
+        <label>负责人联系电话</label>
+        <input style="height: 34px" id="applyphone" type="text" placeholder="请输入单位负责人联系电话">
+    </div>
+    <div class="mui-input-row">
+        <label>施工单位</label>
+        <input style="height: 34px" id="construcunit" type="text" placeholder="请输入施工单位名称">
+    </div>
+    <div class="mui-input-row">
+        <label>单位负责人</label>
+        <input style="height: 34px" id="construcperson" type="text" placeholder="请输入施工单位单位负责人名称">
+    </div>
+    <div class="mui-input-row">
+        <label>负责人联系电话</label>
+        <input style="height: 34px" id="construcphone" type="text" placeholder="请输入负责人联系电话">
+    </div>
+    <div class="mui-input-row">
+        <label>申请原因</label>
+        <input style="height: 34px" id="reason" type="text" placeholder="请输入申请原因">
+    </div>
+    <div class="mui-input-row">
+        <label>施工详细地址</label>
+        <input style="height: 34px" id="address" type="text" placeholder="请输入施工详细地址">
+    </div>
+    <div style="text-align: center;background-color: #f6f6f6;height:40px;padding-top: 11px;">挖掘面积</div>
+    <div id="wjmj" class="mui-input-row" style="background-color: #EEE;padding-left: 0px">
+        <div class="wjmj" style="border-bottom: 1px solid #d5d5d5">
+            <div style="height: 35px;display: flex;border-bottom: 1px solid #d5d5d5">
+                <div style="margin-left: 5%;width: 80%;padding-top: 2%">道路类别</div>
+                <select id="category" class="mui-h5" style="font-size: 15px;height: 28px;padding-top: 1%">
+                    <option value="0">快速路</option>
+                    <option value="1">主干路</option>
+                    <option value="2">次干路</option>
+                    <option value="3">支路</option>
+                </select>
+            </div>
+           	<div class="numArr1" style="display: flex">
+                <div style="padding-left:3%;width:30%">机动车道</div>
+                <input class = "nameArr" style = "display: none;" value = "机动车道" />
+                <div style = "width:20%">长<input id="txtAmount" onkeyup="checkInt4(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"  class = "lengArr" />m</div>
+                <div style="width:20%">宽<input id="txtPrice" onkeyup="checkP4(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);" class="widthArr"/>m</div>
+                <div>面积<input id="txtTotal" class = "heightArr" />m²</div>
+           	</div>
+            <div class="numArr2" style="display: flex">
+           	    <div style="padding-left:3%;width: 30%">非机动车道</div>
+                <input class="nameArr" style="display: none;" value="非机动车道"/>
+                <div style = "width:20%">长<input  id="txtAmount1" onkeyup="checkInt1(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);" class = "lengArr" />m</div>
+                <div style="width:20%">宽<input  id="txtPrice1" onkeyup="checkP1(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);" class="widthArr"/>m</div>
+                 <div>面积<input id="txtTotal1" class = "heightArr" />m²</div>
+            	</div>
+            <div class="numArr3" style="display: flex">
+                <div style="padding-left:3%;width:30%">人行道</div>
+                <input class="nameArr" style="display: none;" value="人行道"/>
+                <div style = "width:20%">长<input id="txtAmount2" onkeyup="checkInt2(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"   class = "lengArr" />m</div>
+                <div style="width:20%">宽<input  id="txtPrice2" onkeyup="checkP2(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);"  class="widthArr"/>m</div>
+                <div>面积<input id="txtTotal2" class = "heightArr" />m²</div>
+            </div>
+            <div class="numArr4" style="display: flex">
+                <div style="padding-left:3%;width:30%">绿化带</div>
+                <input class="nameArr" style="display: none;" value="绿化带"/>
+                <div style = "width:20%">长<input id="txtAmount3" onkeyup="checkInt3(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);" class = "lengArr" />m</div>
+                <div style="width:20%">宽<input  id="txtPrice3" onkeyup="checkP3(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);"  class="widthArr"/>m</div>
+                <div>面积<input id="txtTotal3" class = "heightArr" />m²</div>
+            </div>
+        </div>
+    </div>
+    <!--添加-->
+    <div style="text-align: center;background-color: #f6f6f6;height:35px;padding-top: 5px;border-bottom: 1px solid #f0edf1">
+        <div id="add">
+            <span onclick="addColumn()" class="mui-icon mui-icon-plus"></span>
+            <span onclick="remove()" style="height: 28px;margin-left: 20px;"
+                  class="mui-icon mui-icon-minus"></span>
+        </div>
+    </div>
+    <div style="padding: 10px 5px;border-bottom: 1px solid #f0edf1;display: flex;font-size: 15px">
+        <div style="width: 38%;padding-left: 2%">施工时间</div>
+        <div>
+            <input id="construcstarttime" style="border: 0" name="construcstarttime" placeholder="开始时间"/>
+            至
+            <input id="construcendtime" style="border: 0" name="construcendtime" placeholder="结束时间"/>
+        </div>
+    </div>
+
+    <div class="mui-input-row" style="border: 0">
+        <div style="font-size: 15px;padding: 2%">交通安全实施设置平面设计图</div>
+        <div class="picture-area">
+            <div id="addImg" style="padding-top: 10px;padding-left: 0px;">
+                <div class="addImg1" style="display:flex;flex-wrap:wrap;padding-left: 0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin: 5px;">
+    </div>
+
+    <!--按钮-->
+    <div class="bg-color-white" style="height: 95px;width:100%;padding:30px 15px 15px 15px;text-align: center">
+        <button id="submitBtn" type="button"
+                class="mui-btn btn-blue-big"
+                style="background-color: #017ad7;color: #ffffff;height: 100%;width: 100%">提交材料
+        </button>
+    </div>
+</div>
+</body>
+
+<script src="${Session.BASE_URL}js/mui.min.js"></script>
+<script src="${Session.BASE_URL}js/mui.picker.js"></script>
+<script src="${Session.BASE_URL}js/mui.poppicker.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+<script src="${Session.BASE_URL}js/datePicker.js"></script>
+<script src="${Session.BASE_URL}js/mui.previewimage.js"></script>
+<script src="${Session.BASE_URL}js/mui.zoom.js"></script>
+<script type="text/javascript">
+    mui.previewImage();
+    var calendar = new datePicker();
+    calendar.init({
+        'trigger': '#construcstarttime', /*按钮选择器，用于触发弹出插件*/
+        'type': 'date',/*模式：date日期；datetime日期时间；time时间；ym年月；*/
+        'minDate': '1900-1-1',/*最小日期*/
+        'maxDate': '2100-12-31',/*最大日期*/
+        'onSubmit': function () {/*确认时触发事件*/
+            var theSelectData = calendar.value;
+        },
+        'onClose': function () {/*取消时触发事件*/
+        }
+    });
+
+    var calendar1 = new datePicker();
+    calendar1.init({
+        'trigger': '#construcendtime', /*按钮选择器，用于触发弹出插件*/
+        'type': 'date',/*模式：date日期；datetime日期时间；time时间；ym年月；*/
+        'minDate': '1900-1-1',/*最小日期*/
+        'maxDate': '2100-12-31',/*最大日期*/
+        'onSubmit': function () {/*确认时触发事件*/
+            var theSelectData = calendar.value;
+        },
+        'onClose': function () {/*取消时触发事件*/
+        }
+    });
+    mui.init({
+        swipeBack: true //右滑关闭功能
+    });
+
+    $(function () {
+        addNormalImg();
+        //loadpunishcount();
+    })
+    var count = 0;
+    var num = 0;
+
+    /* 动态生成上传图片按钮（使用） */
+    function addNormalImg() {
+        var addimg = '<div  style="width:45%; position: relative;margin-bottom:10pxpadding-left: 0px;">' +
+            '<form id="form' + (count + 1) + '" style="margin-top:10px; "><div id="needShow' + (count + 1) + '" onclick="testclick(this)" class="" style="display:none;padding-left: 0px;width:35px;background:url(${Session.BASE_URL}img/close.png) no-repeat;background-position: right;height:35px;position: absolute;top:-8px;right: -12px;"></div>'
+            + '<div class="addImg-top" style="width: 100%;padding-left: 0px;"><div style="width:100%;padding-left: 0px;"> <div id="showfile' + (count + 1) + '" class="showfile" onclick="openfile(this)">' +
+            '<img class="showFile' + (count + 1) + '" src="${Session.BASE_URL}img/add.png" data-url="" style="width: 112px;height: 77px;"></div></div><div style="width: 80%;height: 10%;padding-left: 0px;display: flex;flex-direction:row;justify-content:center;align-items:center;"><div style="width: 50%;height: 80%;display: flex;justify-content:center;align-items:center;padding-left: 0px;"><div style="display:none">' +
+            '<input type="file"  size="1" id="modeFile' + (count + 1) + '" name="files" data-click="0" onchange="PreviewImg1(this)"></div></div></div></div></form></div>';
+
+
+        $(".addImg1").append(addimg)
+        count = count + 1;
+    }
+
+    //上传图片时模拟点击事件
+    function openfile(obj) {
+        console.log(obj)
+        console.log(id)
+        var id = (obj.parentElement.parentElement.lastElementChild.firstElementChild.firstElementChild.firstElementChild.id);
+        var newid = '"#' + id + '"';
+
+        console.log(newid)
+        $("#" + id).click();
+    }
+
+    //删除图片
+    function testclick(mine) {
+        console.log($(mine).parent().parent().remove());
+        num = num - 1;
+        console.log("num=" + num)
+    }
+
+    function PreviewImg1(obj) {
+
+        console.log(obj)
+        console.log($(obj).val() + "=====================")
+        console.log(obj)
+        var newid = '"#' + obj.id + '"';
+
+
+        var file = obj.files[0];
+        console.log(obj);
+        console.log(file);
+        var filename = file.name;
+        var s = filename.lastIndexOf(".");
+        var ss = filename.substring(s + 1);
+
+        if (ss == "mp4") {
+
+        }
+        console.log("file.size = " + file.size);  //file.size 单位为byte
+        var id = obj.parentElement.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild;
+        id = id.className;
+
+
+        var needshowid = obj.parentElement.parentElement.parentElement.parentElement.parentElement.firstElementChild;
+        var reader = new FileReader();
+
+        $("#" + needshowid.id).css("display", "block");
+        //读取文件过程方法
+        reader.onloadstart = function (e) {
+            console.log("开始读取....");
+        }
+        reader.onprogress = function (e) {
+            console.log("正在读取中....");
+        }
+        reader.onabort = function (e) {
+            console.log("中断读取....");
+        }
+        reader.onerror = function (e) {
+            console.log("读取异常....");
+        }
+        reader.onload = function (e) {
+            console.log("成功读取....");
+            console.log(id)
+            var img = document.getElementsByClassName(id)[0];
+            img.src = e.target.result;
+            var formData = new FormData($("#form" + count)[0]);
+            loadimg(formData);
+            console.log($("#" + obj.id).attr("data-click"))
+            if ($("#" + obj.id).attr("data-click") != 1) {
+                addNormalImg();
+            }
+
+            $("#" + obj.id).attr("data-click", "1")//0
+
+            //或者 img.src = this.result;  //e.target == this
+        }
+
+        reader.readAsDataURL(file)
+
+    }
+
+    //上传图片
+    function loadimg(formData) {
+        $.ajax({
+            url: '${Session.BASE_URL}file/upload',
+            type: 'post',
+            data: formData,
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                // console.log(result)
+                // console.log(count)
+                num = num + 1;
+                console.log("num=" + num)
+                var count1 = count - 1;
+                if (result.code == "SUCCESS") {
+                    $(".showFile" + count1).attr("data-url", result.data[0].filepath);
+                }
+            }
+        })
+    }
+
+    $(".addImg-top").mousedown(function () {
+        /* mui.alert('新增成功', '提示', function() {
+            window.location.href="../info/mine";
+
+        }); */
+        timeout = setTimeout(function () {
+            $("#mydiv").text("in");
+        }, 2000);
+    });
+
+    var i = 4;
+    //添加道路挖掘
+    function addColumn() {
+        var html;
+        html = '<div class="wjmj" style="border-bottom: 1px solid #d5d5d5">'
+            + '		<div style="height: 35px;display: flex;border-bottom: 1px solid #d5d5d5">'
+            + '			<div style="margin-left: 5%;width: 80%;padding-top: 2%">道路类别</div>'
+            + '    		<select id="category" class="mui-h5" style="font-size: 15px;height: 28px;padding-top: 1%">'
+            + '        		<option value="0">快速路</option>'
+            + '        		<option value="1">主干路</option>'
+            + '        		<option value="2">次干路</option>'
+            + '        		<option value="3">支路</option>'
+            + '    		</select>'
+            + '		</div>'
+            + '		<div class="numArr1" style="display: flex">'
+            + '		    <div style="padding-left:3%;width:30%">机动车道</div>'
+            + '         <input class = "nameArr" style = "display: none;" value = "机动车道" />'
+            + '         <div style = "width:20%">长<input id="txtAmount'+i+'"   onkeyup="checkInt(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"  class = "lengArr" />m</div>'
+            + '         <div style="width:20%">宽<input id="txtPrice'+i+'"   onkeyup="checkP(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);"   class="widthArr"/>m</div>'
+            + '         <div>面积<input id="txtTotal'+i+'" class = "heightArr" />m²</div>'
+            + '		</div>'
+            + '		<div class="numArr2" style="display: flex">'
+            + '		    <div style="padding-left:3%;width: 30%">非机动车道</div>'
+            + '         <input class="nameArr" style="display: none;" value="非机动车道"/>'
+            + '         <div style = "width:20%">长<input  id="txtAmount'+(i+1)+'"  onkeyup="checkInt(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"  class = "lengArr" />m</div>'
+            + '         <div style="width:20%">宽<input id="txtPrice'+(i+1)+'"   onkeyup="checkP(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);" class="widthArr"/>m</div>'
+            + '         <div>面积<input id="txtTotal'+(i+1)+'"  class = "heightArr" />m²</div>'
+            + '		</div>'
+            + '		<div class="numArr3" style="display: flex">'
+            + '		    <div style="padding-left:3%;width:30%">人行道</div>'
+            + '         <input class="nameArr" style="display: none;" value="人行道"/>'
+            + '         <div style = "width:20%">长<input id="txtAmount'+(i+2)+'"   onkeyup="checkInt(this);"onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"  class = "lengArr" />m</div>'
+            + '         <div style="width:20%">宽<input  id="txtPrice'+(i+2)+'"  onkeyup="checkP(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);"  class="widthArr"/>m</div>'
+            + '         <div>面积<input id="txtTotal'+(i+2)+'"  class = "heightArr" />m²</div>'
+            + '		</div>'
+            + '		<div class="numArr4" style="display: flex">'
+            + '		    <div style="padding-left:3%;width:30%">绿化带</div>'
+            + '         <input class="nameArr" style="display: none;" value="绿化带"/>'
+            + '         <div style = "width:20%">长<input id="txtAmount'+(i+3)+'"    onkeyup="checkInt(this);" onpaste="checkInt(this);" oncut="checkInt(this);" ondrop="checkInt(this);"   class = "lengArr" />m</div>'
+            + '         <div style="width:20%">宽<input  id="txtPrice'+(i+3)+'"   onkeyup="checkP(this);" onpaste="checkP(this);" oncut="checkP(this);" ondrop="checkP(this);"  class="widthArr"/>m</div>'
+            + '         <div>面积<input id="txtTotal'+(i+3)+'"  class = "heightArr" />m²</div>'
+            + '		</div>'
+            + '</div>'
+
+        i = i+4
+            if($(".wjmj").length<4){
+                $("#wjmj").append(html);
+            }else{
+                alert("不可添加")
+            }
+
+    }
+
+    //删除
+    function remove() {
+        var wjmjClass = $(".wjmj:last-child")
+        wjmjClass.remove();
+        // i = i-4;
+    }
+    var zstats = 1;
+    //添加  mobileConstrucApplyMaterials
+    $("#submitBtn").click(function () {
+        var nameArr = "";
+        $('.nameArr').each(function () {
+            nameArr = nameArr + $(this).val() + ",";
+        });
+        nameArr = nameArr.substring(0, nameArr.length - 1)
+
+        var lengArr = "";
+        $('.lengArr').each(function () {
+            lengArr = lengArr + $(this).val() + ",";
+        });
+        lengArr = lengArr.substring(0, lengArr.length - 1)
+
+        var widthArr = "";
+        $('.widthArr').each(function () {
+            widthArr = widthArr + $(this).val() + ",";
+        });
+        widthArr = widthArr.substring(0, widthArr.length - 1)
+
+        var heightArr = "";
+        $('.heightArr').each(function () {
+            heightArr = heightArr + $(this).val() + ",";
+        });
+        heightArr = heightArr.substring(0, heightArr.length - 1)
+
+        var wjmjOption = new Array()
+        $(".wjmj select").each(function () {
+            wjmjOption.push($(this).val())
+        })
+
+        var typeArr = "";
+        for (var i = 0; i < wjmjOption.length; i++) {
+            typeArr = typeArr + wjmjOption[i] + ",";
+            typeArr = typeArr + wjmjOption[i] + ",";
+            typeArr = typeArr + wjmjOption[i] + ",";
+            typeArr = typeArr + wjmjOption[i] + ",";
+        }
+        typeArr = typeArr.substring(0, typeArr.length - 1)
+
+        var applyunit = $("#applyunit").val();
+        var applyperson = $("#applyperson").val();
+        var applyphone = $("#applyphone").val();
+        var construcunit = $("#construcunit").val();
+        var construcperson = $("#construcperson").val();
+        var construcphone = $("#construcphone").val();
+        var reason = $("#reason").val();
+        var address = $("#address").val();
+        var construcstarttime = $("#construcstarttime").val();
+        var construcendtime = $("#construcendtime").val();
+        var pics = $(".addImg-top").find('img');
+        console.log("---")
+        console.log("pics" + pics.length)
+        var securitypic = "";
+        for (var i = 0; i < pics.length - 1; i++) {
+            securitypic += $(pics).eq(i).attr("data-url") + ",";
+        }
+        securitypic = securitypic.substring(0, securitypic.length - 1);
+        console.log(securitypic)
+        var data = {};
+
+        data = {
+            applyunit: applyunit,
+            applyperson: applyperson,
+            applyphone: applyphone,
+            construcunit: construcunit,
+            construcperson: construcperson,
+            construcphone: construcphone,
+            reason: reason,
+            address: address,
+            construcstarttime: construcstarttime,
+            construcendtime: construcendtime,
+            securitypic: securitypic,
+            nameArr: nameArr,
+            lengArr: lengArr,
+            widthArr: widthArr,
+            heightArr: heightArr,
+            typeArr: typeArr
+        }
+        console.log(data);
+        if(applyunit == ""){
+            alert("请输入申请单位")
+        }else if(applyperson == ""){
+            alert("请输入单位负责人")
+        }else if(applyphone == ""){
+            alert("请输入负责人联系电话")
+        }else if(construcunit == ""){
+            alert("请输入施工单位")
+        }else if(construcperson == ""){
+            alert("请输入施工单位负责人")
+        } else if(construcphone == ""){
+            alert("请输入负责人联系电话")
+        }else if(reason == ""){
+            alert("请输入施工原因")
+        }else if(address == ""){
+            alert("请输入施工详细地址")
+        }else if(construcstarttime == ""){
+            alert("请输入施工开始时间")
+        }else if(construcendtime == ""){
+            alert("请输入施工结束时间")
+        } else if(securitypic == ""){
+            alert("请输入图片")
+        }else{
+            //子页面返回的状态
+            console.log("zstats:" +zstats )
+            if(zstats == 1){
+                layer.open({
+                    type: 2,
+                    title: '绑定申请人手机号',
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['260px', '220px'], //宽高
+                    // btn: ['提交', '取消'],
+                    content: '${Session.BASE_URL}/api/v1/obtain',
+                    end: function (index) {
+                        // zstats = 1
+                        var retVal = $("#retVal").val();//返回一个标记用于控制
+                        if (retVal == 2) {
+                            zstats = 2
+                        }
+                        console.log(zstats)
+                        console.log(retVal)
+                    }
+                });
+            }else if(zstats == 2){
+                console.log(true)
+                $.ajax({
+                    url: '${Session.BASE_URL}process/mobileConstrucApplyMaterials',
+                    type: 'GET', //GET
+                    dataType: 'json',
+                    data: data,
+                    success: function (result) {
+                        console.log(result);
+                        if (result.code == "SUCCESS") {
+                            mui.toast('提交成功！')
+                            window.location.href="${Session.BASE_URL}/api/v1/yhsq" ;
+                        } else {
+                            console.log(result.msg);
+                            mui.toast('提交失败！请联系管理员')
+                        }
+                    }
+                })
+            }
+        }
+    })
+
+
+    var id = 0;
+    function checkInt(o){
+        var index=$(o).attr("id").lastIndexOf("t");
+        id=$(o).attr("id").substring(index+1,$(o).attr("id").length);
+        // alert(id)
+        // alert(id)
+        // id = $(o).attr("id").substr($(o).attr("id").length-1,2)
+        // alert($(o).attr("id"))
+        // theV=isNaN(parseInt(o.value))?0:parseInt(o.value);
+        // if(theV!=o.value){o.value=theV;}
+        // alert($("#txtAmount"+id).val()*$("#txtPrice"+id).val())
+        $("#txtTotal"+id).val( $("#txtAmount"+id).val()*$("#txtPrice"+id).val());
+    }
+    function checkP(o){
+        var index=$(o).attr("id").lastIndexOf("e");
+        id= $(o).attr("id").substring(index+1,$(o).attr("id").length);
+        // alert(id)
+        // alert($(o).attr("id"))
+        // id = $(o).attr("id").substr($(o).attr("id").length-1,2)
+        // theV=isNaN(parseFloat(o.value))?0:parseFloat(o.value);
+        // theV=parseInt(theV*100)/100;
+        // if(theV!=o.value){
+        //     theV=(theV*100).toString();
+        //     theV=theV.substring(0,theV.length-2)+"."+theV.substring(theV.length-2,theV.length)
+        //     o.value=theV;
+        // }
+
+        $("#txtTotal"+id).val( $("#txtAmount"+id).val()*$("#txtPrice"+id).val());
+
+    }
+
+
+    function checkInt1(o){
+        theV=isNaN(parseInt(o.value))?0:parseInt(o.value);
+        if(theV!=o.value){o.value=theV;}
+        txtTotal1.value=txtAmount1.value*txtPrice1.value;
+    }
+    function checkP1(o){
+        theV=isNaN(parseFloat(o.value))?0:parseFloat(o.value);
+        theV=parseInt(theV*100)/100;
+        if(theV!=o.value){
+            theV=(theV*100).toString();
+            theV=theV.substring(0,theV.length-2)+"."+theV.substring(theV.length-2,theV.length)
+            o.value=theV;
+        }
+        txtTotal1.value=txtAmount1.value*txtPrice1.value;
+    }
+
+    function checkInt2(o){
+        theV=isNaN(parseInt(o.value))?0:parseInt(o.value);
+        if(theV!=o.value){o.value=theV;}
+        txtTotal2.value=txtAmount2.value*txtPrice2.value;
+    }
+    function checkP2(o){
+        theV=isNaN(parseFloat(o.value))?0:parseFloat(o.value);
+        theV=parseInt(theV*100)/100;
+        if(theV!=o.value){
+            theV=(theV*100).toString();
+            theV=theV.substring(0,theV.length-2)+"."+theV.substring(theV.length-2,theV.length)
+            o.value=theV;
+        }
+        txtTotal2.value=txtAmount2.value*txtPrice2.value;
+    }
+
+    function checkInt3(o){
+        theV=isNaN(parseInt(o.value))?0:parseInt(o.value);
+        if(theV!=o.value){o.value=theV;}
+        txtTotal3.value=txtAmount3.value*txtPrice3.value;
+    }
+    function checkP3(o){
+        theV=isNaN(parseFloat(o.value))?0:parseFloat(o.value);
+        theV=parseInt(theV*100)/100;
+        if(theV!=o.value){
+            theV=(theV*100).toString();
+            theV=theV.substring(0,theV.length-2)+"."+theV.substring(theV.length-2,theV.length)
+            o.value=theV;
+        }
+        txtTotal3.value=txtAmount3.value*txtPrice3.value;
+    }
+
+
+    function checkInt4(o){
+        theV=isNaN(parseInt(o.value))?0:parseInt(o.value);
+        if(theV!=o.value){o.value=theV;}
+        txtTotal.value=txtAmount.value*txtPrice.value;
+    }
+    function checkP4(o){
+        theV=isNaN(parseFloat(o.value))?0:parseFloat(o.value);
+        theV=parseInt(theV*100)/100;
+        if(theV!=o.value){
+            theV=(theV*100).toString();
+            theV=theV.substring(0,theV.length-2)+"."+theV.substring(theV.length-2,theV.length)
+            o.value=theV;
+        }
+        txtTotal.value=txtAmount.value*txtPrice.value;
+    }
+
+
+</script>
+
+
+</html>

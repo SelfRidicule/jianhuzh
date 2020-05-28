@@ -1,0 +1,563 @@
+<!--
+  日期： 2019-08-26
+  作者： wjun   wjun@jszzkj.cn
+  文档：禁货审批 > 数据统计
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<title>数据统计</title>
+	<link rel="stylesheet" type="text/css"
+		  href="${Session.BASE_URL}lying/layui/css/layui.css" />
+	<link rel="stylesheet" type="text/css" href="${Session.BASE_URL}lying/css/common.css" />
+	<link rel="stylesheet" type="text/css" href="${Session.BASE_URL}plugins/formSelects/formSelects-v4.css"/>
+	<script type="text/javascript" src="${Session.BASE_URL}js/echarts.min.js"></script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			background-color: white;
+			overflow: hidden;/*隐藏右侧滚动条 */
+		}
+
+		.layui-btn {
+			height: 25px;
+			width: 40px;
+			line-height: 25px;
+			padding-left: 12px;
+			background-color: white;
+			color: black;
+			border: 1px solid #0082e4;
+			margin :5px 10px 10px 10px;
+		}
+
+		.numberDiv {
+			height: 100px;
+			width: 250px;
+			margin: 5px 10px 5px 10px;
+			/* 	border: 1px solid blue; */
+		}
+		.condition button{
+			border-radius:5px 5px 5px 5px;
+			box-shadow: 0px 2px 9px #b7bbb8;
+		}
+		.actives{
+			height: 25px;
+			width: 40px;
+			line-height: 25px;
+			color: #fff;
+			border: 1px solid #0082e4;
+			margin :5px 10px 10px 10px;
+			background-color:#0082e4;
+		}
+
+		img {
+			/* 	 background: no-repeat center;  */
+			/* 	 background-size: 100%;  */
+			/* 	图片大小自适应所属容器大小 */
+			width: auto;
+			height: auto;
+			max-width: 100%;
+			max-height: 100%;
+		}
+		.layui-inline button{
+			border-radius:5px 5px 5px 5px;
+		}
+		.layui-col-md3{
+			width:230px
+		}
+	</style>
+</head>
+<body>
+<div style="margin: 10px 15px 10px 15px; height: 95%; width: 98%;">
+	<!-- 				概况 -->
+	<div style="height: 6%; width: 100%;">
+		<div style="border-left: 5px solid #027bd8; padding-left: 8px; font-size:17px;">概况</div>
+	</div>
+	<div style="height: 24%; width: 100%; background-color: #f2f2f2; margin-bottom: 7px;">
+		<div class="nav" >
+			<div class="layui-btn"	id="classes" data-type="1" onclick="changeStyle(this)" class="layui-btn">月</div>
+			<div class="layui-btn" data-type="2" onclick="changeStyle(this)" class="layui-btn">季</div>
+			<div class="layui-btn" data-type="3" onclick="changeStyle(this)" class="layui-btn">年</div>
+		</div>
+		<div style="color: white;">
+			<div class="layui-inline numberDiv" style="background-color: #00CACA;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;">
+				<!-- 					<img src="${Session.BASE_URL}img/bg.png"> -->
+				<div style="height: 35%; padding: 10px 15px 0 15px;">
+					<div style="float: left;">审批总数</div>
+					<div style="float: right;">次/<span id="span1">月</span></div>
+				</div>
+				<div style="height: 60%; text-align: center;">
+					<h1 id="spCount"></h1>
+				</div>
+			</div>
+			<div class="layui-inline numberDiv" style="background-color: #FFAF60;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;">
+				<!-- 					<img src="${Session.BASE_URL}img/bg.png"> -->
+				<div style="height: 35%; padding: 10px 15px 0 15px;">
+					<div style="float: left;">审批通过</div>
+					<div style="float: right;">车次/<span id="span2">月</span></div>
+				</div>
+				<div style="height: 60%; text-align: center;">
+					<h1 id="tgCount"></h1>
+				</div>
+			</div>
+			<div class="layui-inline numberDiv" style="background-color: #FF9797;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;">
+				<!-- 					<img src="${Session.BASE_URL}img/bg.png"> -->
+				<div style="height: 35%; padding: 10px 15px 0 15px;">
+					<div style="float: left;">违法违规数量</div>
+					<div style="float: right;">车次/<span id="span3">月</span></div>
+				</div>
+				<div style="height: 60%; text-align: center;">
+					<h1 id="wfwgCount"></h1>
+				</div>
+			</div>
+			<!-- 				饼图 -->
+<!-- 			<div class="layui-inline numberDiv" style="background-color: white;"> -->
+<!-- 				<div id="chart1" style="height: 100%; width: 100%;"></div> -->
+<!-- 			</div> -->
+			<div class="layui-inline numberDiv" style="background-color: #fe7879;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;">
+					<!-- 					<img src="${Session.BASE_URL}img/bg.png"> -->
+					<div style="height: 35%; padding: 10px 15px 0 15px;">
+						<div style="float: left;">审批驳回次数</div>
+						<div style="float: right;">次/<span id="span4">月</span></div>
+					</div>
+					<div style="height: 60%; text-align: center;">
+						<h1 id="bhCount"></h1>
+					</div>
+				</div>
+				
+				
+		</div>
+	</div>
+	<!-- 		审批违法违规趋势图 -->
+	<div style="height: 6%; width: 100%;">
+		<div class="layui-inline">
+			<div style="border-left: 5px solid #027bd8; padding-left: 8px; font-size: 17px;">违法违规车辆</div>
+		</div>
+		<div class="layui-inline">
+			<div style="margin-left:15px;margin-top:3px;">统计周期&nbsp;:</div>
+		</div>
+		<div class="layui-input-inline">
+	        <input type="text" class="layui-input" id="time" placeholder="选择年份" autoComplete='off' >
+	    </div>
+		<div class="layui-inline">
+			<div style="margin-left:20px;margin-top:3px;">展现形式&nbsp;:</div>
+		</div>	
+		<div class="layui-inline">
+			<div style="width:220px;">
+				<select style="width:98px;height:22px;color:#666;"id="quarter">
+					<option value='0'>全季度</option>
+					<option value='1'>第一季度</option>
+					<option value='2'>第二季度</option>
+					<option value='3'>第三季度</option>
+					<option value='4'>第四季度</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div style="height: 34%; width: 100%; margin-top: 5px; margin-bottom: 5px; background-color: #f2f2f2;">
+		<!-- 			区域图 -->
+		<div id="chart2" style="height: 100%; width: 98%; "></div>
+	</div>
+	<!-- 				违法违规排行 -->
+	<div style="height: 6%; width: 100%;">
+		<div style="border-left: 5px solid #027bd8; padding-left: 8px; font-size:17px;">违法违规车辆</div>
+	</div>
+	<div style="height: 23%; width: 98.5%; background-color: #f2f2f2; padding: 2px 10px 2px 10px;">
+		<div class="layui-row layui-col-space20">
+			<!-- 				违法违规企业 -->
+<!-- 			<div class="layui-col-md6"> -->
+<!-- 				<div class="nav2" style="float:right;height:10px;margin-right:35px"> -->
+<!-- 					<div class="layui-btn" id="classes1" data-type="1" onclick="changeStyle1(this)" class="layui-btn">年</div> -->
+<!-- 					<div class="layui-btn" data-type="2" onclick="changeStyle1(this)" class="layui-btn">季</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="layui-row" style="margin-top: 3px; margin-bottom: 3px;"> -->
+<!-- 					<img src="${Session.BASE_URL}img/search.png">违法违规企业 -->
+<!-- 				</div> -->
+<!-- 				<div class="layui-row layui-col-space10"> -->
+<!-- 					<div class="layui-col-md3"> -->
+<!-- 						<div style="height: 100px; width: 145px; background-color: #FF9797; color: white;border-radius:5px 5px 5px 5px;"> -->
+<!-- 							<div style="padding: 2px 5px;"> -->
+<!-- 								<div style="text-align: center; border-bottom: 1px solid white;"> -->
+<!-- 									<span>10辆</span>违规车辆 -->
+<!-- 								</div> -->
+<!-- 								<div style="padding-top: 5px;">恒大建筑集团(九江分公司)</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="layui-col-md3"> -->
+<!-- 						<div style="height: 100px; width: 145px; background-color: #FFAF60; color: white;border-radius:5px 5px 5px 5px;"> -->
+<!-- 							<div style="padding: 2px 5px;"> -->
+<!-- 								<div style="text-align: center; border-bottom: 1px solid white;"> -->
+<!-- 									<span>9辆</span>违规车辆 -->
+<!-- 								</div> -->
+<!-- 								<div style="padding-top: 5px;">恒大建筑集团(九江分公司)</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="layui-col-md3"> -->
+<!-- 						<div style="height: 100px; width: 145px; background-color: white; color: black;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;"> -->
+<!-- 							<div style="padding: 2px 5px;"> -->
+<!-- 								<div style="text-align: center; border-bottom: 1px solid #f2f2f2;"> -->
+<!-- 									<span style="color: #ff6d87;">4辆</span>违规车辆 -->
+<!-- 								</div> -->
+<!-- 								<div style="padding-top: 5px;">恒大建筑集团(九江分公司)</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="layui-col-md3"> -->
+<!-- 						<div style="height: 100px; width: 145px; background-color: white; color: black;border-radius:5px 5px 5px 5px;box-shadow: 0px 2px 9px #b7bbb8;"> -->
+<!-- 							<div style="padding: 2px 5px;"> -->
+<!-- 								<div style="text-align: center; border-bottom: 1px solid #f2f2f2;"> -->
+<!-- 									<span style="color: #ff6d87;">3辆</span>违规车辆 -->
+<!-- 								</div> -->
+<!-- 								<div style="padding-top: 5px;">恒大建筑集团(九江分公司)</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<!-- 				违法违规车辆 -->
+
+			<div class="layui-row" style="margin-top: 3px; margin-bottom: 3px;">
+<!-- 				<img src="${Session.BASE_URL}img/search.png">违法违规车辆 -->
+				
+					<div class="nav3" style="float:left;">
+						<div class="layui-btn" id="classes2" data-type="1" onclick="changeStyle2(this)" class="layui-btn">年</div>
+						<div class="layui-btn" data-type="2" onclick="changeStyle2(this)" class="layui-btn">季</div>
+					</div>
+			</div>
+			
+			<div id="ss" class="layui-row layui-col-space10">
+				<div class="layui-col-md3">
+					<div style="height: 100px; width: 145px; background-color: #FFAF60; color: white;border-radius:5px 5px 5px 5px;">
+						<div style="padding: 2px 5px;">
+							<div style="text-align: center; border-bottom: 1px solid white;">
+								<span id="wfnumber1" style="color: white;"></span>
+							</div>
+							<div style="text-align: center; padding-top: 10px;">
+								<b id="wfcar1"></b>
+							</div>
+							<div id="wflocal1" style="text-align: center; padding-top: 8px; font-size: 10px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md3">
+					<div style="height: 100px; width: 145px; background-color: white;box-shadow: 0px 2px 9px #b7bbb8;border-radius:5px 5px 5px 5px;">
+						<div style="padding: 2px 5px;">
+							<div style="text-align: center; border-bottom: 1px solid #f2f2f2; color: pink;">
+								<span id="wfnumber2" style="color: #ff6d87;"></span>
+							</div>
+							<div style="text-align: center; padding-top: 10px; color: #0881c8;">
+								<b id="wfcar2"></b>
+							</div>
+							<div id="wflocal2" style="text-align: center; padding-top: 8px; font-size: 10px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md3">
+					<div style="height: 100px; width: 145px; background-color: white;box-shadow: 0px 2px 9px #b7bbb8;border-radius:5px 5px 5px 5px;">
+						<div style="padding: 2px 5px;">
+							<div style="text-align: center; border-bottom: 1px solid #f2f2f2; color: pink;">
+								<span id="wfnumber3" style="color: #ff6d87;"></span>
+							</div>
+							<div style="text-align: center; padding-top: 10px; color: #0881c8;">
+								<b id="wfcar3"></b>
+							</div>
+							<div id="wflocal3" style="text-align: center; padding-top: 8px; font-size: 10px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md3">
+					<div style="height: 100px; width: 145px; background-color: white;box-shadow: 0px 2px 9px #b7bbb8;border-radius:5px 5px 5px 5px;">
+						<div style="padding: 2px 5px;">
+							<div style="text-align: center; border-bottom: 1px solid #f2f2f2; color: pink;">
+								<span id="wfnumber4" style="color: #ff6d87;"></span>
+							</div>
+							<div style="text-align: center; padding-top: 10px; color: #0881c8;">
+								<b id="wfcar4"></b>
+							</div>
+							<div id="wflocal4" style="text-align: center; padding-top: 8px; font-size: 10px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}plugins/formSelects/formSelects-v4.js"></script>
+<script type="text/javascript">
+
+
+
+	window.onload = function() {
+		changeStyle();changeStyle2();
+		
+		var quar = document.getElementById("quarter")
+		
+		quar.addEventListener('click',function(){
+ 			echartsData(2019);
+		})
+		echartsData();
+	}
+	
+	
+ 	var myDate = new Date();
+ 	var tYear = myDate.getFullYear(); //获取完整的年份(4位)
+	var changeTime = tYear ;
+	layui.use('laydate', function(){
+	  var laydate = layui.laydate;
+		//年选择器
+	  laydate.render({
+		    elem: '.layui-input'
+		    ,type: 'year'
+		    ,change:function(value,data,endDate){
+		    	changeTime = value
+		    	echartsData();
+		    }
+		  });
+	});
+
+	
+	//------------概况部分
+	var menuGourp = $('.nav div');
+	var survey ;
+	function changeStyle(s){
+		menuGourp.removeClass("actives"); //删除掉样式
+		$(s).addClass("actives");  //添加样式
+		if(survey == undefined){
+			survey = 1 ;
+			$("#classes").addClass("actives");  //添加样式
+		}else{
+			survey = $(s).attr("data-type");
+		}
+		var name = $(s).html()
+		$("#span1").html(name);
+		$("#span2").html(name);
+		$("#span3").html(name);
+		$("#span4").html(name);
+		$.ajax({
+			type : "post",        //post请求方式
+		    async : true,        //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+		    url : "${Session.BASE_URL}data/auditBackstageCount",    //请求发送到ShowInfoIndexServlet处
+		    data : {type:survey},        //请求内包含一个key为type，value为survey的参数；服务器接收到客户端请求时通过request.getParameter方法获取该参数值
+		    dataType : "json",        //返回数据形式为json
+		    success : function(result) {
+		    	console.log(result)
+		    	$("#spCount").html(result.data.spCount);
+		    	$("#tgCount").html(result.data.tgCount);
+		    	$("#bhCount").html(result.data.bhCount);
+		    	$("#wfwgCount").html(result.data.wfwgCount);
+		    }
+		})
+
+	}
+	
+	function echartsData(year){
+		var quarter = $("#quarter").val() ;
+		var year = changeTime
+		console.log(year)
+		$.ajax({
+			type : "GET",        //post请求方式
+		    async : false,        //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+		    url : "${Session.BASE_URL}data/auditIllegalBackstageCount",    //请求发送到ShowInfoIndexServlet处
+		    data : {year:year,quarter:quarter},        //请求内包含一个key为time，value为time的参数；服务器接收到客户端请求时通过request.getParameter方法获取该参数值
+		    dataType : "json",        //返回数据形式为json
+		    success : function(result) {
+		    	//违规次数
+		    	var violation = new Array()
+		    	//审批
+		    	var approval = new Array()
+		    	var x = new Array()
+		    	//审批通过次数
+		    	var approvedNumber = new Array()
+		    	console.log("------")
+		    	console.log(result)
+		    	for(let j=0;j<result.data.length;j++){
+ 		    		approvedNumber.push(result.data[j].tgCount);
+		    		approval.push(result.data[j].spCount);
+		    		violation.push(result.data[j].wfwgCount);	
+		    		x.push(result.data[j].monthName);
+		    	}
+		    	
+		    	//--------------图表部分
+		    	// 基于准备好的dom，初始化echarts实例
+		    	var myChart2 = echarts.init(document.getElementById('chart2'), 'light');
+
+		    	// 使用刚指定的配置项和数据显示图表。
+		    	var option = {
+//		     		title : {
+//		    			text : '堆叠区域图'
+//		    		},
+		    	tooltip : {
+		    		trigger : 'axis',
+		    		axisPointer : {
+		    			type : 'cross',
+		    			label : {
+		    				backgroundColor : '#6a7985'
+		    			}
+		    		}
+		    	},
+		    	legend : {
+		    		orient : 'vertical',
+		    		x : 'right',
+		    		y : 'center',
+		    		data : [ '审批总数', '审批通过数', '违规数量']
+		    	},
+		    	// 下载保存图
+//		    		toolbox : {
+//		    			feature : {
+//		    				saveAsImage : {}
+//		    			}
+//		    		},
+		    	// 边缘空出的距离
+		    	grid : {
+		    		left : '3%',
+		    		right : '12%',
+		    		bottom : '20%',
+		    		// true-图小  false-图大
+		    		containLabel : false
+		    	},
+		    	xAxis : [ {
+		    		type : 'category',
+		    		// false-原点为起点 true-1为起点
+		    		boundaryGap : false,
+		    		data : x
+		    	} ],
+		    	yAxis : [ {
+		    		type : 'value'
+		    	} ],
+		    	series : [ {
+		    		name : '审批总数',
+		    		type : 'line',
+		    		stack : '总量',
+		    		// 用颜色填充折线下方区域
+		    		areaStyle : {},
+		    		// 上边显示数值
+		    		label : {
+		    			normal : {
+		    				show : true,
+		    				position : 'top'
+		    			}
+		    		},
+		    		data : approval
+		    	},  {
+		    		name : '审批通过数',
+		    		type : 'line',
+		    		stack : '总量',
+		    		areaStyle : {
+		    			normal : {}
+		    		},
+		    		label : {
+		    			normal : {
+		    				show : true,
+		    				position : 'top'
+		    			}
+		    		},
+		    		data : approvedNumber
+		    	}, {
+		    		name : '违规数量',
+		    		type : 'line',
+		    		stack : '总量',
+		    		label : {
+		    			normal : {
+		    				show : true,
+		    				position : 'top'
+		    			}
+		    		},
+		    		areaStyle : {
+		    			normal : {}
+		    		},
+		    		data : violation
+		    	} ]
+		    		
+		    	};
+		    	myChart2.setOption(option);
+	     }
+		});	
+	}
+
+	//-----------违法违规车辆部分
+	var style2 = $(".nav3 div"); // 获取
+	var survey2;
+	function changeStyle2(s){
+		style2.removeClass("actives"); //删除掉样式
+		$(s).addClass("actives");  //添加样式
+		if(survey2 == undefined){
+			survey2 = 1 ;
+			$("#classes2").addClass("actives");  //添加样式
+		}else{
+			survey2 = $(s).attr("data-type");
+		}
+		console.log(survey2)
+		$.ajax({
+			type : "post",        //post请求方式
+		    async : true,        //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+		    url : "${Session.BASE_URL}data/illegalCarBackstage",    //请求发送到ShowInfoIndexServlet处
+		    data : {type:survey2},        //请求内包含一个key为time，value为time的参数；服务器接收到客户端请求时通过request.getParameter方法获取该参数值
+		    dataType : "json",        //返回数据形式为json
+			success:function(result){
+				console.log(result)
+				if(result.data == 0){
+					$('#ss').hide();
+					
+				}else{
+					for(var i=0 ; i<result.data.length;i++){
+						
+						$("#wfnumber1").html(result.data[0].totalSize + "次")
+						$("#wfcar1").html(result.data[0].carNum)
+						if(result.data[0].carlocal == 0){
+							$('#wflocal1').html('本地');
+						}else if(result.data.carlocal == 1){
+							$('#wflocal1').html('外地');
+						}else{
+							$('#wflocal1').html('');
+						}
+						
+						$("#wfnumber2").html(result.data[1].totalSize + "次")
+						$("#wfcar2").html(result.data[1].carNum)
+						if(result.data[1].carlocal == 0){
+							$('#wflocal2').html('本地');
+						}else if(result.data.carlocal == 1){
+								$('#wflocal2').html('外地');
+						}else{
+								$('#wflocal2').html('');
+						}
+					
+						$("#wfnumber3").html(result.data[2].totalSize + "次")
+						$("#wfcar3").html(result.data[2].carNum)
+						if(result.data[2].carlocal == 0){
+							$('#wflocal3').html('本地');
+						}else if(result.data.carlocal == 1){
+								$('#wflocal3').html('外地');
+						}else{
+								$('#wflocal3').html('');
+						}
+					
+						$("#wfnumber4").html(result.data[3].totalSize + "次")
+						$("#wfcar4").html(result.data[3].carNum)
+						if(result.data[3].carlocal == 0){
+							$('#wflocal4').html('本地');
+						}else if(result.data.carlocal == 1){
+								$('#wflocal4').html('外地');
+						}else{
+								$('#wflocal4').html('');
+						}
+					}
+				}
+			}
+		})
+		
+	}
+	
+	
+	
+</script>
+</html>

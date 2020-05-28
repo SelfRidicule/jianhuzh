@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.dao.system.TSysRoleMenuPermissionDAO">
+	<resultMap id="BaseResultMap"
+		type="com.zhongzhou.entity.system.TSysRoleMenuPermission">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="roleid" jdbcType="INTEGER" property="roleid" />
+		<result column="permissionid" jdbcType="INTEGER" property="permissionid" />
+		<result column="menuid" jdbcType="INTEGER" property="menuid" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, roleid, permissionid, menuid
+	</sql>
+	<select id="selectByExample"
+		parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermissionCriteria"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_sys_role_menu_permission
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sys_role_menu_permission
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_sys_role_menu_permission
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermissionCriteria">
+		delete from t_sys_role_menu_permission
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermission">
+		insert into t_sys_role_menu_permission (id, roleid, permissionid,
+		menuid)
+		values (#{id,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER},
+		#{permissionid,jdbcType=INTEGER},
+		#{menuid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermission">
+		insert into t_sys_role_menu_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="roleid != null">
+				roleid,
+			</if>
+			<if test="permissionid != null">
+				permissionid,
+			</if>
+			<if test="menuid != null">
+				menuid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				#{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="permissionid != null">
+				#{permissionid,jdbcType=INTEGER},
+			</if>
+			<if test="menuid != null">
+				#{menuid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into t_sys_role_menu_permission (id, roleid, permissionid,
+		menuid)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			(#{item.id,jdbcType=INTEGER}, #{item.roleid,jdbcType=INTEGER},
+			#{item.permissionid,jdbcType=INTEGER},
+			#{item.menuid,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+	<insert id="insertBatchSelective" parameterType="java.util.List">
+		insert into t_sys_role_menu_permission
+		(id, roleid, permissionid, menuid)
+		values
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="item.id != null">
+					#{item.id,jdbcType=INTEGER},
+				</if>
+				<if test="item.id == null">
+					NULL,
+				</if>
+				<if test="item.roleid != null">
+					#{item.roleid,jdbcType=INTEGER},
+				</if>
+				<if test="item.roleid == null">
+					NULL,
+				</if>
+				<if test="item.permissionid != null">
+					#{item.permissionid,jdbcType=INTEGER},
+				</if>
+				<if test="item.permissionid == null">
+					NULL,
+				</if>
+				<if test="item.menuid != null">
+					#{item.menuid,jdbcType=INTEGER},
+				</if>
+				<if test="item.menuid == null">
+					NULL,
+				</if>
+			</trim>
+		</foreach>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermissionCriteria"
+		resultType="java.lang.Long">
+		select count(*) from t_sys_role_menu_permission
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_sys_role_menu_permission
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.roleid != null">
+				roleid = #{record.roleid,jdbcType=INTEGER},
+			</if>
+			<if test="record.permissionid != null">
+				permissionid = #{record.permissionid,jdbcType=INTEGER},
+			</if>
+			<if test="record.menuid != null">
+				menuid = #{record.menuid,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_sys_role_menu_permission
+		set id = #{record.id,jdbcType=INTEGER},
+		roleid = #{record.roleid,jdbcType=INTEGER},
+		permissionid = #{record.permissionid,jdbcType=INTEGER},
+		menuid = #{record.menuid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermission">
+		update t_sys_role_menu_permission
+		<set>
+			<if test="roleid != null">
+				roleid = #{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="permissionid != null">
+				permissionid = #{permissionid,jdbcType=INTEGER},
+			</if>
+			<if test="menuid != null">
+				menuid = #{menuid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zhongzhou.entity.system.TSysRoleMenuPermission">
+		update t_sys_role_menu_permission
+		set roleid = #{roleid,jdbcType=INTEGER},
+		permissionid = #{permissionid,jdbcType=INTEGER},
+		menuid = #{menuid,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+		update t_sys_role_menu_permission
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="roleid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.roleid}
+				</foreach>
+			</trim>
+			<trim prefix="permissionid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.permissionid}
+				</foreach>
+			</trim>
+			<trim prefix="menuid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuid}
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" index="index" item="item"
+			open="(" separator=",">
+			#{item.id}
+		</foreach>
+	</update>
+	<update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+		update t_sys_role_menu_permission
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="roleid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.roleid != null ">
+						when #{item.id} then #{item.roleid}
+					</if>
+					<if test="item.roleid == null ">
+						when #{item.id} then t_sys_role_menu_permission.roleid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="permissionid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.permissionid != null ">
+						when #{item.id} then #{item.permissionid}
+					</if>
+					<if test="item.permissionid == null ">
+						when #{item.id} then t_sys_role_menu_permission.permissionid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuid =case id" suffix="end,">
+				<foreach collection="list" index="index" item="item"
+					separator=" ">
+					<if test="item.menuid != null ">
+						when #{item.id} then #{item.menuid}
+					</if>
+					<if test="item.menuid == null ">
+						when #{item.id} then t_sys_role_menu_permission.menuid
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where id in
+		<foreach close=")" collection="list" index="index" item="item"
+			open="(" separator=",">
+			#{item.id}
+		</foreach>
+	</update>
+	<update id="updateBatchByExample" parameterType="map">
+		update t_sys_role_menu_permission
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="roleid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.roleid}
+				</foreach>
+			</trim>
+			<trim prefix="permissionid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.permissionid}
+				</foreach>
+			</trim>
+			<trim prefix="menuid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					when #{item.id} then #{item.menuid}
+				</foreach>
+			</trim>
+		</trim>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateBatchByExampleSelective" parameterType="map">
+		update t_sys_role_menu_permission
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="roleid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.roleid != null ">
+						when #{item.id} then #{item.roleid}
+					</if>
+					<if test="item.roleid == null ">
+						when #{item.id} then t_sys_role_menu_permission.roleid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="permissionid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.permissionid != null ">
+						when #{item.id} then #{item.permissionid}
+					</if>
+					<if test="item.permissionid == null ">
+						when #{item.id} then t_sys_role_menu_permission.permissionid
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="menuid =case id" suffix="end,">
+				<foreach collection="recordList" index="index" item="item"
+					separator=" ">
+					<if test="item.menuid != null ">
+						when #{item.id} then #{item.menuid}
+					</if>
+					<if test="item.menuid == null ">
+						when #{item.id} then t_sys_role_menu_permission.menuid
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+</mapper>

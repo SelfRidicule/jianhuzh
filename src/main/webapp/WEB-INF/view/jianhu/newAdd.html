@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		body{
+			background: url("${Session.BASE_URL}img/newAdd.png");
+			background-position: top;
+			/* 背景图不平铺 */
+			background-repeat: no-repeat;
+			/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+			background-attachment: fixed;
+			/*此条属性必须设置否则可能无效*/
+			/* 让背景图基于容器大小伸缩 */
+			background-size: auto;
+			background-color: rgb(255,255,255,0);
+			text-align: center;
+		}
+		#head{
+			 margin-left: -5.3%;
+			 margin-top: 2.9%;
+			 color: #2F6188;
+			 font-weight: bold;
+		 }
+		#cen div{
+			margin: 15px;
+		}
+		#cen input{
+			background-color: rgb(21,40,72);
+			border: 1px solid #4C99C2;
+			color: #FFF;
+		}
+		#save , #colse{
+			/*background-color: #031D3B;*/
+			color: #52A5C8;
+			border: 1px solid #52A5C8;
+			width: 70px;
+			height: 30px;
+			background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+						linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+						linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+						linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+			background-size: 100% 51%;
+			background-repeat: no-repeat;			
+		}
+		input{
+			width: 157px;
+			height: 16px;
+			font-size: 13px;
+			padding: 3px 8px;
+		}
+	</style>
+	<body>
+		<div id="head">
+			新增信息
+		</div>
+		<div id="cen" style="color: #fff;">
+			<div>派出所名称：<input id="name" type="text" autocomplete="off"/></div>
+			<div>派出所代码：<input id="code" type="text" autocomplete="off"/></div>
+			<div>派出所简称：<input id="aliasname" type="text" autocomplete="off"/></div>
+			<div> &nbsp;&nbsp;&nbsp;登录账号：<input id="account" type="text" autocomplete="off"/></div>
+			<div> &nbsp;&nbsp;&nbsp;登录密码：<input id="password" type="text" autocomplete="off"/></div>
+			<div>
+				<button id="save">保存</button>
+				<button id="colse">关闭</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+	<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+	<script>
+
+		$("#save").click(function(){
+			var name = $("#name").val();
+			var code = $("#code").val();
+			var aliasname = $("#aliasname").val();
+			var account = $("#account").val();
+			var password = $("#password").val();
+			var data = {
+				name:name,
+				code:code,
+				aliasname:aliasname,
+				account:account,
+				password:password
+			};
+			if(name == ''){
+				layer.msg('请输入派出所名称',{time:1.5*1000});
+			}else if(code == ''){
+				layer.msg('请输入派出所代码',{time:1.5*1000});
+			}else if(aliasname == ''){
+				layer.msg('请输入派出所简称',{time:1.5*1000});
+			}else if(account == ''){
+				layer.msg('请输入登录账号',{time:1.5*1000});
+			}else if(password == ''){
+				layer.msg('请输入登录密码',{time:1.5*1000});
+			}else{
+				$.ajax({
+					url: '${Session.BASE_URL}station/add',
+					type:'GET', //GET
+					dataType:'json',
+					data:data,
+					success:function (result) {
+						if(result.code == "SUCCESS"){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+							window.parent.location.reload();
+						}
+					}
+				})
+			}
+
+		})
+		$("#colse").click(function(){
+			console.log(1)
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		})
+	</script>
+</html>

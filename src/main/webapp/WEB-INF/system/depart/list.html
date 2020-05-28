@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>layui</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<#include "temple/head.ftl">
+<link rel="stylesheet" href="${Session.BASE_URL}lying/css/common.css">
+</head>
+
+<body>
+	<div class="layui-card">
+		<div class="layui-card-header">部门列表</div>
+		<div class="layui-card-body">
+			<div class="layui-row layui-col-space15" style="">
+				<div class="layui-col-md12">
+
+					<div class="layui-btn-group demoTable">
+						<button class="layui-btn" data-type="add" permission="add">
+							<i class="fa fa-plus fa-1x">&emsp;</i>新增
+						</button>
+						<button class="layui-btn" data-type="edit" permission="edit">
+							<i class="fa fa-pencil-square-o fa-1x">&emsp;</i>编辑
+						</button>
+						<button class="layui-btn" data-type="refresh">
+							<i class="fa fa-refresh fa-1x">&emsp;</i>刷新
+						</button>
+						<button class="layui-btn layui-btn-danger" data-type="deleted"
+							permission="delete">
+							<i class="fa fa-trash fa-1x">&emsp;</i>删除
+						</button>
+					</div>
+
+					<table id="demo" lay-filter="test1"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<#include "temple/bottom.ftl"> <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+	<script>
+    layui.config({base: '${Session.BASE_URL}/lying/'}).use(['table'], function(){
+        var table = layui.table;
+        //执行渲染
+        var tableIns= table.render({
+            elem: '#demo' //指定原始表格元素选择器（推荐id选择器）
+            ,url: '${Session.BASE_URL}depart/departList'
+            ,where: {search: ''} //如果无需传递额外参数，可不加该参数
+            //,method: 'post' //如果无需自定义HTTP类型，可不加该参数
+            ,request: {pageName: 'pageNum' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            } //如果无需自定义请求参数，可不加该参数
+            ,response: {//statusName: 'code' //数据状态的字段名称，默认：code
+                statusCode: "SUCCESS" //成功的状态码，默认：0
+            } //如果无需自定义数据响应名称，可不加该参数
+            ,page: true
+            ,id:'id'
+            ,done: function(res, curr, count){
+            }
+            ,cols: [[{checkbox: true, fixed: true}
+                ,{field: 'id', title: 'ID'}
+                ,{field: 'upid', title: '上级部门ID'}
+                ,{field: 'departname', title: '部门名称'}
+                ,{field: 'createtime', title: '创建时间'}
+            ]] //设置表头
+            //,…… //更多参数参考右侧目录：基本参数选项
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(test1)', function(obj){
+            console.log(obj)
+        });
+
+        var  active = {
+            edit: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('id')
+                        ,data = checkStatus.data;
+                if(data.length!=1){
+                    layer.msg('请选择一条数据进行编辑!');
+                }else{
+                    layer.open({
+                        type:2,
+                        title:'编辑部门',
+                        area:['600px', '90%'],
+                        maxmin: true,
+                        content:'${Session.BASE_URL}depart/input?id='+ data[0].id
+                    });
+                }
+                //layer.alert(JSON.stringify(data));
+            },add:function () {//跳转新增页面
+                layer.open({
+                    type:2,
+                    title:'新增部门',
+                    area:['600px', '90%'],
+                    maxmin: true,
+                    content:'${Session.BASE_URL}depart/input'
+                });
+            },refresh:function () {
+                tableIns.reload();
+            },deleted:function () {
+
+                var checkStatus = table.checkStatus('id'),data = checkStatus.data;
+                console.log(checkStatus);
+                if(data.length<1){
+                    layer.msg('请至少选择一条数据进行编辑!');
+                }else{
+                    layer.confirm('真的删除选中的'+data.length+'条数据么', function(index){
+                        var loadIndex = layer.load(1);
+                        var departIds = new Array();
+                        for (var i = 0; i< data.length;i++){
+                            departIds.push(data[i].id);
+                        }
+                        $.ajax({
+                            url:'${Session.BASE_URL}depart/delDepart',
+                            type:"post",
+                            data:{
+                                departIds:departIds
+                            },
+                            success:function (result) {
+                                tableIns.reload();
+                                layer.alert(result.msg);
+                            }
+                        });
+                        //关闭
+                        layer.close(loadIndex);
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        layui.$('.demoTable .layui-btn').on('click', function(){
+            var type = layui.$(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.dao.StabilityDAO">
+    <resultMap id="BaseResultMap" type="com.zhongzhou.entity.Stability">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="policestationid" jdbcType="INTEGER" property="policestationid" />
+        <result column="gridname" jdbcType="VARCHAR" property="gridname" />
+        <result column="rusticate" jdbcType="VARCHAR" property="rusticate" />
+        <result column="gridsequence" jdbcType="VARCHAR" property="gridsequence" />
+        <result column="gridpersontype" jdbcType="VARCHAR" property="gridpersontype" />
+        <result column="gridpersonname" jdbcType="VARCHAR" property="gridpersonname" />
+        <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="age" jdbcType="VARCHAR" property="age" />
+        <result column="gridpersonphone" jdbcType="VARCHAR" property="gridpersonphone" />
+        <result column="politicallook" jdbcType="VARCHAR" property="politicallook" />
+        <result column="education" jdbcType="VARCHAR" property="education" />
+        <result column="marital" jdbcType="VARCHAR" property="marital" />
+        <result column="currentaddress" jdbcType="VARCHAR" property="currentaddress" />
+        <result column="otheridentity" jdbcType="VARCHAR" property="otheridentity" />
+        <result column="managerhouse" jdbcType="VARCHAR" property="managerhouse" />
+        <result column="gridcode" jdbcType="VARCHAR" property="gridcode" />
+        <result column="gridscope" jdbcType="VARCHAR" property="gridscope" />
+        <result column="comment" jdbcType="VARCHAR" property="comment" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, title, time, policestationid, gridname, rusticate, gridsequence, gridpersontype,
+    gridpersonname, idcard, sex, age, gridpersonphone, politicallook, education, marital,
+    currentaddress, otheridentity, managerhouse, gridcode, gridscope, comment
+  </sql>
+    <select id="selectByExample" parameterType="com.zhongzhou.entity.StabilityCriteria" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from stability
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from stability
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stability
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.zhongzhou.entity.StabilityCriteria">
+        delete from stability
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.zhongzhou.entity.Stability"  useGeneratedKeys="true" keyProperty="id">
+    insert into stability (id, title, time,
+      policestationid, gridname, rusticate,
+      gridsequence, gridpersontype, gridpersonname,
+      idcard, sex, age, gridpersonphone,
+      politicallook, education, marital,
+      currentaddress, otheridentity, managerhouse,
+      gridcode, gridscope, comment
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR},
+      #{policestationid,jdbcType=INTEGER}, #{gridname,jdbcType=VARCHAR}, #{rusticate,jdbcType=VARCHAR},
+      #{gridsequence,jdbcType=VARCHAR}, #{gridpersontype,jdbcType=VARCHAR}, #{gridpersonname,jdbcType=VARCHAR},
+      #{idcard,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{gridpersonphone,jdbcType=VARCHAR},
+      #{politicallook,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{marital,jdbcType=VARCHAR},
+      #{currentaddress,jdbcType=VARCHAR}, #{otheridentity,jdbcType=VARCHAR}, #{managerhouse,jdbcType=VARCHAR},
+      #{gridcode,jdbcType=VARCHAR}, #{gridscope,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhongzhou.entity.Stability"  useGeneratedKeys="true" keyProperty="id">
+        insert into stability
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="policestationid != null">
+                policestationid,
+            </if>
+            <if test="gridname != null">
+                gridname,
+            </if>
+            <if test="rusticate != null">
+                rusticate,
+            </if>
+            <if test="gridsequence != null">
+                gridsequence,
+            </if>
+            <if test="gridpersontype != null">
+                gridpersontype,
+            </if>
+            <if test="gridpersonname != null">
+                gridpersonname,
+            </if>
+            <if test="idcard != null">
+                idcard,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="gridpersonphone != null">
+                gridpersonphone,
+            </if>
+            <if test="politicallook != null">
+                politicallook,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="marital != null">
+                marital,
+            </if>
+            <if test="currentaddress != null">
+                currentaddress,
+            </if>
+            <if test="otheridentity != null">
+                otheridentity,
+            </if>
+            <if test="managerhouse != null">
+                managerhouse,
+            </if>
+            <if test="gridcode != null">
+                gridcode,
+            </if>
+            <if test="gridscope != null">
+                gridscope,
+            </if>
+            <if test="comment != null">
+                comment,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="policestationid != null">
+                #{policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="gridname != null">
+                #{gridname,jdbcType=VARCHAR},
+            </if>
+            <if test="rusticate != null">
+                #{rusticate,jdbcType=VARCHAR},
+            </if>
+            <if test="gridsequence != null">
+                #{gridsequence,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersontype != null">
+                #{gridpersontype,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersonname != null">
+                #{gridpersonname,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null">
+                #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersonphone != null">
+                #{gridpersonphone,jdbcType=VARCHAR},
+            </if>
+            <if test="politicallook != null">
+                #{politicallook,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="marital != null">
+                #{marital,jdbcType=VARCHAR},
+            </if>
+            <if test="currentaddress != null">
+                #{currentaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="otheridentity != null">
+                #{otheridentity,jdbcType=VARCHAR},
+            </if>
+            <if test="managerhouse != null">
+                #{managerhouse,jdbcType=VARCHAR},
+            </if>
+            <if test="gridcode != null">
+                #{gridcode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridscope != null">
+                #{gridscope,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                #{comment,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into stability (id, title, time,
+        policestationid, gridname, rusticate,
+        gridsequence, gridpersontype,
+        gridpersonname, idcard, sex,
+        age, gridpersonphone, politicallook,
+        education, marital, currentaddress,
+        otheridentity, managerhouse,
+        gridcode, gridscope, comment
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.title,jdbcType=VARCHAR}, #{item.time,jdbcType=VARCHAR},
+            #{item.policestationid,jdbcType=INTEGER}, #{item.gridname,jdbcType=VARCHAR}, #{item.rusticate,jdbcType=VARCHAR},
+            #{item.gridsequence,jdbcType=VARCHAR}, #{item.gridpersontype,jdbcType=VARCHAR},
+            #{item.gridpersonname,jdbcType=VARCHAR}, #{item.idcard,jdbcType=VARCHAR}, #{item.sex,jdbcType=VARCHAR},
+            #{item.age,jdbcType=VARCHAR}, #{item.gridpersonphone,jdbcType=VARCHAR}, #{item.politicallook,jdbcType=VARCHAR},
+            #{item.education,jdbcType=VARCHAR}, #{item.marital,jdbcType=VARCHAR}, #{item.currentaddress,jdbcType=VARCHAR},
+            #{item.otheridentity,jdbcType=VARCHAR}, #{item.managerhouse,jdbcType=VARCHAR},
+            #{item.gridcode,jdbcType=VARCHAR}, #{item.gridscope,jdbcType=VARCHAR}, #{item.comment,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertBatchSelective" parameterType="java.util.List">
+        insert into stability
+        (id, title, time, policestationid, gridname, rusticate, gridsequence, gridpersontype,
+        gridpersonname, idcard, sex, age, gridpersonphone, politicallook, education, marital,
+        currentaddress, otheridentity, managerhouse, gridcode, gridscope, comment)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=INTEGER},
+                </if>
+                <if test="item.id == null">
+                    NULL,
+                </if>
+                <if test="item.title != null">
+                    #{item.title,jdbcType=VARCHAR},
+                </if>
+                <if test="item.title == null">
+                    NULL,
+                </if>
+                <if test="item.time != null">
+                    #{item.time,jdbcType=VARCHAR},
+                </if>
+                <if test="item.time == null">
+                    NULL,
+                </if>
+                <if test="item.policestationid != null">
+                    #{item.policestationid,jdbcType=INTEGER},
+                </if>
+                <if test="item.policestationid == null">
+                    NULL,
+                </if>
+                <if test="item.gridname != null">
+                    #{item.gridname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridname == null">
+                    NULL,
+                </if>
+                <if test="item.rusticate != null">
+                    #{item.rusticate,jdbcType=VARCHAR},
+                </if>
+                <if test="item.rusticate == null">
+                    NULL,
+                </if>
+                <if test="item.gridsequence != null">
+                    #{item.gridsequence,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridsequence == null">
+                    NULL,
+                </if>
+                <if test="item.gridpersontype != null">
+                    #{item.gridpersontype,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridpersontype == null">
+                    NULL,
+                </if>
+                <if test="item.gridpersonname != null">
+                    #{item.gridpersonname,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridpersonname == null">
+                    NULL,
+                </if>
+                <if test="item.idcard != null">
+                    #{item.idcard,jdbcType=VARCHAR},
+                </if>
+                <if test="item.idcard == null">
+                    NULL,
+                </if>
+                <if test="item.sex != null">
+                    #{item.sex,jdbcType=VARCHAR},
+                </if>
+                <if test="item.sex == null">
+                    NULL,
+                </if>
+                <if test="item.age != null">
+                    #{item.age,jdbcType=VARCHAR},
+                </if>
+                <if test="item.age == null">
+                    NULL,
+                </if>
+                <if test="item.gridpersonphone != null">
+                    #{item.gridpersonphone,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridpersonphone == null">
+                    NULL,
+                </if>
+                <if test="item.politicallook != null">
+                    #{item.politicallook,jdbcType=VARCHAR},
+                </if>
+                <if test="item.politicallook == null">
+                    NULL,
+                </if>
+                <if test="item.education != null">
+                    #{item.education,jdbcType=VARCHAR},
+                </if>
+                <if test="item.education == null">
+                    NULL,
+                </if>
+                <if test="item.marital != null">
+                    #{item.marital,jdbcType=VARCHAR},
+                </if>
+                <if test="item.marital == null">
+                    NULL,
+                </if>
+                <if test="item.currentaddress != null">
+                    #{item.currentaddress,jdbcType=VARCHAR},
+                </if>
+                <if test="item.currentaddress == null">
+                    NULL,
+                </if>
+                <if test="item.otheridentity != null">
+                    #{item.otheridentity,jdbcType=VARCHAR},
+                </if>
+                <if test="item.otheridentity == null">
+                    NULL,
+                </if>
+                <if test="item.managerhouse != null">
+                    #{item.managerhouse,jdbcType=VARCHAR},
+                </if>
+                <if test="item.managerhouse == null">
+                    NULL,
+                </if>
+                <if test="item.gridcode != null">
+                    #{item.gridcode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridcode == null">
+                    NULL,
+                </if>
+                <if test="item.gridscope != null">
+                    #{item.gridscope,jdbcType=VARCHAR},
+                </if>
+                <if test="item.gridscope == null">
+                    NULL,
+                </if>
+                <if test="item.comment != null">
+                    #{item.comment,jdbcType=VARCHAR},
+                </if>
+                <if test="item.comment == null">
+                    NULL,
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <select id="countByExample" parameterType="com.zhongzhou.entity.StabilityCriteria" resultType="java.lang.Long">
+        select count(*) from stability
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update stability
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.title != null">
+                title = #{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.time != null">
+                time = #{record.time,jdbcType=VARCHAR},
+            </if>
+            <if test="record.policestationid != null">
+                policestationid = #{record.policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="record.gridname != null">
+                gridname = #{record.gridname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rusticate != null">
+                rusticate = #{record.rusticate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridsequence != null">
+                gridsequence = #{record.gridsequence,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridpersontype != null">
+                gridpersontype = #{record.gridpersontype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridpersonname != null">
+                gridpersonname = #{record.gridpersonname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.idcard != null">
+                idcard = #{record.idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null">
+                sex = #{record.sex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.age != null">
+                age = #{record.age,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridpersonphone != null">
+                gridpersonphone = #{record.gridpersonphone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.politicallook != null">
+                politicallook = #{record.politicallook,jdbcType=VARCHAR},
+            </if>
+            <if test="record.education != null">
+                education = #{record.education,jdbcType=VARCHAR},
+            </if>
+            <if test="record.marital != null">
+                marital = #{record.marital,jdbcType=VARCHAR},
+            </if>
+            <if test="record.currentaddress != null">
+                currentaddress = #{record.currentaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.otheridentity != null">
+                otheridentity = #{record.otheridentity,jdbcType=VARCHAR},
+            </if>
+            <if test="record.managerhouse != null">
+                managerhouse = #{record.managerhouse,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridcode != null">
+                gridcode = #{record.gridcode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gridscope != null">
+                gridscope = #{record.gridscope,jdbcType=VARCHAR},
+            </if>
+            <if test="record.comment != null">
+                comment = #{record.comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update stability
+        set id = #{record.id,jdbcType=INTEGER},
+        title = #{record.title,jdbcType=VARCHAR},
+        time = #{record.time,jdbcType=VARCHAR},
+        policestationid = #{record.policestationid,jdbcType=INTEGER},
+        gridname = #{record.gridname,jdbcType=VARCHAR},
+        rusticate = #{record.rusticate,jdbcType=VARCHAR},
+        gridsequence = #{record.gridsequence,jdbcType=VARCHAR},
+        gridpersontype = #{record.gridpersontype,jdbcType=VARCHAR},
+        gridpersonname = #{record.gridpersonname,jdbcType=VARCHAR},
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+        sex = #{record.sex,jdbcType=VARCHAR},
+        age = #{record.age,jdbcType=VARCHAR},
+        gridpersonphone = #{record.gridpersonphone,jdbcType=VARCHAR},
+        politicallook = #{record.politicallook,jdbcType=VARCHAR},
+        education = #{record.education,jdbcType=VARCHAR},
+        marital = #{record.marital,jdbcType=VARCHAR},
+        currentaddress = #{record.currentaddress,jdbcType=VARCHAR},
+        otheridentity = #{record.otheridentity,jdbcType=VARCHAR},
+        managerhouse = #{record.managerhouse,jdbcType=VARCHAR},
+        gridcode = #{record.gridcode,jdbcType=VARCHAR},
+        gridscope = #{record.gridscope,jdbcType=VARCHAR},
+        comment = #{record.comment,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhongzhou.entity.Stability">
+        update stability
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="policestationid != null">
+                policestationid = #{policestationid,jdbcType=INTEGER},
+            </if>
+            <if test="gridname != null">
+                gridname = #{gridname,jdbcType=VARCHAR},
+            </if>
+            <if test="rusticate != null">
+                rusticate = #{rusticate,jdbcType=VARCHAR},
+            </if>
+            <if test="gridsequence != null">
+                gridsequence = #{gridsequence,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersontype != null">
+                gridpersontype = #{gridpersontype,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersonname != null">
+                gridpersonname = #{gridpersonname,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null">
+                idcard = #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=VARCHAR},
+            </if>
+            <if test="gridpersonphone != null">
+                gridpersonphone = #{gridpersonphone,jdbcType=VARCHAR},
+            </if>
+            <if test="politicallook != null">
+                politicallook = #{politicallook,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="marital != null">
+                marital = #{marital,jdbcType=VARCHAR},
+            </if>
+            <if test="currentaddress != null">
+                currentaddress = #{currentaddress,jdbcType=VARCHAR},
+            </if>
+            <if test="otheridentity != null">
+                otheridentity = #{otheridentity,jdbcType=VARCHAR},
+            </if>
+            <if test="managerhouse != null">
+                managerhouse = #{managerhouse,jdbcType=VARCHAR},
+            </if>
+            <if test="gridcode != null">
+                gridcode = #{gridcode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridscope != null">
+                gridscope = #{gridscope,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhongzhou.entity.Stability">
+    update stability
+    set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      policestationid = #{policestationid,jdbcType=INTEGER},
+      gridname = #{gridname,jdbcType=VARCHAR},
+      rusticate = #{rusticate,jdbcType=VARCHAR},
+      gridsequence = #{gridsequence,jdbcType=VARCHAR},
+      gridpersontype = #{gridpersontype,jdbcType=VARCHAR},
+      gridpersonname = #{gridpersonname,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      gridpersonphone = #{gridpersonphone,jdbcType=VARCHAR},
+      politicallook = #{politicallook,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      marital = #{marital,jdbcType=VARCHAR},
+      currentaddress = #{currentaddress,jdbcType=VARCHAR},
+      otheridentity = #{otheridentity,jdbcType=VARCHAR},
+      managerhouse = #{managerhouse,jdbcType=VARCHAR},
+      gridcode = #{gridcode,jdbcType=VARCHAR},
+      gridscope = #{gridscope,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+        update stability
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.title}
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.time}
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.policestationid}
+                </foreach>
+            </trim>
+            <trim prefix="gridname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridname}
+                </foreach>
+            </trim>
+            <trim prefix="rusticate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.rusticate}
+                </foreach>
+            </trim>
+            <trim prefix="gridsequence =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridsequence}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersontype =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersontype}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersonname}
+                </foreach>
+            </trim>
+            <trim prefix="idcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.idcard}
+                </foreach>
+            </trim>
+            <trim prefix="sex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.sex}
+                </foreach>
+            </trim>
+            <trim prefix="age =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.age}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonphone =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersonphone}
+                </foreach>
+            </trim>
+            <trim prefix="politicallook =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.politicallook}
+                </foreach>
+            </trim>
+            <trim prefix="education =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.education}
+                </foreach>
+            </trim>
+            <trim prefix="marital =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.marital}
+                </foreach>
+            </trim>
+            <trim prefix="currentaddress =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.currentaddress}
+                </foreach>
+            </trim>
+            <trim prefix="otheridentity =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.otheridentity}
+                </foreach>
+            </trim>
+            <trim prefix="managerhouse =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.managerhouse}
+                </foreach>
+            </trim>
+            <trim prefix="gridcode =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridcode}
+                </foreach>
+            </trim>
+            <trim prefix="gridscope =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridscope}
+                </foreach>
+            </trim>
+            <trim prefix="comment =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.comment}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+        update stability
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.title != null ">
+                        when  #{item.id} then #{item.title}
+                    </if>
+                    <if test="item.title == null ">
+                        when  #{item.id} then stability.title
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.time != null ">
+                        when  #{item.id} then #{item.time}
+                    </if>
+                    <if test="item.time == null ">
+                        when  #{item.id} then stability.time
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.policestationid != null ">
+                        when  #{item.id} then #{item.policestationid}
+                    </if>
+                    <if test="item.policestationid == null ">
+                        when  #{item.id} then stability.policestationid
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridname != null ">
+                        when  #{item.id} then #{item.gridname}
+                    </if>
+                    <if test="item.gridname == null ">
+                        when  #{item.id} then stability.gridname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="rusticate =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.rusticate != null ">
+                        when  #{item.id} then #{item.rusticate}
+                    </if>
+                    <if test="item.rusticate == null ">
+                        when  #{item.id} then stability.rusticate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridsequence =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridsequence != null ">
+                        when  #{item.id} then #{item.gridsequence}
+                    </if>
+                    <if test="item.gridsequence == null ">
+                        when  #{item.id} then stability.gridsequence
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersontype =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridpersontype != null ">
+                        when  #{item.id} then #{item.gridpersontype}
+                    </if>
+                    <if test="item.gridpersontype == null ">
+                        when  #{item.id} then stability.gridpersontype
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonname =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridpersonname != null ">
+                        when  #{item.id} then #{item.gridpersonname}
+                    </if>
+                    <if test="item.gridpersonname == null ">
+                        when  #{item.id} then stability.gridpersonname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="idcard =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.idcard != null ">
+                        when  #{item.id} then #{item.idcard}
+                    </if>
+                    <if test="item.idcard == null ">
+                        when  #{item.id} then stability.idcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="sex =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.sex != null ">
+                        when  #{item.id} then #{item.sex}
+                    </if>
+                    <if test="item.sex == null ">
+                        when  #{item.id} then stability.sex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="age =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.age != null ">
+                        when  #{item.id} then #{item.age}
+                    </if>
+                    <if test="item.age == null ">
+                        when  #{item.id} then stability.age
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonphone =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridpersonphone != null ">
+                        when  #{item.id} then #{item.gridpersonphone}
+                    </if>
+                    <if test="item.gridpersonphone == null ">
+                        when  #{item.id} then stability.gridpersonphone
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="politicallook =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.politicallook != null ">
+                        when  #{item.id} then #{item.politicallook}
+                    </if>
+                    <if test="item.politicallook == null ">
+                        when  #{item.id} then stability.politicallook
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="education =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.education != null ">
+                        when  #{item.id} then #{item.education}
+                    </if>
+                    <if test="item.education == null ">
+                        when  #{item.id} then stability.education
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="marital =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.marital != null ">
+                        when  #{item.id} then #{item.marital}
+                    </if>
+                    <if test="item.marital == null ">
+                        when  #{item.id} then stability.marital
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="currentaddress =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.currentaddress != null ">
+                        when  #{item.id} then #{item.currentaddress}
+                    </if>
+                    <if test="item.currentaddress == null ">
+                        when  #{item.id} then stability.currentaddress
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="otheridentity =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.otheridentity != null ">
+                        when  #{item.id} then #{item.otheridentity}
+                    </if>
+                    <if test="item.otheridentity == null ">
+                        when  #{item.id} then stability.otheridentity
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="managerhouse =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.managerhouse != null ">
+                        when  #{item.id} then #{item.managerhouse}
+                    </if>
+                    <if test="item.managerhouse == null ">
+                        when  #{item.id} then stability.managerhouse
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridcode =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridcode != null ">
+                        when  #{item.id} then #{item.gridcode}
+                    </if>
+                    <if test="item.gridcode == null ">
+                        when  #{item.id} then stability.gridcode
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridscope =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.gridscope != null ">
+                        when  #{item.id} then #{item.gridscope}
+                    </if>
+                    <if test="item.gridscope == null ">
+                        when  #{item.id} then stability.gridscope
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="comment =case id" suffix="end,">
+                <foreach collection="list" index="index" item="item" separator=" ">
+                    <if test="item.comment != null ">
+                        when  #{item.id} then #{item.comment}
+                    </if>
+                    <if test="item.comment == null ">
+                        when  #{item.id} then stability.comment
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchByExample" parameterType="map">
+        update stability
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.title}
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.time}
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.policestationid}
+                </foreach>
+            </trim>
+            <trim prefix="gridname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridname}
+                </foreach>
+            </trim>
+            <trim prefix="rusticate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.rusticate}
+                </foreach>
+            </trim>
+            <trim prefix="gridsequence =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridsequence}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersontype =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersontype}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersonname}
+                </foreach>
+            </trim>
+            <trim prefix="idcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.idcard}
+                </foreach>
+            </trim>
+            <trim prefix="sex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.sex}
+                </foreach>
+            </trim>
+            <trim prefix="age =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.age}
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonphone =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridpersonphone}
+                </foreach>
+            </trim>
+            <trim prefix="politicallook =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.politicallook}
+                </foreach>
+            </trim>
+            <trim prefix="education =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.education}
+                </foreach>
+            </trim>
+            <trim prefix="marital =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.marital}
+                </foreach>
+            </trim>
+            <trim prefix="currentaddress =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.currentaddress}
+                </foreach>
+            </trim>
+            <trim prefix="otheridentity =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.otheridentity}
+                </foreach>
+            </trim>
+            <trim prefix="managerhouse =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.managerhouse}
+                </foreach>
+            </trim>
+            <trim prefix="gridcode =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridcode}
+                </foreach>
+            </trim>
+            <trim prefix="gridscope =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.gridscope}
+                </foreach>
+            </trim>
+            <trim prefix="comment =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    when  #{item.id} then #{item.comment}
+                </foreach>
+            </trim>
+        </trim>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateBatchByExampleSelective" parameterType="map">
+        update stability
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="title =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.title != null ">
+                        when  #{item.id} then #{item.title}
+                    </if>
+                    <if test="item.title == null ">
+                        when  #{item.id} then stability.title
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="time =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.time != null ">
+                        when  #{item.id} then #{item.time}
+                    </if>
+                    <if test="item.time == null ">
+                        when  #{item.id} then stability.time
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="policestationid =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.policestationid != null ">
+                        when  #{item.id} then #{item.policestationid}
+                    </if>
+                    <if test="item.policestationid == null ">
+                        when  #{item.id} then stability.policestationid
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridname != null ">
+                        when  #{item.id} then #{item.gridname}
+                    </if>
+                    <if test="item.gridname == null ">
+                        when  #{item.id} then stability.gridname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="rusticate =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.rusticate != null ">
+                        when  #{item.id} then #{item.rusticate}
+                    </if>
+                    <if test="item.rusticate == null ">
+                        when  #{item.id} then stability.rusticate
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridsequence =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridsequence != null ">
+                        when  #{item.id} then #{item.gridsequence}
+                    </if>
+                    <if test="item.gridsequence == null ">
+                        when  #{item.id} then stability.gridsequence
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersontype =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridpersontype != null ">
+                        when  #{item.id} then #{item.gridpersontype}
+                    </if>
+                    <if test="item.gridpersontype == null ">
+                        when  #{item.id} then stability.gridpersontype
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonname =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridpersonname != null ">
+                        when  #{item.id} then #{item.gridpersonname}
+                    </if>
+                    <if test="item.gridpersonname == null ">
+                        when  #{item.id} then stability.gridpersonname
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="idcard =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.idcard != null ">
+                        when  #{item.id} then #{item.idcard}
+                    </if>
+                    <if test="item.idcard == null ">
+                        when  #{item.id} then stability.idcard
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="sex =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.sex != null ">
+                        when  #{item.id} then #{item.sex}
+                    </if>
+                    <if test="item.sex == null ">
+                        when  #{item.id} then stability.sex
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="age =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.age != null ">
+                        when  #{item.id} then #{item.age}
+                    </if>
+                    <if test="item.age == null ">
+                        when  #{item.id} then stability.age
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridpersonphone =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridpersonphone != null ">
+                        when  #{item.id} then #{item.gridpersonphone}
+                    </if>
+                    <if test="item.gridpersonphone == null ">
+                        when  #{item.id} then stability.gridpersonphone
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="politicallook =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.politicallook != null ">
+                        when  #{item.id} then #{item.politicallook}
+                    </if>
+                    <if test="item.politicallook == null ">
+                        when  #{item.id} then stability.politicallook
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="education =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.education != null ">
+                        when  #{item.id} then #{item.education}
+                    </if>
+                    <if test="item.education == null ">
+                        when  #{item.id} then stability.education
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="marital =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.marital != null ">
+                        when  #{item.id} then #{item.marital}
+                    </if>
+                    <if test="item.marital == null ">
+                        when  #{item.id} then stability.marital
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="currentaddress =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.currentaddress != null ">
+                        when  #{item.id} then #{item.currentaddress}
+                    </if>
+                    <if test="item.currentaddress == null ">
+                        when  #{item.id} then stability.currentaddress
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="otheridentity =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.otheridentity != null ">
+                        when  #{item.id} then #{item.otheridentity}
+                    </if>
+                    <if test="item.otheridentity == null ">
+                        when  #{item.id} then stability.otheridentity
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="managerhouse =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.managerhouse != null ">
+                        when  #{item.id} then #{item.managerhouse}
+                    </if>
+                    <if test="item.managerhouse == null ">
+                        when  #{item.id} then stability.managerhouse
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridcode =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridcode != null ">
+                        when  #{item.id} then #{item.gridcode}
+                    </if>
+                    <if test="item.gridcode == null ">
+                        when  #{item.id} then stability.gridcode
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gridscope =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.gridscope != null ">
+                        when  #{item.id} then #{item.gridscope}
+                    </if>
+                    <if test="item.gridscope == null ">
+                        when  #{item.id} then stability.gridscope
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="comment =case id" suffix="end,">
+                <foreach collection="recordList" index="index" item="item" separator=" ">
+                    <if test="item.comment != null ">
+                        when  #{item.id} then #{item.comment}
+                    </if>
+                    <if test="item.comment == null ">
+                        when  #{item.id} then stability.comment
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+  <!--  后台 关键字 -->
+  <select id="auditBackExaminePage"   resultType="com.zhongzhou.entity.Stability">
+    select
+    *
+    from stability
+
+    <where>
+
+      <if test="keyword != null and keyword !=''">
+
+        (
+          gridpersonname like  CONCAT("%",#{keyword},"%")  or
+          idcard like  CONCAT("%",#{keyword},"%")  or
+          gridpersonphone like   CONCAT("%",#{keyword},"%")
+        )
+
+    </if>
+      and policestationid = #{policestationid}
+    </where>
+    order by id desc
+  </select>
+
+</mapper>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<RBSPMessage>
+	<Version> 12.1</Version>
+	<SenderID>C00-10000002</SenderID><!--公安网内请求方ID，公安网内服务总线提供-->
+	<TimeStamp/>
+	<Validity/>
+	<Security></Security>
+	<Method>
+		<EndUser>用户信息</EndUser><!--公安网查询用户信息，参见4.5.2章节-->
+		<Name>putxmlinfo</Name>
+		<Items>
+			<Item>
+				<Name>InfoType</Name>
+				<Value Type="string">
+					<Data>查询数据类型</Data><!--公安网查询数据类型参见4.5.1章节-->
+				</Value>
+			</Item>
+			<Item>
+				<Name>InfoSet</Name>
+				<Value Type="string">
+					<Data>
+						<Content>
+							<Header>
+								<RequestID>KHCX_001122334455_20150906235959_1234</RequestID>
+								<!--任务唯一编号（每个请求服务器内部要求不重复）-->
+								<CommonInfo>
+									<approveID>abc</approveID>
+									<approveName>李四</approveName>
+									<DeptName>科信局一处</DeptName>
+									<Signresultstr>f2d21b777d2b1f3310d896dfdacddf458b6dc70aee10719cc1be5e62de2c9d0a26d7bd7f1e4af2207269f622b70dd00f9e543411e020603040808d80491db340540a19fd21b8548a73ad06671911df84a71f2ecef1bc83732ee55d9404c5bef629519e6cfe66dc1c5adb7a04d5d30c446e02ca189c480409d34aec8ebf64f75d</Signresultstr></CommonInfo>
+								<CaseInfo>
+									<CaseID>123</CaseID>
+									<CaseName>王五杀人案</CaseName>
+									<CaseProperty>杀人案</CaseProperty>
+									<CaseCause>查询王五机主信息</CaseCause>
+									<CaseResume>机主查询</CaseResume>
+								</CaseInfo>
+							</Header>
+							<Body>
+								<DbSource name="KHCX" carrier="yd"> YDKHCX</DbSource>
+								<!-- name:数据源名称（KHCX）; carrier: 运营商名称（yd）; 业务: （YDKHCX）-->
+								<Fields Count="3">
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>IDCARD</LeftValue><!--查询号码类型参见leftvalue说明-->
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>321283198803283811</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>PHONE_NUM</LeftValue><!--查询号码类型参见leftvalue说明-->
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>15205180576</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+									<FieldCondition>
+										<LogicCaculation> and </LogicCaculation>
+										<LeftBracket></LeftBracket>
+										<LeftValue>CHARGE_BELONG_CITY_ID</LeftValue>
+										<ConditionCalculation>=</ConditionCalculation>
+										<RightValue>111</RightValue>
+										<RightBracket></RightBracket>
+									</FieldCondition>
+								</Fields>
+							</Body>
+						</Content>
+					</Data>
+					<!--信息受理模块webservice接口所需查询服务请求消息格式，参见5.1章节-->
+				</Value>
+			</Item>
+		</Items>
+	</Method>
+</RBSPMessage>

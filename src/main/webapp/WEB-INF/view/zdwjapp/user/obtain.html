@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.css" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.picker.css" />
+		<link rel="stylesheet" href="${Session.BASE_URL}css/mui.poppicker.css" />
+		<title></title>
+	</head>
+	<style>
+		#wait{
+			padding: 5px 0px;
+			background-color: #017ad7;
+			color: #FFFFFF;
+
+		}
+		#wait.on{
+			background-color: #eee;
+			color: #ccc;
+			cursor: not-allowed;
+		}
+		#phone{
+			margin: 3%;
+			width: 216px;
+			height: 26px;
+			color:#a9a9a9;
+			padding-left:5px;
+			font-size: 14px;
+		}
+		#verification{
+			margin: 3%;
+			width: 44%;
+			height: 26px;
+			padding-left:5px;
+			color:#a9a9a9;
+			font-size: 14px;
+		}
+		#but{
+			margin-top: 4px;
+			width: 116px;
+			background-color: #017ad7;
+			color: #FFFFFF;
+		}
+	</style>
+	<body>
+	<div class="mui-content">
+		<input type="text"   id="sid" style="display:none">
+
+		<input id="phone" placeholder="请输入手机号码"/>
+		<input id="verification" placeholder="请输入验证码"/>
+		<input type="button" style="width: 90px;margin-top: 4px;" class="yzm" id="wait" value="发送验证码"/>
+		<div style="font-size: 10px;color: #f48685">*请输入当前操作人手机号码，便于接收后续流程的通知</div>
+		<div style="text-align: center">
+			<button id="but">提交</button>
+		</div>
+<!--		<div style="text-align: center">-->
+<!--			<button id="clo">guanbi</button>-->
+<!--		</div>-->
+	</div>
+		
+	</body>
+	<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+	<script type="text/javascript" src="${Session.BASE_URL}js/mui.js"></script>
+	<script>
+
+		// $("#clo").click(function(){
+		// 	parent.document.getElementById("retVal").value = 2;
+		// 	var index = parent.layer.getFrameIndex(window.name);
+		// 	parent.layer.close(index);
+		// })
+
+        $("#wait").click(function(){
+        	var phone = $("#phone").val()
+			var phoneLength = phone.length
+			console.log(phone)
+			if(phone ==""){
+				alert("请输入手机号码")
+			}else if(phoneLength != 11){
+				alert("输入手机号码不正确")
+			}else {
+				$.ajax({
+					url: '${Session.BASE_URL}process/mobileSendVerifyCode',
+					type: 'GET', //GET
+					// async: true,
+					dataType: 'json',
+					data: {phone:phone},
+					success: function (result) {
+						console.log(result);
+						if (result.code == "SUCCESS") {
+							mui.toast(result.msg)
+							btnCheck();
+						} else {
+							// console.log(result.msg);
+							mui.toast(result.data)
+						}
+					}
+				})
+			}
+        })
+
+		$("#but").click(function(){
+			// var jquerySendHelloButton = $("#sid", layero.find("iframe")[0].contentWindow.document);
+			// console.log(jquerySendHelloButton)
+			var code = $("#verification").val()
+			var phone = $("#phone").val()
+			console.log(code)
+			if(phone == ''){
+				alert("请输入正确的手机号码")
+			}else if(code == ''){
+				alert("请输入验证码")
+			}else{
+				$.ajax({
+					url: '${Session.BASE_URL}process/mobileIsVerifyCode',
+					type: 'GET', //GET
+					dataType: 'json',
+					data: {code:phone},
+					success: function (result) {
+						console.log(result);
+						if (result.code == "SUCCESS") {
+							parent.document.getElementById("retVal").value = 2;
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						} else {
+							mui.toast(result.data);
+						}
+					}
+				})
+			}
+		})
+		function btnCheck() {
+			$("#wait").addClass("on");
+			var time = 60;
+			$("#wait").attr("disabled", true);
+			var timer = setInterval(function() {
+				if(time == 0) {
+					clearInterval(timer);
+					$("#wait").attr("disabled", false);
+					$("#wait").val("获取验证码");
+					$("#wait").removeClass("on");
+				} else {
+					$('#wait').val(time + "秒");
+					time--;
+				}
+			}, 1000);
+		}
+	</script>
+</html>

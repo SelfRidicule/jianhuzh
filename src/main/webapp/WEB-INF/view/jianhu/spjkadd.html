@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		body{
+			background: url("${Session.BASE_URL}img/newAdd.png");
+			background-position: top;
+			/* 背景图不平铺 */
+			background-repeat: no-repeat;
+			/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+			background-attachment: fixed;
+			/*此条属性必须设置否则可能无效*/
+			/* 让背景图基于容器大小伸缩 */
+			background-size: auto;
+			background-color: rgb(255,255,255,0);
+			text-align: center;
+		}
+		#head{
+			margin-left: -5.3%;
+    		margin-top: 2.9%;
+    		color: #2F6188;
+    		font-weight: bold;
+		}
+		#cen div{
+			margin: 15px;
+		}
+		#cen input{
+			background-color: rgb(21,40,72);
+			border: 1px solid #4C99C2;
+			color: #FFF;
+		}
+		#save , #colse{
+			/*background-color: #031D3B;*/
+			color: #52A5C8;
+			border: 1px solid #52A5C8;
+			width: 70px;
+			height: 30px;
+			background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+						linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+						linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+						linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+			background-size: 100% 51%;
+			background-repeat: no-repeat;			
+		}
+		input{
+			width: 157px;
+			height: 16px;
+			font-size: 13px;
+			padding: 3px 8px;
+		}
+	</style>
+	<body>
+		<div id="head">
+			新增信息
+		</div>
+		<div id="cen" style="color: #fff;">
+			<div>用户名：<input id="username" type="text" autocomplete="off"/></div>
+			<div>&nbsp;&nbsp;&nbsp;密码：<input id="password" type="text" autocomplete="off"/></div>
+			<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ip：<input id="ip" type="text" autocomplete="off"/></div>
+			<div>&nbsp;&nbsp;&nbsp;经度：<input id="longitude" type="text" autocomplete="off"/></div>
+			<div>&nbsp;&nbsp;&nbsp;纬度：<input id="latitude" type="text" autocomplete="off"/></div>
+			<div>
+				<button id="save">保存</button>
+				<button id="colse">关闭</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+	<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+	<script>
+		//经度
+		var longrg = /^(\-|\+)?(((\d|[1-9]\d|1[0-7]\d|0{1,3})\.\d{0,6})|(\d|[1-9]\d|1[0-7]\d|0{1,3})|180\.0{0,6}|180)$/;
+		//纬度
+		var latreg = /^(\-|\+)?([0-8]?\d{1}\.\d{0,6}|90\.0{0,6}|[0-8]?\d{1}|90)$/;
+
+		function isValidIP(ip) {
+			var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+			return reg.test(ip);
+		}
+
+		$("#save").click(function(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+			var ip = $("#ip").val();
+			var longitude = $("#longitude").val();
+			var latitude = $("#latitude").val();
+			var data = {
+				username:username,
+				password:password,
+				ip:ip,
+				longitude:longitude,
+				latitude:latitude,
+				policestationid : '${policestation.id}'
+			};
+			if(username == ''){
+				layer.msg('请输入用户名',{time:1.5*1000});
+			}else if(password == ''){
+				layer.msg('请输入密码',{time:1.5*1000});
+			}else if(ip == ''){
+				layer.msg('请输入ip',{time:1.5*1000});
+			}else if(isValidIP(ip)==false){
+				layer.msg('请输入正确ip',{time:1.5*1000});
+			}
+			else if(longitude == ''){
+				layer.msg('请输入经度',{time:1.5*1000});
+			}else if(!longrg.test(longitude)){
+				layer.msg('经度整数部分为0-180,小数部分为0到6位!',{time:1.5*1000});
+			} else if(latitude == ''){
+				layer.msg('请输入纬度',{time:1.5*1000});
+			}else if(!latreg.test(latitude)){
+				layer.msg('纬度整数部分为0-90,小数部分为0到6位!',{time:1.5*1000});
+			}
+			else{
+				$.ajax({
+					url: '${Session.BASE_URL}video/add',
+					type:'GET', //GET
+					dataType:'json',
+					data:data,
+					success:function (result) {
+						if(result.code == "SUCCESS"){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+							window.parent.location.reload();
+						}
+					}
+				})
+			}
+
+		})
+		$("#colse").click(function(){
+			console.log(1)
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		})
+	</script>
+</html>

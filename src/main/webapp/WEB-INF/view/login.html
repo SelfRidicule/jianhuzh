@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>建湖公安</title>
+  <link rel="shortcut icon" href="${Session.BASE_URL}img/favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      background: url("${Session.BASE_URL}img/policeStation.jpg");
+      background-position: top;
+      /* 背景图不平铺 */
+      background-repeat: no-repeat;
+      /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+      background-attachment: fixed;
+      /*此条属性必须设置否则可能无效*/
+      /* 让背景图基于容器大小伸缩 */
+      background-size: 100% 100%;
+    }
+
+    @font-face {
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: 200;
+      src: local("Source Sans Pro ExtraLight"), local("SourceSansPro-ExtraLight"), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_wlxdr.ttf) format("truetype");
+    }
+
+    @font-face {
+      font-family: "Source Sans Pro";
+      font-style: normal;
+      font-weight: 300;
+      src: local("Source Sans Pro Light"), local("SourceSansPro-Light"), url(https://fonts.gstatic.com/s/sourcesanspro/v11/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdr.ttf) format("truetype");
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-weight: 300;
+    }
+
+    body {
+      font-family: "Source Sans Pro", sans-serif;
+      color: white;
+      font-weight: 300;
+    }
+
+    body ::-webkit-input-placeholder {
+      /* WebKit browsers */
+      font-family: "Source Sans Pro", sans-serif;
+      color: white;
+      font-weight: 300;
+    }
+
+    body :-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      font-family: "Source Sans Pro", sans-serif;
+      color: white;
+      opacity: 1;
+      font-weight: 300;
+    }
+
+    body ::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      font-family: "Source Sans Pro", sans-serif;
+      color: white;
+      opacity: 1;
+      font-weight: 300;
+    }
+
+    body :-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      font-family: "Source Sans Pro", sans-serif;
+      color: white;
+      font-weight: 300;
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 50%;
+      left: 60%;
+      margin-top: -190px;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 95px 0 30px 0;
+      height: 387px;
+      width: 540px;
+      text-align: center;
+      background: url(${Session.BASE_URL}img/kuangbeij.png);
+      /* 背景图不平铺 */
+      background-repeat: no-repeat;
+    }
+
+    form {
+      position: relative;
+      z-index: 2;
+    }
+
+    form input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: 0;
+      border: 1px solid rgba(84, 163, 206);
+      background-color: rgba(12, 29, 69, 0.2);
+      width: 250px;
+      border-radius: 3px;
+      padding: 10px 15px;
+      margin: 0 auto 10px auto;
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      color: white;
+      transition-duration: 0.25s;
+      font-weight: 300;
+      -webkit-box-shadow: 0 0 10px #54A3CE;
+    }
+
+    form input:hover {
+      /*background-color: rgba(255, 255, 255, 0.4);*/
+    }
+
+    form input:focus {
+      /*background-color: white;
+      width: 300px;
+      color: #53e3a6;*/
+    }
+
+    form button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: 0;
+      background-color: white;
+      border: 0;
+      padding: 10px 15px;
+      color: #53e3a6;
+      width: 250px;
+      cursor: pointer;
+      font-size: 18px;
+      transition-duration: 0.25s;
+    }
+
+    form button:hover {
+      background-color: #f5f7f9;
+    }
+
+    @-webkit-keyframes square {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+      }
+      100% {
+        -webkit-transform: translateY(-700px) rotate(600deg);
+        transform: translateY(-700px) rotate(600deg);
+      }
+    }
+
+    @keyframes square {
+      0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+      }
+      100% {
+        -webkit-transform: translateY(-700px) rotate(600deg);
+        transform: translateY(-700px) rotate(600deg);
+      }
+    }
+    #login-button{
+      width: 200px;
+      background: linear-gradient(-45deg,transparent 5px,#6CD0FF 0) bottom right,
+      linear-gradient(135deg,transparent 5px,#6CD0FF 0) top left;
+      background-size: 100% 51%;
+      background-repeat: no-repeat;
+      color:#000;
+    }
+    #but{
+      position: absolute;
+      top: 96%;
+      text-align: center;
+      width: 100%;
+    }
+    #houtai:hover{
+      cursor:pointer
+    }
+    input:focus::-webkit-input-placeholder{
+      color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrapper">
+  <form class="form">
+    <div class="container">
+      <input type="text" id="username" placeholder="用户名" style="margin-bottom:30px" autocomplete="off"/>
+      <input type="password" id="password" placeholder="密码" style="margin-bottom:30px" />
+      <button type="submit" id="login-button" style="width: 240px;">登录</button>
+    </div>
+  </form>
+</div>
+<div id="but">Copyrigth @2015-2020  建湖公安局  版权所有  V1.0  <span id="houtai" style="color: #5EB6E0;">后台管理<<</span></div>
+
+<script type="text/javascript" src="${Session.BASE_URL}/plugins/jquery-3.3.1.js"></script>
+<!--<script type="text/javascript" src="${Session.BASE_URL}/lying/layui/layui.js"></script>-->
+<script type="text/javascript" src="${Session.BASE_URL}/layer/layer.js"></script>
+<script>
+  $("#login-button").click(function(event) {
+    event.preventDefault();
+
+    var account = $("#username").val();
+    var password = $("#password").val();
+
+    if(account == "" || account == null) {
+      layer.msg("请输入账号！");
+      $("#username").focus();
+    } else if(password == "" || password == null) {
+      layer.msg("请输入密码！");
+      $("#password").focus();
+    } else {
+      $("form").fadeOut(500);
+      $(".wrapper").addClass("form-success");
+
+
+      console.log("${Session.BASE_URL}station/login");
+      //验证账号
+      $.ajax({
+        url: "${Session.BASE_URL}station/login",
+        type: "POST",
+        dataType: "JSON",
+        data: {
+          account: account,
+          password: password
+        },
+        success: function(result) {
+          if(result.code === "SUCCESS") {
+            window.location.href = "${Session.BASE_URL}index";
+          } else {
+            $("form").fadeIn(500);
+            $(".wrapper").removeClass("form-success");
+            layer.msg(result.msg);
+            $("#username").val("");
+            $("#password").val("");
+            $("#username").focus();
+          }
+        }
+
+      });
+    }
+  });
+
+  $("#houtai").click(function(){
+    window.location.href = "${Session.BASE_URL}admin/v1/policeAdmin"
+  })
+  // });
+</script>
+</body>
+
+</html>

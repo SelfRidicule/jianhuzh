@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>值班表</title>
+    <link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css"/>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/backstageList.jpg");
+        background-position: top;
+        /* 背景图不平铺 */
+        /*background-repeat: no-repeat;*/
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: 100% 100%;
+    }
+
+    table {
+        border: none;
+    }
+
+    #zb{
+        //-webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 32.5px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: #61AED1;
+        transition-duration: 0.25s;
+        font-weight: 300;
+    }
+    #search {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 30px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: white;
+        transition-duration: 0.25s;
+        font-weight: 300;
+        /*			-webkit-box-shadow: 0 0 10px #54A3CE;
+        */
+    }
+
+    #query {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #add {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #uploadExcel {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #export {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #fanhui {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+    .myskin11{
+        background-color: #e7040f;
+        /*background-color: transparent;!*背景透明*!*/
+        /*box-shadow: 0 0 0 rgba(0,0,0,0);!*前景无阴影*!*/
+    }
+
+    .list {
+        margin: 0 0 0 5px;
+        position: absolute;
+        top: 114px;
+        left: 70px;
+        height: 80vh;
+        width: 91vw;
+        /*background-color: #000000;*/
+    }
+
+    .layui-table {
+        background-color: rgb(255, 255, 255, 0);
+        color: #fff;
+    }
+
+    .layui-table[lay-skin=row] {
+        border-width: 6px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #fff;
+    }
+
+    .layui-laypage .layui-laypage-curr em {
+        color: #000;
+    }
+
+    .layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span {
+        color: #fff;
+    }
+
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+        border: 1px solid rgb(255, 255, 255, 0);
+    }
+
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+        background-color: rgb(93, 156, 255, 0.07);
+    }
+
+    iframe {
+        background-color: rgb(12, 25, 52);
+    }
+    #tips , #updatetips{
+        position:absolute;
+        z-index:999;
+        width: 440px;
+        height: 330px;
+        margin-top: 17%;
+        margin-left: 38%;
+        background-image: url("${Session.BASE_URL}img/newAdd.png");
+        background-size: 100% 100%;
+        font-size: 14px;
+        display: none;
+        text-align: center;
+    }
+    #cen div , #updatecen div{
+        margin: 7px;
+    }
+    #cen input , #updatecen input{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+    }
+    #tips input , #updatetips input{
+        width: 157px;
+        height: 16px;
+        font-size: 13px;
+        padding: 3px 8px;
+    }
+    #cen select , #updatecen select{
+        background-color: rgb(21,40,72);
+        border: 1px solid #4C99C2;
+        color: #FFF;
+        width:175px;height:25px
+    }
+    #tips #save , #tips #colse , #updatetips #update , #updatetips #updatecolse{
+        /*background-color: #031D3B;*/
+        color: #52A5C8;
+        border: 1px solid #52A5C8;
+        width: 70px;
+        height: 30px;
+        background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+        linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+        linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+        linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+        background-size: 100% 51%;
+        background-repeat: no-repeat;
+    }
+    #tips #head , #updatetips #updatehead{
+        margin-left: -5.5%;
+        margin-top: 2.9%;
+        color: #2F6188;
+        font-weight: bold;
+    }
+    select{
+        padding: 3px 8px;
+    }
+</style>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+<body onload="showLeftTime()">
+
+<div id="show"
+     style="width: 210px;height: 70px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 12%;">
+</div>
+<div class="list">
+    <input type="text" id="search" placeholder="请输入关键字进行查询" autocomplete="off"/>
+    <select id="zb" name="zb" lay-verify="">
+        <option value="">请选择</option>
+        <option value="1">值班</option>
+        <option value="0">未值班</option>
+    </select>
+    <button  style="margin-left: 4px;"  data-type="query" id="query">查询</button>
+    <button style="margin-left: 4px;"  id="add" onclick="openTips()">新增</button>
+
+    <div style="float: right">
+        <button style="margin-right: 4px;" id="uploadExcel">导入</button>
+        <button style="margin-right: 100px;" id="export">导出模板</button>
+        <button id="fanhui">返回</button>
+
+    </div>
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+<div id="tips">
+    <div id="head">
+        新增信息
+    </div>
+    <div id="cen" style="color: #fff;padding-top: 10px">
+        <div>姓名：&nbsp;&nbsp;&nbsp;<input id="name" type="text" autocomplete="off"/></div>
+        <div>身份证：<input id="identity" type="text" autocomplete="off"/></div>
+        <div>单位：&nbsp;&nbsp;&nbsp;<input id="company" type="text" autocomplete="off"/></div>
+        <div>号码：&nbsp;&nbsp;&nbsp;<input id="phone" type="text" autocomplete="off"/></div>
+        <div>性别：&nbsp;&nbsp;&nbsp;<select id="sex" type="text" autocomplete="off"><option value="男">男</option><option value="女">女</option> </select> </div>
+        <div>职务：&nbsp;&nbsp;&nbsp;<input id="duties" type="text" autocomplete="off"/></div>
+        <div>状态：&nbsp;&nbsp;&nbsp;<select id="zbstatus" type="text" autocomplete="off"/><option value="1">值班</option><option value="0">未值班</option> </select></div>
+        <div>
+            <button id="save">保存</button>
+            <button id="colse" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+<div id="updatetips">
+    <div id="updatehead">
+        修改信息
+    </div>
+    <div id="updatecen" style="color: #fff;">
+        <div>姓名：&nbsp;&nbsp;&nbsp;<input id="updatename" type="text" autocomplete="off"/></div>
+        <div>身份证：<input id="updateidentity" type="text" autocomplete="off"/></div>
+        <div>单位：&nbsp;&nbsp;&nbsp;<input id="updatecompany" type="text" autocomplete="off"/></div>
+        <div>号码：&nbsp;&nbsp;&nbsp;<input id="updatephone" type="text" autocomplete="off"/></div>
+        <div>性别：&nbsp;&nbsp;&nbsp;<select id="updatesex" type="text" autocomplete="off"><option value="男">男</option><option value="女">女</option> </select> </div>
+        <div>职务：&nbsp;&nbsp;&nbsp;<input id="updateduties" type="text" autocomplete="off"/></div>
+        <div>状态：&nbsp;&nbsp;&nbsp;<select id="updatezbstatus" type="text" autocomplete="off"/><option value="1">值班</option><option value="0">未值班</option> </select></div>
+        <div>
+            <button id="update">保存</button>
+            <button id="updatecolse">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+<!--<script type="text/javascript" src="../layer/layer.js"></script>-->
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX + 1}}
+</script>
+
+<script type="text/html" id="status">
+        {{#  if(d.status === 1 ){ }}
+         值班
+         {{#  } }}  
+         {{#  if(d.status === 0 ){ }}
+         未值班
+         {{#  } }}  
+      
+</script>
+<script type="text/html" id="operation">
+    <a lay-event="update" style="color: #F28E74;margin: 0 5px;">修改</a>
+    <a lay-event="del" style="color: #D3C155;margin: 0 5px;">删除</a>
+</script>
+<script>
+
+    // 手机号正则
+    var phoneReg = /^1[3456789]\d{9}$/
+    //上传excel的js,调用官方的上传组件
+    layui.use(['element', 'upload'], function () {
+        element = layui.element;
+        upload = layui.upload;
+        //指定允许上传的文件类型
+        upload.render({
+            //按钮的id
+            elem: '#uploadExcel'
+            , url: '${Session.BASE_URL}duty/uploadExcel?policestationId=${policestation.id}'
+            , accept: 'file' //普通文件
+            , multiple: true //多媒体文件
+            , done: function (res) {
+                if (res.code == 'SUCCESS') {
+                    window.parent.layui.layer.msg("上传成功");
+                    setTimeout(function(){
+                      location.reload();
+                    },1000);
+
+                }
+            }
+        });
+    });
+    layui.use('table', function () {
+        // var table = layui.table;
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo',
+            url: '${Session.BASE_URL}duty/dataList',
+            height: 'full-250',
+            request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limi
+            }, //如果无需自定义请求参数，可不加该参数
+            where:{
+                 policestationid : '${policestation.id}'
+            },
+            response: {
+                statusCode: "SUCCESS" //规定成功的状态码，默认：0
+            },
+            cols: [[
+                {field: 'zizeng', align: 'center', title: '序号', templet: "#zizeng"},
+                {field: 'name', align: 'center', title: '姓名'},
+                {field: 'sex', align: 'center', title: '性别'},
+                {field: 'identity', align: 'center', title: '身份证'},
+                {field: 'company', align: 'center', title: '单位'},
+                {field: 'phone', align: 'center', title: '号码'},
+                {field: 'duties', align: 'center', title: '职务'},
+                {field: 'status', align: 'center', title: '状态',templet:"#status"},
+                {field: 'caozuo', align: 'center', title: '操作', templet: "#operation"}
+            ]],
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 5 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+
+            },
+            done: function (res, curr, count) {
+                // 表格渲染完成之后的回调
+                var that = this.elem.next();
+                res.data.forEach(function (item, index) {
+                    if (index % 2 == 0) {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0)");
+                    } else {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0.07)");
+                    }
+                });
+            }
+        });
+
+        //监听工具条
+        //这里的tool(test)监听
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var tableid = data.id
+            if (obj.event === 'update') {
+                //修改
+                $("#updatetips").css("display", "block");
+                $.ajax({
+                    url: '${Session.BASE_URL}duty/queryId',
+                    type: 'GET', //GET
+                    dataType: 'json',
+                    data: {id:tableid},
+                    success: function (result) {
+                        $("#updatename").val(result.data.name);
+                        $("#updateidentity").val(result.data.identity);
+                        $("#updatecompany").val(result.data.company);
+                        $("#updatephone").val(result.data.phone);
+                        $("#updatesex").val(result.data.sex);
+                        $("#updateduties").val(result.data.duties);
+                        $("#updatesex").val(result.data.sex);
+                        // if(result.data.status==1){
+                        //     $("#updatezbstatus").val("值班")
+                        //
+                        // }else {
+                        //     $("#updatezbstatus").val("未值班")
+                        // }
+                        $("#updatezbstatus option[value='"+result.data.status+"']").attr("selected","selected");
+                    }
+                })
+
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                var myreg=/^[0-9]*$/;
+                var nameReg = /^[\u4E00-\u9FA5]{2,4}$/;
+
+
+                $("#update").click(function(){
+                    var name = $("#updatename").val();
+                    var identity = $("#updateidentity").val();
+                    var company = $("#updatecompany").val();
+                    var phone = $("#updatephone").val();
+                    var sex = $("#updatesex").val();
+                    var duties = $("#updateduties").val();
+                    var status = $("#updatezbstatus").val();
+                    var data = {
+                        name:name,
+                        identity:identity,
+                        company:company,
+                        phone:phone,
+                        sex:sex,
+                        duties:duties,
+                        id:tableid,
+                        status:status
+                    };
+
+                    if(updatename == ''){
+                        layer.msg('请输入姓名',{time:1.5*1000});
+                    }else if(!nameReg.test(name)){
+                        layer.msg('请输入正确姓名',{time:1.5*1000});
+                    }else if(updateidentity == ''){
+                        layer.msg('请输入身份证',{time:1.5*1000});
+                    }else if(!reg.test(identity)){
+                        layer.msg('身份证输入不合法',{time:1.5*1000});
+                    } else if(updatecompany == ''){
+                        layer.msg('请输入单位',{time:1.5*1000});
+                    }else if(updatephone == ''){
+                        layer.msg('请输入号码',{time:1.5*1000});
+                    }else if(!phoneReg.test(phone)){
+                        layer.msg('请输入正确号码',{time:1.5*1000});
+                    }
+                    else if(updatesex == ''){
+                        layer.msg('请输入性别',{time:1.5*1000});
+                    }else if(updateduties == ''){
+                        layer.msg('请输入职务',{time:1.5*1000});
+                    }else {
+                        $.ajax({
+                            url: '${Session.BASE_URL}duty/update',
+                            type:'GET', //GET
+                            dataType:'json',
+                            data:data,
+                            success:function (result) {
+                                if(result.code == "SUCCESS"){
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    window.parent.layui.layer.msg("操作成功");
+                                    setTimeout(function(){
+                                      window.parent.location.reload();
+                                    },1000);
+                                }
+                            }
+                        })
+                    }
+                })
+
+                // layui.use('layer', function () {
+                //     var layer = layui.layer;
+                //     var id = data.id
+                //     console.log(id)
+                //     layer.open({
+                //         title: '',
+                //         type: 2,
+                //         closeBtn: 0,
+                //         shade: 0.2,
+                //         resize:false,
+                //         area: ["454px", "300px"],
+                //         content: '${Session.BASE_URL}admin/v1/updates?id=' + id
+                //     });
+                // });
+            } else if (obj.event === 'del') {
+                //删除
+                layer.confirm('您确定要删除吗？', function (index) {
+                    var id = data.id
+                    $.ajax({
+                        url: '${Session.BASE_URL}duty/delete',
+                        data: {id: id},
+                        success: function (result) {
+                            if (result.code == 'SUCCESS') {
+                                console.log(123)
+                                window.parent.layui.layer.msg("删除成功");//提示消息
+                                location.reload();     //删除之后,刷新表格
+                            } else {
+                                window.parent.layui.layer.msg("删除失败");//提示消息
+                            }
+                        }
+                    })
+                    layer.close(index); //关闭弹出层
+                });
+            }
+        });
+
+
+        $("#export").click(function () {
+            window.location.href = '${Session.BASE_URL}api/建湖值班人员.xlsx';
+        });
+
+        // $("#add").click(function () {
+        //     layui.use('layer', function () {
+        //         var layer = layui.layer;
+        //         layer.open({
+        //             title: '',
+        //             type: 2,
+        //             closeBtn: 0,
+        //             shade: 0,
+        //             shadeClose:false,
+        //             resize:false,
+        //             skin: 'myskin11',
+        //             area: ["453px", "300px"],
+        //             content: '${Session.BASE_URL}admin/v1/newAdds'
+        //         });
+        //     });
+        // })
+
+
+        //监听查询按钮
+        layui.$('#query').on('click', function () {
+            var type = layui.$(this).data('type');
+            console.log(type)
+            active[type] ? active[type].call(this) : '';
+        });
+        //获取选中状态
+        var active = {
+            query: function () { //获取选中数据
+                var keyword = $("#search").val();
+                var status = $("#zb").val();
+                var data = {
+                    keyword: keyword,
+                    policestationid : '${policestation.id}',
+                    status:status
+// 					pageNum: 1,
+// 					pageSize:10
+                };
+                tableIns.reload({
+                    where: data
+                    , url: '${Session.BASE_URL}duty/dataList'
+                    , page: {
+                        curr: 1  //从第一页开始
+                    }
+                });
+            }
+        };
+    });
+    //添加
+    $('#company').val('${policestation.name}');
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var myreg=/^[0-9]*$/;
+    var nameReg = /^[\u4E00-\u9FA5]{2,4}$/;
+
+    $("#save").click(function(){
+
+        var name = $("#name").val()
+        var identity = $("#identity").val()
+        var company = $("#company").val()
+        var phone = $("#phone").val()
+        var sex = $("#sex").val()
+        var duties = $("#duties").val()
+        var status = $("#zbstatus").val();
+        var data = {
+            name:name,
+            identity:identity,
+            company:company,
+            phone:phone,
+            sex:sex,
+            duties:duties,
+            policestationid : '${policestation.id}',
+            status:status
+        };
+        if(name == ''){
+            layer.msg('请输入姓名',{time:1.5*1000});
+        }else if(!nameReg.test(name)){
+            layer.msg('请输入正确姓名',{time:1.5*1000});
+        }
+        else if(identity == ''){
+            layer.msg('请输入身份证',{time:1.5*1000});
+        }else  if(!reg.test(identity)){
+            layer.msg('身份证输入不合法',{time:1.5*1000});
+        } else if(company == ''){
+            layer.msg('请输入单位',{time:1.5*1000});
+        }else if(phone == ''){
+            layer.msg('请输入号码',{time:1.5*1000});
+        }else if(!phoneReg.test(phone)){
+            layer.msg('请输入正确号码',{time:1.5*1000});
+        }
+        else if(sex == ''){
+            layer.msg('请输入性别',{time:1.5*1000});
+        }else if(duties == ''){
+            layer.msg('请输入职务',{time:1.5*1000});
+        } else{
+            $.ajax({
+                url: '${Session.BASE_URL}duty/add',
+                type:'GET', //GET
+                dataType:'json',
+                data:data,
+                success:function (result) {
+                    if(result.code == "SUCCESS"){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+
+                        window.parent.layui.layer.msg("操作成功");
+                        setTimeout(function(){
+                          window.parent.location.reload();
+                        },1000);
+                    }
+                }
+            })
+        }
+    })
+
+    $("#fanhui").click(function () {
+        window.history.back(-1);
+    })
+    function openTips() {
+        $("#tips").css("display", "block");
+    }
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+        $("#name").val("");
+        $("#identity").val("");
+        $("#phone").val("");
+        $("#duties").val("");
+    }
+    $("#updatecolse").click(function () {
+        $("#updatetips").css("display", "none");
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>网上调解</title>
+    <link rel="stylesheet" href="${Session.BASE_URL}lying/layui/css/layui.css"/>
+</head>
+<style>
+    body {
+        background: url("${Session.BASE_URL}img/backstageList.jpg");
+        background-position: top;
+        /* 背景图不平铺 */
+        /*background-repeat: no-repeat;*/
+        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+        background-attachment: fixed;
+        /*此条属性必须设置否则可能无效*/
+        /* 让背景图基于容器大小伸缩 */
+        background-size: 100% 100%;
+    }
+
+    table {
+        border: none;
+    }
+
+    #search {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        height: 30px;
+        border: 1px solid rgba(84, 163, 206);
+        background-color: rgba(93, 156, 255, 0.2);
+        /*width: 250px;*/
+        border-radius: 3px;
+        /*			display: block;
+        */
+        text-align: center;
+        /*font-size: 18px;*/
+        color: white;
+        transition-duration: 0.25s;
+        font-weight: 300;
+        /*			-webkit-box-shadow: 0 0 10px #54A3CE;
+        */
+    }
+
+    #query {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #add {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #uploadExcel {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #export {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    #fanhui {
+        background-color: #051E3D;
+        border: 1px solid #56A6CB;
+        color: #fff;
+        height: 30px;
+        width: 65px;
+        color: #61AED1;
+    }
+
+    .list {
+        margin: 0 0 0 5px;
+        position: absolute;
+        top: 114px;
+        left: 70px;
+        height: 80vh;
+        width: 91vw;
+        /*background-color: #000000;*/
+    }
+
+    .layui-table {
+        background-color: rgb(255, 255, 255, 0);
+        color: #fff;
+    }
+
+    .layui-table[lay-skin=row] {
+        border-width: 6px;
+        border-style: solid;
+        border-color: #e6e6e6;
+    }
+
+    .layui-table-page {
+        text-align: center;
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #fff;
+    }
+
+    .layui-laypage .layui-laypage-curr em {
+        color: #000;
+    }
+
+    .layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span {
+        color: #fff;
+    }
+
+    .layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+        border: 1px solid rgb(255, 255, 255, 0);
+    }
+
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+        background-color: rgb(93, 156, 255, 0.07);
+    }
+
+    iframe {
+        background-color: rgb(12, 25, 52);
+    }
+
+    #tips, #updatetips {
+        position: absolute;
+        z-index: 999;
+        width: 900px;
+        margin-top: 10%;
+        margin-left: 25%;
+        display: none;
+        background-color: #152848;
+        border-bottom: 1px solid #6ad1ff;
+    }
+
+    #head,#updatehead{
+        width: 900px;
+        height: 42px;
+        line-height: 42px;
+        background: url("${Session.BASE_URL}img/tabbar.png") center center no-repeat;
+        color: #6ad1ff;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        box-sizing: border-box;
+        border: 1px solid #6ad1ff;
+    }
+    .tab-content {
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #fff;
+        width: 900px;
+        height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .rows {
+        display: flex;
+        margin: 15px 0;
+    }
+    .rows>div {
+        flex: 1;
+        padding: 0 40px;
+    }
+
+    .row-textarea {
+        margin: 15px 0;
+        padding: 0 40px;
+    }
+    .row-textarea h4 {
+        margin-bottom: 10px;
+    }
+
+    .row-textarea textarea {
+        width: 728px;
+        height: 100px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        padding: 8px;
+    }
+
+    .rows h4 {
+        margin-bottom: 10px;
+    }
+
+    .rows input {
+        padding: 7px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        width: 300px;
+    }
+
+    .tab-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 80px;
+        margin-bottom: 20px;
+    }
+
+    .tab-btn button {
+        padding: 7px 17px;
+        background-color: #0f1f4a;
+        border: 1px solid #6ad1ff;
+        color: #6ad1ff;
+        margin-right: 40px;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        background-color: #FFFFFF;
+
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #4C99C2;
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        background-color: rgba(0, 0, 0, 0);
+        border-left: 1px solid rgba(0, 0, 0, 0);
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 13px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-clip: padding-box;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        min-height: 28px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .redDot{
+      color: red;
+      margin-right: 10px;
+    }
+</style>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+<body onload="showLeftTime()">
+
+<div id="show"
+     style="width: 210px;height: 150px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 12%;">
+</div>
+<div class="list">
+    <input type="text" id="search" placeholder="请输入关键字进行查询" autocomplete="off"/>
+    <button style="margin-left: 4px;" data-type="query" id="query">查询</button>
+    <button style="margin-left: 4px;" id="add" onclick="openTips()">新增</button>
+
+    <div style="float: right">
+        <button style="margin-right: 4px;" id="uploadExcel">导入</button>
+        <button style="margin-right: 100px;" id="export">导出模板</button>
+        <button id="fanhui">返回</button>
+    </div>
+    <table class="layui-hide" id="demo" lay-filter="test"></table>
+</div>
+<div id="tips">
+    <div id="head">
+        新增信息
+    </div>
+    <div id="cen" class="tab-content" >
+        <div class="rows">
+            <div>
+              <h4><span class="redDot">*</span>编号：</h4>
+                <input id="codenum" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>主持人姓名：</h4>
+                <input id="onehostname" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>主持人单位及职务：</h4>
+                <input id="hostposition" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>调解地点：</h4>
+                <input id="mediateaddress" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>当事人1姓名：</h4>
+                <input id="onecurrentname" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人1性别：</h4>
+                <input id="onecurrentsex" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事人1年龄：</h4>
+                <input id="onecurrentage" type="text"/>
+            </div>
+            <div>
+                <h4>当事人1民族：</h4>
+                <input id="onecurrentnation" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事人1出生年月：</h4>
+                <input id="onecurrentbirthdate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人1身份证号码：</h4>
+                <input id="onecurrentidcard" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事人1单位：</h4>
+                <input id="onecurrentcompany" type="text"/>
+            </div>
+            <div>
+                <h4>当事人1职业或职务：</h4>
+                <input id="onecurrentposition" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>当事人1家庭住址：</h4>
+                <input id="onecurrentfamily" type="text"/>
+            </div>
+            <div>
+                <h4>当事法人1或其他组织名称：</h4>
+                <input id="oneformname" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事法定代表人1：</h4>
+                <input id="onerepresent" type="text"/>
+            </div>
+            <div>
+                <h4>当事负责人职务1：</h4>
+                <input id="onejob" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>当事人2姓名：</h4>
+                <input id="twocurrentname" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人2性别：</h4>
+                <input id="twocurrentsex" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事人2年龄：</h4>
+                <input id="twocurrentage" type="text"/>
+            </div>
+            <div>
+                <h4>当事人2民族：</h4>
+                <input id="twocurrentnation" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+
+            <div>
+                <h4>当事人2出生年月：</h4>
+                <input id="twocurrentbirthdate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人2身份证号码：</h4>
+                <input id="twocurrentidcard" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+
+            <div>
+                <h4>当事人2单位：</h4>
+                <input id="twocurrentcompany" type="text"/>
+            </div>
+            <div>
+                <h4>当事人2职业或职务：</h4>
+                <input id="twocurrentposition" type="text"/>
+            </div>
+
+        </div>
+        <div class="rows">
+
+            <div>
+                <h4><span class="redDot">*</span>当事人2家庭住址：</h4>
+                <input id="twocurrentfamily" type="text"/>
+            </div>
+            <div>
+                <h4>当事法人2或其他组织名称：</h4>
+                <input id="twoformname" type="text"/>
+            </div>
+        </div>
+        <div class="rows">
+            <div>
+                <h4>当事法定代表人2：</h4>
+                <input id="tworepresent" type="text"/>
+            </div>
+            <div>
+                <h4>当事负责人职务2：</h4>
+                <input id="twojob" type="text"/>
+            </div>
+        </div>
+
+        <div class="row-textarea">
+            <h4><span class="redDot">*</span>主要事实：</h4>
+            <textarea id="mainmacts" rows="2" cols="30"></textarea>
+        </div>
+        <div class="row-textarea">
+            <h4><span class="redDot">*</span>达成协议：</h4>
+            <textarea id="agreement" rows="2" cols="30"></textarea>
+        </div>
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>调解日期：</h4>
+                <input id="mediatedate" type="text"/>
+            </div>
+        </div>
+
+        <div class="tab-btn">
+            <button id="save">保存</button>
+            <button id="colse" onclick="closeTips()">关闭</button>
+        </div>
+    </div>
+</div>
+<div id="updatetips">
+    <div id="updatehead">
+        修改信息
+    </div>
+    <div id="updatecen" class="tab-content">
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>编号：</h4>
+                <input id="updatecodenum" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>主持人姓名：</h4>
+                <input id="updateonehostname" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>主持人单位及职务：</h4>
+                <input id="updatehostposition" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>调解地点：</h4>
+                <input id="updatemediateaddress" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>当事人1姓名：</h4>
+                <input id="updateonecurrentname" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人1性别：</h4>
+                <input id="updateonecurrentsex" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事人1年龄：</h4>
+                <input id="updateonecurrentage" type="text"/>
+            </div>
+            <div>
+                <h4>当事人1民族：</h4>
+                <input id="updateonecurrentnation" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事人1出生年月：</h4>
+                <input id="updateonecurrentbirthdate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人1身份证号码：</h4>
+                <input id="updateonecurrentidcard" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事人1单位：</h4>
+                <input id="updateonecurrentcompany" type="text"/>
+            </div>
+            <div>
+                <h4>当事人1职业或职务：</h4>
+                <input id="updateonecurrentposition" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>当事人1家庭住址：</h4>
+                <input id="updateonecurrentfamily" type="text"/>
+            </div>
+            <div>
+                <h4>当事法人1或其他组织名称：</h4>
+                <input id="updateoneformname" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事法定代表人1：</h4>
+                <input id="updateonerepresent" type="text"/>
+            </div>
+            <div>
+                <h4>当事负责人职务1：</h4>
+                <input id="updateonejob" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+
+            <div>
+                <h4><span class="redDot">*</span>当事人2姓名：</h4>
+                <input id="updatetwocurrentname" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人2性别：</h4>
+                <input id="updatetwocurrentsex" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事人2年龄：</h4>
+                <input id="updatetwocurrentage" type="text"/>
+            </div>
+            <div>
+                <h4>当事人2民族：</h4>
+                <input id="updatetwocurrentnation" type="text"/>
+            </div>
+
+        </div>
+
+        <div class="rows">
+
+            <div>
+                <h4>当事人2出生年月：</h4>
+                <input id="updatetwocurrentbirthdate" type="text"/>
+            </div>
+            <div>
+                <h4><span class="redDot">*</span>当事人2身份证号码：</h4>
+                <input id="updatetwocurrentidcard" type="text"/>
+            </div>
+
+        </div>
+
+        <div class="rows">
+
+            <div>
+                <h4>当事人2单位：</h4>
+                <input id="updatetwocurrentcompany" type="text"/>
+            </div>
+            <div>
+                <h4>当事人2职业或职务：</h4>
+                <input id="updatetwocurrentposition" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+
+            <div>
+                <h4><span class="redDot">*</span>当事人2家庭住址：</h4>
+                <input id="updatetwocurrentfamily" type="text"/>
+            </div>
+
+            <div>
+                <h4>当事法人2或其他组织名称：</h4>
+                <input id="updatetwoformname" type="text"/>
+            </div>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4>当事法定代表人2：</h4>
+                <input id="updatetworepresent" type="text"/>
+            </div>
+            <div>
+                <h4>当事负责人职务2：</h4>
+                <input id="updatetwojob" type="text"/>
+            </div>
+        </div>
+
+        <div class="row-textarea">
+            <h4><span class="redDot">*</span>主要事实：</h4>
+            <textarea id="updatemainmacts" rows="2" cols="30"></textarea>
+        </div>
+        <div class="row-textarea">
+            <h4><span class="redDot">*</span>达成协议：</h4>
+            <textarea id="updateagreement" rows="2" cols="30"></textarea>
+        </div>
+
+        <div class="rows">
+            <div>
+                <h4><span class="redDot">*</span>调解日期：</h4>
+                <input id="updatemediatedate" type="text"/>
+            </div>
+        </div>
+
+        <div class="tab-btn">
+            <button id="update">保存</button>
+            <button id="updatecolse" onclick="closeTips()">关闭</button>
+        </div>
+
+    </div>
+</div>
+</body>
+<!--<script type="text/javascript" src="../layer/layer.js"></script>-->
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js"></script>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX + 1}}
+</script>
+<script type="text/html" id="operation">
+    <a lay-event="update" style="color: #F28E74;margin: 0 5px;">修改</a>
+    <a lay-event="del" style="color: #D3C155;margin: 0 5px;">删除</a>
+</script>
+<script>
+    // 身份证正则
+    var regId=/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/
+
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#mediatedate'
+        });
+        laydate.render({
+            elem: '#updatemediatedate'
+        });
+    });
+    //上传excel的js,调用官方的上传组件
+    layui.use(['element', 'upload'], function () {
+        element = layui.element;
+        upload = layui.upload;
+        //指定允许上传的文件类型
+        upload.render({
+            //按钮的id
+            elem: '#uploadExcel'
+            , url: '${Session.BASE_URL}publicsentiment/uploadExcel?policestationId=${policestation.id}'
+            , accept: 'file' //普通文件
+            , multiple: true //多媒体文件
+            , done: function (res) {
+                if (res.code == 'SUCCESS') {
+                    window.parent.layui.layer.msg("上传成功");
+                    setTimeout(function(){
+                      location.reload();
+                    },1000);
+
+                }
+            }
+        });
+    });
+    layui.use('table', function () {
+        // var table = layui.table;
+        var table = layui.table;
+        $ = layui.jquery;
+        var tableIns = table.render({
+            elem: '#demo',
+            url: '${Session.BASE_URL}publicsentiment/dataList',
+            height: 'full-250',
+            request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limi
+            }, //如果无需自定义请求参数，可不加该参数
+            where: {
+                policestationid: '${policestation.id}'
+            },
+            response: {
+                statusCode: "SUCCESS" //规定成功的状态码，默认：0
+            },
+            cols: [[
+                {field: 'zizeng', align: 'center', title: '序号', templet: "#zizeng"},
+                {field: 'codenum', align: 'center', title: '编号'},
+                {field: 'onehostname', align: 'center', title: '主持人姓名'},
+                {field: 'mediateaddress', align: 'center', title: '调解地点'},
+                {field: 'onecurrentname', align: 'center', title: '当事人1姓名'},
+                {field: 'twocurrentname', align: 'center', title: '当事人2姓名'},
+                {field: 'mainmacts', align: 'center', title: '主要事实'},
+                {field: 'mediatedate', align: 'center', title: '调解时间'},
+                {field: 'caozuo', align: 'center', title: '操作', templet: "#operation"}
+            ]],
+            page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 5 //只显示 1 个连续页码
+                , first: false //不显示首页
+                , last: false //不显示尾页
+
+            },
+            done: function (res, curr, count) {
+                // 表格渲染完成之后的回调
+                var that = this.elem.next();
+                res.data.forEach(function (item, index) {
+                    if (index % 2 == 0) {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0)");
+                    } else {
+                        var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']").css("background-color", "rgb(93,156,255,0.07)");
+                    }
+                });
+            }
+        });
+
+        //监听工具条
+        //这里的tool(test)监听
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            var tableid = data.id;
+            if (obj.event === 'update') {
+                //修改
+                $("#updatetips").css("display", "block");
+
+                $.ajax({
+                    url: '${Session.BASE_URL}publicsentiment/queryId',
+                    type: 'GET', //GET
+                    dataType: 'json',
+                    data: {id: data.id},
+                    success: function (result) {
+                        $("#updatetime").val(result.data.time);
+                        $("#updatecodenum").val(result.data.codenum);
+                        $("#updateonehostname").val(result.data.onehostname);
+                        $("#updatehostposition").val(result.data.hostposition);
+                        $("#updatemediateaddress").val(result.data.mediateaddress);
+                        $("#updateonecurrentname").val(result.data.onecurrentname);
+                        $("#updateonecurrentsex").val(result.data.onecurrentsex);
+                        $("#updateonecurrentage").val(result.data.onecurrentage);
+                        $("#updateonecurrentnation").val(result.data.onecurrentnation);
+                        $("#updateonecurrentbirthdate").val(result.data.onecurrentbirthdate);
+                        $("#updateonecurrentidcard").val(result.data.onecurrentidcard);
+                        $("#updateonecurrentcompany").val(result.data.onecurrentcompany);
+                        $("#updateonecurrentposition").val(result.data.onecurrentposition);
+                        $("#updateonecurrentfamily").val(result.data.onecurrentfamily);
+                        $("#updateoneformname").val(result.data.oneformname);
+                        $("#updateonerepresent").val(result.data.onerepresent);
+                        $("#updateonejob").val(result.data.onejob);
+                        $("#updatetwohostname").val(result.data.twohostname);
+                        $("#updatetwocurrentname").val(result.data.twocurrentname);
+                        $("#updatetwocurrentsex").val(result.data.twocurrentsex);
+                        $("#updatetwocurrentage").val(result.data.twocurrentage);
+                        $("#updatetwocurrentnation").val(result.data.twocurrentnation);
+                        $("#updatetwocurrentbirthdate").val(result.data.twocurrentbirthdate);
+                        $("#updatetwocurrentidcard").val(result.data.twocurrentidcard);
+                        $("#updatetwocurrentcompany").val(result.data.twocurrentcompany);
+                        $("#updatetwocurrentposition").val(result.data.twocurrentposition);
+                        $("#updatetwocurrentfamily").val(result.data.twocurrentfamily);
+                        $("#updatetwoformname").val(result.data.twoformname);
+                        $("#updatetworepresent").val(result.data.tworepresent);
+                        $("#updatetwojob").val(result.data.twojob);
+                        $("#updatemainmacts").val(result.data.mainmacts);
+                        $("#updatemediatedate").val(result.data.mediatedate);
+                        $("#updateagreement").val(result.data.agreement);
+                    }
+                });
+
+                $("#update").click(function () {
+                    var codenum = $("#updatecodenum").val();
+                    var onehostname = $("#updateonehostname").val();
+                    var hostposition = $("#updatehostposition").val();
+                    var mediateaddress = $("#updatemediateaddress").val();
+                    var onecurrentname = $("#updateonecurrentname").val();
+                    var onecurrentsex = $("#updateonecurrentsex").val();
+                    var onecurrentage = $("#updateonecurrentage").val();
+                    var onecurrentnation = $("#updateonecurrentnation").val();
+                    var onecurrentbirthdate = $("#updateonecurrentbirthdate").val();
+                    var onecurrentidcard = $("#updateonecurrentidcard").val();
+                    var onecurrentcompany = $("#updateonecurrentcompany").val();
+                    var onecurrentposition = $("#updateonecurrentposition").val();
+                    var onecurrentfamily = $("#updateonecurrentfamily").val();
+                    var oneformname = $("#updateoneformname").val();
+                    var onerepresent = $("#updateonerepresent").val();
+                    var onejob = $("#updateonejob").val();
+                    var twohostname = $("#updatetwohostname").val();
+                    var twocurrentname = $("#updatetwocurrentname").val();
+                    var twocurrentsex = $("#updatetwocurrentsex").val();
+                    var twocurrentage = $("#updatetwocurrentage").val();
+                    var twocurrentnation = $("#updatetwocurrentnation").val();
+                    var twocurrentbirthdate = $("#updatetwocurrentbirthdate").val();
+                    var twocurrentidcard = $("#updatetwocurrentidcard").val();
+                    var twocurrentcompany = $("#updatetwocurrentcompany").val();
+                    var twocurrentposition = $("#updatetwocurrentposition").val();
+                    var twocurrentfamily = $("#updatetwocurrentfamily").val();
+                    var twoformname = $("#updatetwoformname").val();
+                    var tworepresent = $("#updatetworepresent").val();
+                    var twojob = $("#updatetwojob").val();
+                    var mainmacts = $("#updatemainmacts").val();
+                    var mediatedate = $("#updatemediatedate").val();
+                    var agreement = $("#updateagreement").val();
+
+                    if(codenum == ''){
+                        layer.msg('请填写编号')
+                    }else if(onehostname == ''){
+                        layer.msg('请填写主持人姓名')
+                    }else if(hostposition == ''){
+                        layer.msg('请填写主持人单位及职务')
+                    }else if(mediateaddress == ''){
+                        layer.msg('请填写调解地点')
+                    }else if(onecurrentname == ''){
+                        layer.msg('请填写当事人1姓名')
+                    }else if(onecurrentsex == ''){
+                        layer.msg('请填写当事人1性别')
+                    }else if(regId.test(onecurrentidcard)==false){
+                        layer.msg('请填写正确的当事人1身份证号码')
+                    }else if(onecurrentfamily == ''){
+                        layer.msg('请填写当事人1家庭住址')
+                    }else if(twocurrentname == ''){
+                        layer.msg('请填写当事人2姓名')
+                    }else if(twocurrentsex == ''){
+                        layer.msg('请填写当事人2性别')
+                    }else if(regId.test(twocurrentidcard)==false){
+                        layer.msg('请填写正确的当事人2身份证号码')
+                    }else if(twocurrentfamily == ''){
+                        layer.msg('请填写当事人2家庭住址')
+                    }else if(mainmacts == ''){
+                        layer.msg('请填写主要事实')
+                    }else if(agreement== ''){
+                        layer.msg('请填写达成协议')
+                    }else if(mediatedate == ''){
+                        layer.msg('选择调解日期')
+                    }else {
+                        var data = {
+                            id: tableid,
+                            "codenum": codenum,
+                            "onehostname": onehostname,
+                            "hostposition": hostposition,
+                            "mediateaddress": mediateaddress,
+                            "onecurrentname": onecurrentname,
+                            "onecurrentsex": onecurrentsex,
+                            "onecurrentage": onecurrentage,
+                            "onecurrentnation": onecurrentnation,
+                            "onecurrentposition": onecurrentposition,
+                            "onecurrentfamily": onecurrentfamily,
+                            "onecurrentbirthdate": onecurrentbirthdate,
+                            "onecurrentidcard": onecurrentidcard,
+                            "onecurrentcompany": onecurrentcompany,
+                            "oneformname": oneformname,
+                            "onerepresent": onerepresent,
+                            "onejob": onejob,
+                            "twohostname": twohostname,
+                            "twocurrentname": twocurrentname,
+                            "twocurrentsex": twocurrentsex,
+                            "twocurrentage": twocurrentage,
+                            "twocurrentnation": twocurrentnation,
+                            "twocurrentbirthdate": twocurrentbirthdate,
+                            "twocurrentidcard": twocurrentidcard,
+                            "twocurrentcompany": twocurrentcompany,
+                            "twocurrentposition": twocurrentposition,
+                            "twocurrentfamily": twocurrentfamily,
+                            "twoformname": twoformname,
+                            "tworepresent": tworepresent,
+                            "twojob": twojob,
+                            "mainmacts": mainmacts,
+                            "agreement": agreement,
+                            "mediatedate": mediatedate,
+                            policestationid: '${policestation.id}'
+                        };
+                        $.ajax({
+                            url: '${Session.BASE_URL}publicsentiment/update',
+                            type: 'GET', //GET
+                            dataType: 'json',
+                            data: data,
+                            success: function (result) {
+                                if (result.code == "SUCCESS") {
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                    layer.msg("修改成功！")
+                                    setTimeout(function () {
+                                        window.parent.location.reload();
+                                    },1000)
+                                }
+                            }
+                        })
+                    }
+
+                })
+            } else if (obj.event === 'del') {
+                //删除
+                layer.confirm('您确定要删除吗？', function (index) {
+                    var id = data.id;
+                    console.log(id)
+                    $.ajax({
+                        url: '${Session.BASE_URL}publicsentiment/delete',
+                        data: {id: id},
+                        success: function (result) {
+                            if (result.code == 'SUCCESS') {
+                                console.log(123);
+                                window.parent.layui.layer.msg("删除成功");//提示消息
+                                location.reload();     //删除之后,刷新表格
+                            } else {
+                                window.parent.layui.layer.msg("删除失败");//提示消息
+                            }
+                        }
+                    });
+                    layer.close(index); //关闭弹出层
+                });
+            }
+        });
+
+
+        $("#export").click(function () {
+            window.location.href = '${Session.BASE_URL}api/网上调解.xls';
+        });
+
+        //监听查询按钮
+        layui.$('#query').on('click', function () {
+            var type = layui.$(this).data('type');
+            console.log(type)
+            active[type] ? active[type].call(this) : '';
+        });
+        //获取选中状态
+        var active = {
+            query: function () { //获取选中数据
+                var keyword = $("#search").val();
+                var data = {
+                    keyword: keyword,
+                    policestationid: '${policestation.id}'
+// 					pageNum: 1,
+// 					pageSize:10
+                };
+                tableIns.reload({
+                    where: data
+                    , url: '${Session.BASE_URL}publicsentiment/dataList'
+                    , page: {
+                        curr: 1  //从第一页开始
+                    }
+                });
+            }
+        };
+    });
+
+
+    //添加
+
+    $("#save").click(function () {
+        // var id = $("#id").val();
+        var codenum = $("#codenum").val();
+        var onehostname = $("#onehostname").val();
+        var hostposition = $("#hostposition").val();
+        var mediateaddress = $("#mediateaddress").val();
+        var onecurrentname = $("#onecurrentname").val();
+        var onecurrentsex = $("#onecurrentsex").val();
+        var onecurrentage = $("#onecurrentage").val();
+        var onecurrentnation = $("#onecurrentnation").val();
+        var onecurrentbirthdate = $("#onecurrentbirthdate").val();
+        var onecurrentidcard = $("#onecurrentidcard").val();
+        var onecurrentcompany = $("#onecurrentcompany").val();
+        var onecurrentposition = $("#onecurrentposition").val();
+        var onecurrentfamily = $("#onecurrentfamily").val();
+        var oneformname = $("#oneformname").val();
+        var onerepresent = $("#onerepresent").val();
+        var onejob = $("#onejob").val();
+        var twohostname = $("#twohostname").val();
+        var twocurrentname = $("#twocurrentname").val();
+        var twocurrentsex = $("#twocurrentsex").val();
+        var twocurrentage = $("#twocurrentage").val();
+        var twocurrentnation = $("#twocurrentnation").val();
+        var twocurrentbirthdate = $("#twocurrentbirthdate").val();
+        var twocurrentidcard = $("#twocurrentidcard").val();
+        var twocurrentcompany = $("#twocurrentcompany").val();
+        var twocurrentposition = $("#twocurrentposition").val();
+        var twocurrentfamily = $("#twocurrentfamily").val();
+        var twoformname = $("#twoformname").val();
+        var tworepresent = $("#tworepresent").val();
+        var twojob = $("#twojob").val();
+        var mainmacts = $("#mainmacts").val();
+        var mediatedate = $("#mediatedate").val();
+        var agreement = $("#agreement").val();
+
+
+        if(codenum == ''){
+            layer.msg('请填写编号')
+        }else if(onehostname == ''){
+            layer.msg('请填写主持人姓名')
+        }else if(hostposition == ''){
+            layer.msg('请填写主持人单位及职务')
+        }else if(mediateaddress == ''){
+            layer.msg('请填写调解地点')
+        }else if(onecurrentname == ''){
+            layer.msg('请填写当事人1姓名')
+        }else if(onecurrentsex == ''){
+            layer.msg('请填写当事人1性别')
+        }else if(regId.test(onecurrentidcard)==false){
+            layer.msg('请填写正确的当事人1身份证号码')
+        }else if(onecurrentfamily == ''){
+            layer.msg('请填写当事人1家庭住址')
+        }else if(twocurrentname == ''){
+            layer.msg('请填写当事人2姓名')
+        }else if(twocurrentsex == ''){
+            layer.msg('请填写当事人2性别')
+        }else if(regId.test(twocurrentidcard)==false){
+            layer.msg('请填写正确的当事人2身份证号码')
+        }else if(twocurrentfamily == ''){
+            layer.msg('请填写当事人2家庭住址')
+        }else if(mainmacts == ''){
+            layer.msg('请填写主要事实')
+        }else if( agreement== ''){
+            layer.msg('请填写达成协议')
+        }else if( mediatedate == ''){
+            layer.msg('选择调解日期')
+        }else{
+            var data = {
+                "codenum": codenum,
+                "onehostname": onehostname,
+                "hostposition": hostposition,
+                "mediateaddress": mediateaddress,
+                "onecurrentname": onecurrentname,
+                "onecurrentsex": onecurrentsex,
+                "onecurrentage": onecurrentage,
+                "onecurrentnation": onecurrentnation,
+                "onecurrentposition": onecurrentposition,
+                "onecurrentfamily": onecurrentfamily,
+                "onecurrentbirthdate": onecurrentbirthdate,
+                "onecurrentidcard": onecurrentidcard,
+                "onecurrentcompany": onecurrentcompany,
+                "oneformname": oneformname,
+                "onerepresent": onerepresent,
+                "onejob": onejob,
+                "twohostname": twohostname,
+                "twocurrentname": twocurrentname,
+                "twocurrentsex": twocurrentsex,
+                "twocurrentage": twocurrentage,
+                "twocurrentnation": twocurrentnation,
+                "twocurrentbirthdate": twocurrentbirthdate,
+                "twocurrentidcard": twocurrentidcard,
+                "twocurrentcompany": twocurrentcompany,
+                "twocurrentposition": twocurrentposition,
+                "twocurrentfamily": twocurrentfamily,
+                "twoformname": twoformname,
+                "tworepresent": tworepresent,
+                "twojob": twojob,
+                "mainmacts": mainmacts,
+                "agreement": agreement,
+                "mediatedate": mediatedate,
+                policestationid: '${policestation.id}'
+            }
+
+            $.ajax({
+                url: '${Session.BASE_URL}publicsentiment/add',
+                type: 'GET', //GET
+                dataType: 'json',
+                data: data,
+                success: function (result) {
+                    if (result.code == "SUCCESS") {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        layer.msg("添加成功！")
+                        setTimeout(function () {
+                            window.parent.location.reload();
+                        },1000)
+                    }
+                }
+            })
+        }
+    });
+
+
+    $("#fanhui").click(function () {
+        window.history.back(-1);
+    })
+
+    function openTips() {
+        $("#tips").css("display", "block");
+    }
+
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+        $("#title").val("");
+        $("#content").val("");
+        $("#source").val("");
+    }
+
+    $("#updatecolse").click(function () {
+        $("#updatetips").css("display", "none");
+    })
+
+</script>
+
+</html>

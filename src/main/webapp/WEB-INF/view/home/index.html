@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" charset="GB2312" src="http://10.39.200.26:8080/PGIS_S_TileMap/js/EzMapAPI.js"></script>
+    <title>首页</title>
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-size: 15px;
+        }
+
+        body {
+            background-image: url(img/bg.jpg);
+            background-size: 100% 100%;
+        }
+
+        .top {
+            width: 100%;
+            height: 7.4%;
+        }
+
+        .top div:hover,
+        .more span:hover {
+            cursor: pointer;
+        }
+
+        @media screen and (min-width: 1900px) {
+            .title {
+                width: 540px;
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+                color: #FFFFFF;
+                float: right;
+                font-size: 40px;
+                font-weight: 900;
+                letter-spacing: 8px;
+                margin-right: 75px;
+            }
+        }
+
+        @media screen and (max-width: 1600px) {
+            .title {
+                width: 565px;
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+                color: #FFFFFF;
+                float: right;
+                font-size: 36px;
+                font-weight: 900;
+                letter-spacing: 8px;
+                margin-right: 50px;
+            }
+        }
+
+
+        .item {
+            width: 100%;
+            height: 25%;
+            text-align: left;
+        }
+
+        .item1 {
+            width: 100%;
+            height: 15%;
+            display: flex;
+        }
+
+        .item2 {
+            width: 100%;
+            height: 33%;
+            display: flex;
+        }
+
+        .item3 {
+            width: 100%;
+            line-height: 30px;
+            display: flex;
+        }
+
+
+        .rowup {
+            -webkit-animation: 25s rowup linear infinite normal;
+            animation: 25s rowup linear infinite normal;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            color: #ecececbf;
+        }
+
+        .rowup1 {
+            -webkit-animation: 25s rowup1 linear infinite normal;
+            animation: 25s rowup1 linear infinite normal;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            color: #ecececbf;
+        }
+
+        .rowup2 {
+            -webkit-animation: 25s rowup2 linear infinite normal;
+            animation: 25s rowup2 linear infinite normal;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
+            color: #ecececbf;
+        }
+
+        .rowup3 {
+            /*-webkit-animation: 25s rowup3 linear infinite normal;*/
+            /*animation: 25s rowup3 linear infinite normal;*/
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
+            color: #ecececbf;
+        }
+
+        .rowup4 {
+            -webkit-animation: 25s rowup4 linear infinite normal;
+            animation: 25s rowup4 linear infinite normal;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
+            color: #ecececbf;
+        }
+
+
+        #gridComponent, #title {
+            position: absolute;
+            z-index: 999;
+            width: 900px;
+            top: 18%;
+            left: 25%;
+            display: none;
+            background-color: #152848;
+            border: 1px solid #6ad1ff;
+        }
+
+        #head, #updatehead {
+            width: 900px;
+            height: 42px;
+            line-height: 42px;
+            background: url("${Session.BASE_URL}img/tabbar.png") center center no-repeat;
+            color: #6ad1ff;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid #6ad1ff;
+
+        }
+
+        .tab-content {
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #fff;
+            width: 900px;
+            height: 500px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .rows {
+            display: flex;
+            margin: 15px 0;
+        }
+
+        .rows > div {
+            flex: 1;
+            padding: 0 40px;
+        }
+
+        .row-textarea h4 {
+            margin-bottom: 10px;
+        }
+
+
+        .rows h4 {
+            margin-bottom: 10px;
+        }
+
+        .rows span {
+            display: inline-block;
+            padding: 7px;
+            background-color: #0f1f4a;
+            border: 1px solid #6ad1ff;
+            color: #6ad1ff;
+            width: 300px;
+            min-height: 21px;
+        }
+
+        .tab-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn button {
+            padding: 7px 17px;
+            background-color: #0f1f4a;
+            border: 1px solid #6ad1ff;
+            color: #6ad1ff;
+            margin-right: 40px;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            background-color: #FFFFFF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #4C99C2;
+        }
+
+        ::-webkit-scrollbar-track-piece {
+            background-color: rgba(0, 0, 0, 0);
+            border-left: 1px solid rgba(0, 0, 0, 0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 13px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            /*background-color: rgba(0, 0, 0, 0.5);*/
+            background-clip: padding-box;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            min-height: 28px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<script>
+    var initializationTime = (new Date()).getTime();
+
+    function showLeftTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var week = "日一二三四五六".charAt(new Date().getDay());
+        var hours = now.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        var minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        var seconds = now.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        //document.all.show.innerHTML=""+year+"年"+month+"月"+day+"日 "+"  星期"+week+"   "+hours+":"+minutes+":"+seconds+"";
+        document.all.show.innerHTML = '<div style="line-height: 42px;color: #E9D129;font-size: 25px;">' +
+            hours + ":" + minutes + ":" + seconds +
+            '</div>' +
+            '<div style="line-height: 28px;color: #ececec;font-size: 14px;">' +
+            year + "年" + month + "月" + day + "日 " + "  星期" + week +
+            '</div>';
+        //一秒刷新一次显示时间
+        var timeID = setTimeout(showLeftTime, 1000);
+    }
+</script>
+
+<body onload="showLeftTime()">
+<!-- 头部  -->
+<div class="top">
+    <div style=" cursor:pointer; width:119px;height: 43px;line-height:43px;text-align:center;color:#FFFFFF;background-image:url(img/button.png);background-size: 100% 100%;float: right;margin: 22px 315px 22px 0;"
+         onclick="plan()">
+        执法办案
+    </div>
+    <div style="cursor:pointer; width:119px;height: 43px;line-height:43px;text-align:center;color:#D5C61C;background-image:url(img/button.png);background-size: 100% 100%;float: right;margin: 22px 30px;">
+        首页
+    </div>
+    <div class="title">
+        ${policestation.name}综合指挥平台
+    </div>
+    <img src="img/s_logo.png" style="width:104; height:94px; float:right; "/>
+    <div id="show"
+         style="width: 210px;height: 70px;line-height:70px;margin-top:10px;text-align:center;float: right;margin-right: 26px;">
+        <!--<div style="line-height: 42px;color: #E9D129;font-size: 25px;">
+            15:44:36
+        </div>
+        <div style="line-height: 28px;color: #ecececdb;font-size: 14px;">
+            2019年4月18日   星期四
+        </div>-->
+    </div>
+</div>
+<!-- 主体部分  -->
+<div style="width: 100%;height: 92.6%;display: flex;">
+    <!-- 左侧  -->
+    <div style="margin-left: 2%;width:23.4%;margin-top: 1%;margin-right: -2%;color: #FFFFFF;">
+
+        <div style="width:100%;height:25%;background-image:url(img/1.png);background-size: 100% 100%;margin-top:-3%;">
+            <div style="padding-left:65px;color:#86D5FA;padding-top: 35px;">
+                今日值班
+            </div>
+            <div style="margin-top: 20px;padding-left: 10px;width: 80%;height: 55%;font-size: 17px;">
+                <div style="height: 90%;display: flex;width: 100%;">
+                    <div style="width:33%;height: 100%;color: #4EF552;text-align: right;">
+                        值班民警
+                    </div>
+                    <div style="width:59%;height: 100%;margin-left: 5%;text-align: left;position: relative;overflow: hidden;">
+                        <div id="zbmjnr" class="rowup0">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:100%;height:25%;background-image:url(img/2.png);background-size: 100% 100%;margin-top: -7%;">
+            <div style="padding-left:65px;color:#86D5FA;padding-top: 35px;">
+                人口数据
+            </div>
+            <div style="margin: 15px auto;display: flex;width: 70%;height: 55%;font-size: 17px;color: #ecececbf;">
+                <div style="width: 50%;height: 100%;">
+                    <div id="czrk" style="width: 100%;height: 20%;text-align: center; margin-bottom:-10px;">
+
+                    </div>
+                    <div style="width: 100%;height: 60%; text-align:center;">
+                        <img src="img/person_img.png" style="width:80px; height:70px; margin:0 auto;"/>
+                    </div>
+                    <div style="width: 100%;height: 20%;text-align: center;">
+                        常住人口
+                    </div>
+                </div>
+                <div style="width: 50%;height: 100%;">
+                    <div id="zzrk" style="width: 100%; height: 20%; text-align: center;  margin-bottom:-10px;">
+
+                    </div>
+                    <div style="width: 100%;height: 60%; text-align:center;">
+                        <img src="img/person_img.png" style="width:80px; height:70px; margin:0 auto;"/>
+                    </div>
+                    <div style="width: 100%;height: 20%;text-align: center;">
+                        暂住人口
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:100%;height:30%;background-image:url(img/3.png);background-size: 100% 100%;margin-top: -9%;">
+            <div style="padding-left:65px;color:#86D5FA;padding-top: 50px;">
+                网吧数据
+            </div>
+            <div style="margin-top: 18px;padding-left: 10px;width: 92%;height: 55%;">
+                <div class="item1" style="color: #ecececbf;">
+                    <div style="width:40%;height: 100%;text-align: left; padding-left : 30px;">
+                        网吧名称
+                    </div>
+                    <div style="width:60%;height: 100%;margin-left: 6%;text-align: left;">
+                        地址
+                    </div>
+
+                    <!--
+                    <div style="width:27%;height: 100%;text-align: right;">
+                        网吧名称
+                    </div>
+                    <div style="width:40%;height: 100%;margin-left: 6%;text-align: left;">
+                        地址
+                    </div>
+                    <div style="width:17%;height: 100%;text-align: center;">
+                        总机数
+                    </div>
+                    <div style="width:17%;height: 100%;text-align: center;">
+                        上网人数
+                    </div>
+                    -->
+                </div>
+                <div style="width: 100%;height: 80%;position: relative;overflow: hidden;margin-top: 7px;">
+                    <div id="wbsj" class="rowup">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:100%;height:30%;background-image:url(img/4.png);background-size: 100% 100%;margin-top: -9%;">
+            <div style="padding-left:65px;color:#86D5FA;padding-top: 50px;">
+                酒店数据
+            </div>
+            <div style="margin-top: 18px;padding-left: 10px;width: 92%;height: 55%;">
+                <div class="item1" style="color: #ecececbf;">
+                    <div style="width:35%;height: 100%;text-align: left; padding-left:30px;">
+                        酒店名称
+                    </div>
+                    <div style="width:48%;height: 100%;margin-left: 6%;text-align: left;">
+                        地址
+                    </div>
+                    <div style="width:17%;height: 100%;text-align: center;">
+                        总床位
+                    </div>
+
+
+                    <!--
+                    <div style="width:27%;height: 100%;text-align: right;">
+                        酒店名称
+                    </div>
+                    <div style="width:40%;height: 100%;margin-left: 6%;text-align: left;">
+                        地址
+                    </div>
+                    <div style="width:17%;height: 100%;text-align: center;">
+                        总床位
+                    </div>
+                    <div style="width:17%;height: 100%;text-align: center;">
+                        今日开房
+                    </div>
+                    -->
+                </div>
+                <div style="width: 100%;height: 80%;position: relative;overflow: hidden;margin-top: 7px;">
+                    <div id="jdsj" class="rowup1">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 中间  -->
+    <div style="width:53.2%;margin-top: 1.05%;">
+        <div style="width:100%;height:25%;background-image:url(img/5.png);background-size: 100% 100%;margin-top:-2.5%;">
+            <div id="lineChart" style="width:100%;height:80%;padding-top: 50px;"></div>
+        </div>
+
+        <div id="map" style="width:93%;height:72%;margin: -1% 3.5% 0 3.5%; ">
+            <!-- 地图中间的提示框  -->
+            <div id="tips"
+                 style="position:absolute;z-index:999;width: 440px;height: 290px;margin-top: 110px;margin-left: 250px;background-image: url(img/tips.png);background-size: 100% 100%;font-size: 14px;display: none;">
+                <div style="width: 30%;line-height: 30px;margin-top: 10px;margin-left:172px;">报警人信息</div>
+                <div style="width: 90%;height: 230px;margin-left: 5%;">
+                    <div style="width: 100%;height: 190px;margin-top: 10px;color: #86D5FA;display: flex;margin-left: 7%;">
+                        <div style="width:20%;margin-top: 40px;">
+                            <img id="tips_img" src="img/touxiang.png" style="height: 100px;width:80px;">
+                        </div>
+                        <div style="width: 78%;margin-left: 2%;margin-top: 40px;">
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+                                    报警人姓名：
+                                </div>
+                                <div id="tips_xm" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+                                    报警人电话：
+                                </div>
+                                <div id="tips_dh" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+                                    身份证号码：
+                                </div>
+                                <div id="tips_sfz" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+                                    重点人员信息：
+                                </div>
+                                <div id="tips_zd" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+                                    暂住人员信息：
+                                </div>
+                                <div id="tips_zz" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                            <div class="item3" style="line-height: 20px;">
+                                <div style="width: 35%;height: 100%;text-align: left;">
+
+                                </div>
+                                <div id="tips_zzsy" style="width: 65%;height: 100%;text-align: left;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 90%;height: 30px;margin-left: 5%;text-align: right;margin-top: 5px;">
+                        <img onclick="closeTips()" src="img/close.png"/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tips_not"
+                 style="position:absolute;z-index:999;width: 440px;height: 290px;margin-top: 110px;margin-left: 250px;background-image: url(img/tips.png);background-size: 100% 100%;font-size: 14px;display: none;">
+                <div style="width: 30%;line-height: 30px;margin-top: 10px;margin-left:175px;">报警人信息</div>
+                <div style="width: 90%;height: 230px;margin-left: 5%;">
+                    <div style="width: 100%;height: 190px;margin-top: 10px;color: #86D5FA;">
+                        <div class="item3">
+                            <div style="width: 100%;height: 100%;text-align: center;">
+                                未找到人员信息
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 90%;height: 30px;margin-left: 5%;text-align: right;margin-top: 5px;">
+                        <img onclick="nextTips()" src="img/close.png"/>
+                    </div>
+                </div>
+            </div>
+            <div id="tips_video"
+                 style="position:absolute;z-index:997;width: 410px;height: 410px;margin-top: 110px;margin-left: 250px;display: block; background-color: white; display : none;">
+
+            </div>
+
+            <div id="video_close" onclick="videoCloseWindow()"
+                 style="position:absolute;z-index:997; margin-top: 112px;margin-left: 570px; color: white; width: 80px ; height: 30px; background-color: black; text-align :center; display : none; cursor:pointer; ">
+                关闭
+            </div>
+            <!-- 地图  -->
+            <!-- <iframe src="baidu.html" frameborder="0" width="100%" height="100%" scrolling="no" name="mapif" type="1"></iframe>  -->
+            <!--<iframe name="ifm" id="ifm0"  width="100%" height="100%" src="http://10.37.194.214:8080/map/cdnew.html" scrolling="yes" style="background-color: transparent;"  frameborder="0"> </iframe>-->
+        </div>
+
+    </div>
+
+    <!-- 右侧  -->
+    <div style="margin-right: 2%;width:23.4%;margin-top: 1%;margin-left: -2%;color: #FFFFFF;">
+        <div style="width:100%;height:37%;background-image:url(img/7.png);background-size: 100% 100%;margin-top:-3.5%;">
+            <div class="more" style="padding-left:65px;color:#86D5FA;padding-top: 43px;">
+                本周警情
+            </div>
+            <div style="margin-top: 20px;padding-left: 40px;width: 83%;height: 65%;position: relative;overflow: hidden;">
+                <div id="jrjqLabel" class="rowup2">
+
+                </div>
+            </div>
+        </div>
+
+        <div style="width:100%;height:39.5%;background-image:url(img/8.png);background-size: 100% 100%;margin-top: -9%;">
+            <div class="more" style="padding-left:65px;color:#86D5FA;padding-top: 44px;">
+                网格信息
+            </div>
+            <div style="margin-top: 10px;padding-left: 40px;width: 83%;height: 65%;position: relative;overflow: hidden;">
+                <div id="jrwq" class="rowup3">
+
+
+                </div>
+            </div>
+        </div>
+
+        <div style="width:100%;height:29.5%;background-image:url(img/9.png);background-size: 100% 100%;margin-top: -8.5%;">
+            <div class="more" style="padding-left:65px;color:#86D5FA;padding-top: 44px;">
+                网上调解
+            </div>
+            <div style="margin-top: 15px;padding-left: 40px;width: 83%;height: 55%;position: relative;overflow: hidden;">
+                <div id="jryq" class="rowup4">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="title">
+            <div id="head">
+                网上调解
+            </div>
+            <div class="wstj tab-content">
+                <div class="rows">
+                    <div>
+                        <h4>编号：</h4>
+                        <span id="codenum" />
+                    </div>
+                    <div>
+                        <h4>主持人姓名：</h4>
+                        <span id="onehostname" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>主持人单位及职务：</h4>
+                        <span id="hostposition" />
+                    </div>
+                    <div>
+                        <h4>调解地点：</h4>
+                        <span id="mediateaddress"/>
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人1姓名：</h4>
+                        <span id="onecurrentname"/>
+                    </div>
+                    <div>
+                        <h4>当事人1性别：</h4>
+                        <span id="onecurrentsex" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人1年龄：</h4>
+                        <span id="onecurrentage" />
+                    </div>
+                    <div>
+                        <h4>当事人1民族：</h4>
+                        <span id="onecurrentnation" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人1出生年月：</h4>
+                        <span id="onecurrentbirthdate" />
+                    </div>
+                    <div>
+                        <h4>当事人1身份证号码：</h4>
+                        <span id="onecurrentidcard" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人1单位：</h4>
+                        <span id="onecurrentcompany" />
+                    </div>
+                    <div>
+                        <h4>当事人1职业或职务：</h4>
+                        <span id="onecurrentposition" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人1家庭住址：</h4>
+                        <span id="onecurrentfamily" />
+                    </div>
+                    <div>
+                        <h4>当事法人1或其他组织名称：</h4>
+                        <span id="oneformname"/>
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事法定代表人1：</h4>
+                        <span id="onerepresent" />
+                    </div>
+                    <div>
+                        <h4>当事负责人职务1：</h4>
+                        <span id="onejob" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人2姓名：</h4>
+                        <span id="twocurrentname" />
+                    </div>
+                    <div>
+                        <h4>当事人2性别：</h4>
+                        <span id="twocurrentsex" />
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事人2年龄：</h4>
+                        <span id="twocurrentage" />
+                    </div>
+                    <div>
+                        <h4>当事人2民族：</h4>
+                        <span id="twocurrentnation" />
+                    </div>
+                </div>
+                <div class="rows">
+
+                    <div>
+                        <h4>当事人2出生年月：</h4>
+                        <span id="twocurrentbirthdate"/>
+                    </div>
+                    <div>
+                        <h4>当事人2身份证号码：</h4>
+                        <span id="twocurrentidcard" />
+                    </div>
+                </div>
+                <div class="rows">
+
+                    <div>
+                        <h4>当事人2单位：</h4>
+                        <span id="twocurrentcompany" />
+                    </div>
+                    <div>
+                        <h4>当事人2职业或职务：</h4>
+                        <span id="twocurrentposition" />
+                    </div>
+
+                </div>
+                <div class="rows">
+
+                    <div>
+                        <h4>当事人2家庭住址：</h4>
+                        <span id="twocurrentfamily"/>
+                    </div>
+                    <div>
+                        <h4>当事法人2或其他组织名称：</h4>
+                        <span id="twoformname"/>
+                    </div>
+                </div>
+                <div class="rows">
+                    <div>
+                        <h4>当事法定代表人2：</h4>
+                        <span id="tworepresent" />
+                    </div>
+                    <div>
+                        <h4>当事负责人职务2：</h4>
+                        <span id="twojob"/>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>主要事实：</h4>
+                        <span id="mainmacts" ></span>
+                    </div>
+                    <div >
+                        <h4>达成协议：</h4>
+                        <span id="agreement"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>调解日期：</h4>
+                        <span id="mediatedate"/>
+                    </div>
+                </div>
+
+                <!--				<div class="wstjStyle" style="width: 50%">联系方式：<span>15666666666</span></div>-->
+                <!--				<div class="wstjStyle" style="width: 50%">联系方式：<span>15666666666</span></div>-->
+
+                <!--				<div class="wstjStyle" style="width: 100%">履行方式、时限：<span></span></div>-->
+
+                <div class="tab-btn">
+                    <button id="updatecolse" onclick="hideTitle()">关闭</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gridComponent">
+            <div id="updatehead">
+                网格信息
+            </div>
+
+            <div class="wstj tab-content">
+                <div class="rows">
+                    <div>
+                        <h4>村居：</h4>
+                        <span id="rusticate"></span>
+                    </div>
+                    <div>
+                        <h4>网格序列：</h4>
+                        <span id="gridsequence"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>网格人员类别：</h4>
+                        <span id="gridpersontype"></span>
+                    </div>
+                    <div>
+                        <h4>网格员姓名：</h4>
+                        <span id="gridpersonname"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>身份证号码：</h4>
+                        <span id="idcard"></span>
+                    </div>
+                    <div>
+                        <h4>性别：</h4>
+                        <span id="sex"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>年龄：</h4>
+                        <span id="age"></span>
+                    </div>
+                    <div>
+                        <h4>联系方式：</h4>
+                        <span id="gridpersonphone"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>政治面貌：</h4>
+                        <span id="politicallook"></span>
+                    </div>
+                    <div>
+                        <h4>文化程度：</h4>
+                        <span id="education"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>婚姻状况：</h4>
+                        <span id="marital"></span>
+                    </div>
+                    <div>
+                        <h4>现居住地址：</h4>
+                        <span id="currentaddress"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>其他社会身份：</h4>
+                        <span id="otheridentity"></span>
+                    </div>
+                    <div>
+                        <h4>管理户数：</h4>
+                        <span id="managerhouse"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>网格编码：</h4>
+                        <span id="gridcode"></span>
+                    </div>
+                    <div>
+                        <h4>网格范围：</h4>
+                        <span id="gridscope"></span>
+                    </div>
+                </div>
+
+                <div class="rows">
+                    <div>
+                        <h4>备注：</h4>
+                        <span id="comment"></span>
+                    </div>
+
+                </div>
+                <div class="tab-btn">
+                    <button id="gridComponentClose" onclick="hideGridComponent()">关闭</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="js/echarts-tooltip-carousel.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jk/axios.min.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jk/forge.min.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jk/imosSdk.min.js"></script>
+<script>
+
+    $(function () {
+        //今日值班
+        jrzb();
+        // //人口数据
+        rksj();
+        //网吧数据
+        wbsj();
+        //酒店数据
+        jdsj();
+        //数据统计
+        sjtj();
+        //今日警情
+        jrjq();
+        // 网格信息
+        jrwq();
+        //网上调解
+        jryq();
+        // onLoad();
+    })
+
+
+    //得到派出所x和y轴坐标
+    function getPcsXY() {
+
+        var xyObj = {
+            x: '${policestation.longitude}',
+            y: '${policestation.latitude}'
+        }
+
+        return xyObj;
+    }
+
+
+    //加载地图
+    function onLoad() {
+        //得到派出所x和y轴坐标
+        var xyObj = getPcsXY();
+        console.log(xyObj)
+
+        //初始化地图
+        var uEzMap = new EzMap(document.getElementById("map"));
+        uEzMap.initialize();
+        //初始位置
+        uEzMap.centerAtPoint(new Point(xyObj.x, xyObj.y));
+        //地图放大程度
+        uEzMap.zoomTo(16);
+
+
+        //init Car
+        initCar(uEzMap);
+
+        ////初始化监控
+        initMonitor(uEzMap);
+
+        //初始化今日警情
+        initJrjq(uEzMap, xyObj);
+    }
+
+
+    //init Car
+    function initCar(uEzMap) {
+
+        var data = [];
+        data.push({
+            longitude: "119.774407",
+            latitude: "33.374197",
+            cpz: "苏HJ5166警",
+            czdt: "",
+            zhsj: "2020-01-04 09:45:30"
+        })
+
+        data.push({
+            longitude: "119.773407",
+            latitude: "33.373197",
+            cpz: "苏HJ5200警",
+            czdt: "",
+            zhsj: "2020-01-04 11:21:12"
+        })
+
+        for (var i = 0; i < data.length; i++) {
+            addCar(uEzMap, data[i], data[i].longitude, data[i].latitude);
+        }
+
+    }
+
+
+    //添加Car
+    function addCar(uEzMap, transData, longitude, latitude) {
+
+        var type = 3;
+
+        //创建自定义标识
+        var pt = new Point(longitude, latitude);
+        var uIcon = new Icon();
+        uIcon.image = "${Session.BASE_URL}img/m_cl.png";
+        uIcon.width = 30;
+        uIcon.height = 30;
+        var marker = new Marker(pt, uIcon, null);
+        addClickHandle(marker, transData, type);
+        uEzMap.addOverlay(marker);
+
+    }
+
+    //show char
+    function showCarWindow(thisMarker, transData) {
+
+        var value = "";
+        value += '<div  style="position:absolute;z-index:999;width: 440px;height: 290px; margin-top: 10px;margin-left:10px; background-image: url(img/tips.png);background-size: 100% 100%;font-size: 14px;">'
+            + '<div style="width: 30%;line-height: 30px;margin-top: 10px;margin-left:175px;">警车信息</div>'
+            + '<div style=" margin:20px auto; width:137px; height:62px;">'
+            + ' <img src="img/carimgs.png" style="width: 137px; height:62px ; "/> '
+            + '</div>'
+            + '<div style="width: 90%;height: 230px;margin-left: 5%;">'
+            + '<div style="width: 100%;height: 190px;margin-top: 10px;color: #86D5FA;">'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '车辆号牌：'
+            + '</div>'
+            + '<div style="width: 75%;height: 100%;text-align: left;">'
+            + transData.cpz
+            + '</div>'
+            + '</div>'
+            //	+                   '<div style="width: 100%; line-height: 30px; display: flex;">'
+            //	+				        '<div style="width: 25%;height: 100%;text-align: right;">'
+            //	+                           '车载电台：'
+            //	+                       '</div>'
+            //	+                       '<div style="width: 75%;height: 100%;text-align: left;">'
+            //	+                           	transData.czdt
+            //	+                       '</div>'
+            //	+                   '</div>'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '最后时间：'
+            + '</div>'
+            + '<div style="width: 75%;height: 100%;text-align: left;">'
+            + transData.zhsj
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '<div style="width: 90%;height: 30px;margin-left: 5%;text-align: right;margin-top: 5px;">'
+            //+                   '<img onclick="closeTips()" src="img/close.png" />'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+
+
+        thisMarker.openInfoWindowHtml(value);
+
+        var windowDivEle = document.getElementById("windowDiv");
+
+        var childNodeArr = windowDivEle.childNodes;
+
+        for (var i = 0; i < 12; i++) {
+            childNodeArr[i].style.display = "none";
+        }
+
+        //关闭图标
+        childNodeArr[14].style.width = "61px";
+        childNodeArr[14].style.height = "23px";
+        childNodeArr[14].style.marginLeft = "205px";
+        childNodeArr[14].style.marginTop = "14px";
+        childNodeArr[14].src = "img/close.png";
+        childNodeArr[14].style.zIndex = '999'
+    }
+
+
+    //初始化视屏监控
+    function initMonitor(uEzMap) {
+
+        var jqUrl = "${Session.BASE_URL}video/queryVideoList?policestationid=${policestation.id}";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                var data = result.data;
+                for (var i = 0; i < data.length; i++) {
+                    addMonitor(uEzMap, data[i], data[i].longitude, data[i].latitude);
+                }
+
+
+            }
+        })
+    }
+
+
+    //添加视屏监控
+    function addMonitor(uEzMap, transData, longitude, latitude) {
+
+        var type = 1;
+
+        //创建自定义标识
+        var pt = new Point(longitude, latitude);
+        var uIcon = new Icon();
+        uIcon.image = "${Session.BASE_URL}img/m_jk.png";
+        uIcon.width = 30;
+        uIcon.height = 30;
+        var marker = new Marker(pt, uIcon, null);
+        addClickHandle(marker, transData, type);
+        uEzMap.addOverlay(marker);
+
+    }
+
+
+    //初始化今日警情
+    function initJrjq(uEzMap, xyObj) {
+
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+
+        var param = date.getFullYear() + "" + month + "" + strDate;
+
+        var jqUrl = "${Session.BASE_URL}home/jrjqNotCache";
+
+        var condition = "CJSJ >='" + param + "' and DJDW = '${policestation.code}' order by cjsj desc";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            data: {
+                condition: condition
+            },
+            dataType: "json",
+            success: function (result) {
+
+                var data = result.data;
+
+                var mode = {
+                    content: "",
+                    gis_X: "119.794633",
+                    gis_Y: "33.382780",
+                    jjdbh: "20191227130750180110641000035",
+                    phone: "86411182",
+                    shortContent: "2019年12月27日13时许，在上冈都市名城10号楼404室，邵洪芹称其与陶德富因经济纠纷一事发生口角。民警现场告知双方可通过司法程序协调解决。",
+                    time: "20191227131645"
+                }
+
+                //data[0].gis_X = mode.gis_X;
+                //data[0].gis_Y = mode.gis_Y;
+
+                for (var i = 0; i < data.length; i++) {
+                    //x is null
+                    if (!data[i].gis_X) {
+                        console.log("<<===x is null")
+
+                        var xValue = xyObj.x;
+                        console.log(xValue);
+
+                        var newXValue = xValue.substring(xValue.indexOf(".") + 1);
+                        console.log(newXValue);
+
+                        var rand = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+                        //if(rand < 10){
+                        //	rand = "0" + "" + rand;
+                        //}
+                        console.log(rand);
+
+                        newXValue = newXValue.substring(0, newXValue.length - 4) + rand;
+                        console.log(newXValue)
+
+
+                        var firstNum = xValue.substring(0, xValue.indexOf("."));
+
+                        var value = firstNum + "." + newXValue;
+                        console.log(value)
+
+
+                        data[i].gis_X = value;
+                    }
+
+                    //y is null
+                    if (!data[i].gis_Y) {
+                        console.log("<<=====y is null");
+
+                        var xValue = xyObj.y;
+                        console.log(xValue);
+
+                        var newXValue = xValue.substring(xValue.indexOf(".") + 1);
+                        console.log(newXValue);
+
+                        var rand = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+                        //if(rand < 10){
+                        //	rand = "0" + "" + rand;
+                        //}
+                        console.log(rand);
+
+                        newXValue = newXValue.substring(0, newXValue.length - 4) + rand;
+                        console.log(newXValue)
+
+
+                        var firstNum = xValue.substring(0, xValue.indexOf("."));
+
+                        var value = firstNum + "." + newXValue;
+                        console.log(value)
+
+
+                        data[i].gis_Y = value;
+                    }
+
+                    addJrjq(uEzMap, data[i], data[i].gis_X, data[i].gis_Y);
+                }
+
+
+            }
+
+        })
+    }
+
+
+    var markertemp;
+
+    //添加警情
+    function addJrjq(uEzMap, transData, longitude, latitude) {
+
+        var type = 2;
+
+        //创建自定义标识
+        var pt = new Point(longitude, latitude);
+        var uIcon = new Icon();
+        uIcon.image = "${Session.BASE_URL}img/m_jq.png";
+        uIcon.width = 30;
+        uIcon.height = 30;
+        var marker = new Marker(pt, uIcon, null);
+        addClickHandle(marker, transData, type);
+        uEzMap.addOverlay(marker);
+
+
+        //<<==============================
+
+
+    }
+
+
+    //添加点击事件
+    function addClickHandle(marker, transData, type) {
+
+
+        marker.addListener("click", function (e) {
+            //监控
+            if (type == 1) {
+                showJkWindow(marker, transData)
+            }
+            //警情
+            if (type == 2) {
+                showJqWindow(marker, transData)
+            }
+
+            //car
+            if (type == 3) {
+                showCarWindow(marker, transData)
+            }
+
+        })
+    }
+
+
+    function videoCloseWindow() {
+        document.getElementById("tips_video").style.display = "none";
+        document.getElementById("video_close").style.display = "none";
+
+        document.getElementById("tips_video").innerHTML = "";
+    }
+
+    var videoNum = 1; //video的数量
+
+    //显示监控
+    function showJkWindow(thisMarker, transData) {
+
+        login(transData);
+
+        document.getElementById("tips_video").style.display = "block";
+        document.getElementById("video_close").style.display = "block";
+    }
+
+    //console.log(transData)
+    //var content ="<div style='border-bottom:2px solid #000000'>" + transData.ip + "</div><br/><div>状态：" + 1 + "</div><br/>"
+    //										+ "<div>所属项目：" + 1 + "</div>";
+    //thisMarker.openInfoWindowHtml(content);
+
+
+    var isLogin = false;
+
+    function login(transData) {
+        var password = "Admin12345";
+        var username = "loadmin";
+        var vmip = "50.145.192.200";
+
+        console.log(" isLogin :  " + isLogin)
+        // no login!
+        if (!isLogin) {
+            console.log("login : " + isLogin)
+
+            axios({
+                method: "POST",
+                url: "http://" + vmip + ":8088/VIID/login/v2",
+                headers: {
+                    "Content-Type": "application/json; charset=utf8"
+                },
+                responseType: "json"
+            })
+                .then(function (res) {
+                    var accessCode = res.data.AccessCode;
+                    var md1 = forge.md.md5.create(); //md5
+                    var md2 = forge.md.md5.create(); //md5
+                    md1.update(password); //md5
+                    var passwordMd5 = md1.digest().toHex(); //md5
+                    var base64Username = window.btoa(username);
+                    var loginSignatureTemp =
+                        base64Username + accessCode + passwordMd5;
+                    md2.update(loginSignatureTemp); //md5
+                    var loginSignature = md2.digest().toHex(); //md5
+                    var data = {
+                        UserName: username,
+                        AccessCode: accessCode,
+                        LoginSignature: loginSignature
+                    };
+                    axios({
+                        method: "POST",
+                        url: "http://" + vmip + ":8088/VIID/login/v2",
+                        headers: {
+                            "Content-Type": "application/json; charset=utf8"
+                        },
+                        responseType: "json",
+                        data: data
+                    })
+                        .then(function (r) {
+                            loginResult = r.data.ErrCode;
+                            console.log(r.data)
+                            switch (
+                                loginResult //判断返回值：12351是‘用户不存在’；50004是‘密码错误，登录失败’
+                                ) {
+                                case 50004:
+                                    alert("密码错误");
+                                    break;
+                                case 12351:
+                                    alert("用户不存在");
+                                    break;
+                                case undefined:
+
+                                    window.token = r.data.AccessToken;
+
+
+                                    imosSdk
+                                        .init(
+                                            vmip,
+                                            window.token,
+                                            9,
+                                            "${Session.BASE_URL}jk/imosSdk.html"
+                                        )
+                                        .then(function (res) {
+                                            console.log("登陆成功")
+                                            initVideo(vmip, transData);
+                                        })
+                                        .catch(function (err) {
+                                            console.log(err);
+                                            alert("调用失败" + err);
+                                        });
+
+                                    isLogin = true;
+
+                                    break;
+                            }
+                        })
+                        .catch(function (e) {
+                            alert("服务器连接异常");
+                            console.log(e);
+                        });
+                })
+                .catch(function (error) {
+                    alert("服务器连接异常");
+                    console.log(error);
+                });
+
+        } else {
+
+            console.log("login : " + isLogin)
+
+            initVideo(vmip, transData);
+
+        }
+
+
+    }
+
+
+    function initVideo(vmip, transData) {
+        console.log(" initVideo ");
+        var iframeObj = imosSdk.createPanelWindow();
+
+        createSpeDiv(iframeObj, transData);
+    }
+
+
+    /**
+     * 创建包含了input和按钮的div
+     * @param iframeObj iframe对象
+     **/
+    function createSpeDiv(iframeObj, transData) {
+        var tips_video = document.getElementById("tips_video");
+        tips_video.innerHTML = "";
+        var divDom = document.createElement("div");
+        divDom.appendChild(iframeObj);
+
+
+        tips_video.appendChild(divDom);
+
+        //play
+        playLive(iframeObj.id, transData.cameracode, transData.cameraname)
+    }
+
+    function playLive(iframeId, cameraCode, cameraName) {
+
+        console.log(" playLive ");
+        console.log(cameraCode);
+        console.log(cameraName);
+
+        imosSdk.imosSdkPlayLive(
+            iframeId,
+            cameraCode,
+            cameraName,
+            function (e) {
+                console.log(e);
+            }
+        );
+        cameraCode = null;
+    }
+
+
+    //显示警情
+    function showJqWindow(thisMarker, transData) {
+        console.log(transData)
+
+        transData.jjdbh = transData.jjdbh ? transData.jjdbh : "无";
+
+        var time = "";
+
+        if (transData.time) {
+            time = transData.time.substring(0, 4) + "-" + transData.time.substring(4, 6) + "-" + transData.time.substring(6, 8) + " " + transData.time.substring(8, 10) + ":" + transData.time.substring(10, 12) + ":" + transData.time.substring(12, 14);
+        } else {
+            time = "无";
+        }
+
+        transData.phone = transData.phone ? transData.phone : "无";
+
+        transData.shortContent = transData.shortContent ? transData.shortContent : "无";
+
+
+        var style = "<style>" +
+            ".tips-content::-webkit-scrollbar {/*滚动条整体样式*/\n" +
+            "      width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/\n" +
+            "      height: 4px;\n" +
+            "      scrollbar-arrow-color:red;\n" +
+            "\n" +
+            "    }\n" +
+            "    .tips-content::-webkit-scrollbar-thumb {/*滚动条里面小方块*/\n" +
+            "      border-radius: 5px;\n" +
+            "      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);\n" +
+            "      background: rgba(108,208,255);\n" +
+            "      scrollbar-arrow-color:red;\n" +
+            "    }\n" +
+            "    .tips-content::-webkit-scrollbar-track {/*滚动条里面轨道*/\n" +
+            "      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);\n" +
+            "      border-radius: 0;\n" +
+            "      background: rgba(0,0,0,0.1);\n" +
+            "    }</style>"
+
+        var content = style;
+        content += '<div id="tips"  style="z-index:999;width: 460px;height: 300px;background-image: url(img/tips.png);background-size: 100% 100%;font-size: 14px;">'
+            + '<div style="width: 30%;line-height: 40px;margin-top: 10px;margin-left:175px;">警情信息</div>'
+            + '<div  style="width: 90%;height: 230px;margin-left: 5%; ">'
+            + '<div style="width: 100%;height: 190px;margin-top: 10px;color: #86D5FA;">'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '处警单编号：'
+            + '</div>'
+            + '<div style="width: 75%;height: 100%;text-align: left;">'
+            + transData.jjdbh
+            + '</div>'
+            + '</div>'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '处警时间：'
+            + '</div>'
+            + '<div style="width: 75%;height: 100%;text-align: left;">'
+            + time
+            + '</div>'
+            + '</div>'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '处警电话：'
+            + '</div>'
+            + '<div style="width: 75%;height: 100%;text-align: left;">'
+            + transData.phone
+            + '</div>'
+            + '</div>'
+            + '<div style="width: 100%; line-height: 30px; display: flex;height:25%">'
+            + '<div style="width: 25%;height: 100%;text-align: right;">'
+            + '处警内容：'
+            + '</div>'
+            + '<div class="tips-content" style="width: 75%;height: 80px;text-align: left;overflow: auto;">'
+            + transData.shortContent
+            + '</div>'
+            + '</div>'
+            + '</div>'
+            + '<div style="width: 90%;height: 30px;margin-left: 5%;text-align: right;margin-top: 5px;">'
+            //+                   '<img onclick="closeTips()" src="img/close.png" />'
+            + '</div>'
+            + '</div>'
+            + '</div>'
+
+
+        thisMarker.openInfoWindowHtml(content, false);
+
+        var windowDivEle = document.getElementById("windowDiv");
+
+        var childNodeArr = windowDivEle.childNodes;
+
+        for (var i = 0; i < 12; i++) {
+            childNodeArr[i].style.display = "none";
+        }
+
+        //关闭图标
+        childNodeArr[14].style.width = "61px";
+        childNodeArr[14].style.height = "23px";
+        childNodeArr[14].style.marginLeft = "205px";
+        childNodeArr[14].style.marginTop = "14px";
+        childNodeArr[14].src = "img/close.png";
+        childNodeArr[14].style.zIndex = '999'
+
+    }
+
+
+    //关闭按钮
+    function closeTips() {
+        alert(111)
+        $("#tips").css("display", "block");
+    }
+
+
+    //今日值班
+    function jrzb() {
+        console.log("今日值班");
+
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+
+        // var param =date.getFullYear() + "-" + month + "-" + strDate;
+
+        var jqUrl = "${Session.BASE_URL}home/jrzb?policestationId=${policestation.id}";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+
+                var data = result.data;
+                console.log(data)
+                var li = "";
+                for (var i = 0; i < data.length; i++) {
+
+                    var name = data[i].name;
+                    var number = "短号：";
+                    if (data[i].phone) {
+                        number += data[i].phone
+                    } else {
+                        number += "无";
+                    }
+
+                    li += '<div style="width:100%;display: flex;height: 33%;">'
+                        + '<div style="width:40%;height: 100%;text-align: left;">'
+                        + name
+                        + '</div>'
+                        + '<div style="width:60%;height: 100%;text-align: left;">'
+                        + number
+                        + '</div>'
+                        + '</div>'
+                }
+
+
+                // <<=============
+                if (data.length == 0) {
+                    $("#zbldxm").html("暂无数据");
+
+                    li += '<div style="width:100%;display: flex;height: 33%;">'
+                        + '<div style="width:40%;height: 100%;text-align: left;">'
+                        + '暂无数据'
+                        + '</div>'
+                        + '<div style="width:60%;height: 100%;text-align: left;">'
+                        + ''
+                        + '</div>'
+                        + '</div>'
+                }
+                if (data.length == 1) {
+                    li += '<div style="width:100%;display: flex;height: 33%;">'
+                        + '<div style="width:40%;height: 100%;text-align: left;">'
+                        + '暂无数据'
+                        + '</div>'
+                        + '<div style="width:60%;height: 100%;text-align: left;">'
+                        + ''
+                        + '</div>'
+                        + '</div>'
+                }
+
+                $("#zbmjnr").html(li);
+
+                if (data.length == 0 || data.length == 1) {
+                    return;
+                }
+
+                console.log(1111111)
+                //==================>>
+
+
+                //设置展示数据高度
+                //一个高度40*(n-1)*20
+                var listHeight = 20 * (data.length - 1) + 40;
+                addKeyFrames0("-" + listHeight + "px");
+
+                var scrollSpeed = data.length;
+
+                //设置滚动速度
+                $(".rowup0").css("-webkit-animation", scrollSpeed + "s rowup0 linear infinite normal");
+                $(".rowup0").css("animation", scrollSpeed + "s rowup0 linear infinite normal");
+
+
+                $(".rowup0").hover(function () {
+                    $(".rowup0").css("animation-play-state", "paused");
+                }, function () {
+                    $(".rowup0").css("animation-play-state", "running");
+                })
+
+            }
+        })
+
+        //一个高度33*(n-1)+10
+        //addKeyFrames0('-110px');
+
+    }
+
+    //人口数据
+    // $("#czrk").html("226120");
+    // $("#zzrk").html("125120");
+
+    function rksj() {
+        console.log("人口数据");
+
+        var jqUrl = "${Session.BASE_URL}home/rksj";
+
+        var date = new Date();
+        var year = date.getFullYear();
+        year = year + "0101";
+
+        var cz_condition = " DJDW = '${policestation.code}'";
+        var zz_condition = " DJDW = '${policestation.code}' and djsj >'" + year + "' ";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            data: {
+                cz_condition: cz_condition,
+                zz_condition: zz_condition
+            },
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                console.log(result.data)
+                $("#czrk").html(result.data.cz);
+                $("#zzrk").html(result.data.zz);
+
+                var code = '${policestation.code}';
+                if (code == '320925650000') {
+                    $("#czrk").html("36791");
+                    $("#zzrk").html("147");
+                }
+            }
+        })
+    }
+
+    //网吧数据
+    function wbsj() {
+        console.log("网吧数据");
+
+        var jqUrl = "${Session.BASE_URL}home/wbsj";
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var day = date.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        ;
+
+        var time = year + "" + month + "" + day;
+
+
+        var wb_condition = "YYCSMC like '%%'";
+        var sw_condition = "SWKSSJ >= '" + time + "' ";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            data: {
+                wb_condition: wb_condition,
+                sw_condition: sw_condition
+            },
+            dataType: "json",
+            success: function (result) {
+                var data = result.data;
+                console.log(data)
+
+                var li = "";
+                var sizeLength = 0;
+
+                for (var i = 0; i < data.length; i++) {
+
+                    sizeLength = sizeLength + 1;
+
+                    var name = data[i].name;
+                    var addr = data[i].address;
+                    var zjs = data[i].count;
+                    var swrs = data[i].personCount;
+
+                    if (!zjs || zjs == '') {
+                        zjs = "";
+                    }
+                    if (!swrs || swrs == '') {
+                        swrs = "";
+                    }
+
+
+                    //name = mySubString(name , 5);
+                    //addr = mySubString(addr , 8);
+
+                    //li+= '<div class="item2">'
+                    //		+	'<div style="width:27%;height: 100%;text-align: right;">'
+                    //		+		name
+                    //		+	'</div>'
+                    //		+	'<div style="width:40%;height: 100%;margin-left: 6%;text-align: left;">'
+                    //		+		addr
+                    //		+	'</div>'
+                    //		+	'<div style="width:17%;height: 100%;text-align: center;">'
+                    //		+		zjs
+                    //		+	'</div>'
+                    //		+	'<div style="width:17%;height: 100%;text-align: center;">'
+                    //		+		swrs
+                    //		+	'</div>'
+                    //		+'</div>'
+
+                    name = mySubString(name, 6);
+                    addr = mySubString(addr, 14);
+
+                    li += '<div class="item2">'
+                        + '<div style="width:40%;height: 100%;text-align: center;">'
+                        + name
+                        + '</div>'
+                        + '<div style="width:60%;height: 100%;margin-left: 6%;text-align: left;">'
+                        + addr
+                        + '</div>'
+                        + '</div>'
+
+
+                }
+
+                $("#wbsj").html(li);
+
+                //设置展示数据高度
+                //一个高度42
+                var listHeight = 42 * (sizeLength - 1) + 20;
+                addKeyFrames("-" + listHeight + "px");
+
+                var scrollSpeed = 5 * sizeLength;
+
+                //设置滚动速度
+                $(".rowup").css("-webkit-animation", scrollSpeed + "s rowup linear infinite normal");
+                $(".rowup").css("animation", scrollSpeed + "s rowup linear infinite normal");
+
+                $(".rowup").hover(function () {
+                    $(".rowup").css("animation-play-state", "paused");
+                }, function () {
+                    $(".rowup").css("animation-play-state", "running");
+                })
+            }
+        })
+    }
+
+    //酒店数据
+    function jdsj() {
+        console.log("酒店数据");
+
+        var jqUrl = "${Session.BASE_URL}home/jdsj";
+
+        var code = '${policestation.code}';
+        code = code.substring(0, 6);
+
+        var condition = " P_CODE like '" + code + "%' ";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            data: {
+                condition: condition
+            },
+            dataType: "json",
+            success: function (result) {
+
+                var data = result.data;
+                console.log(data)
+
+                var li = "";
+
+                var sizeLength = 0;
+                for (var i = 0; i < data.length; i++) {
+
+                    sizeLength = sizeLength + 1;
+
+                    var mc = data[i].name;
+                    var dz = data[i].address;
+                    var cw = data[i].count;
+                    var kf = data[i].nowCount;
+
+                    //mc = mySubString(mc , 5);
+                    //dz = mySubString(dz , 8);
+
+
+                    if (!kf || kf == '') {
+                        kf = "";
+                    }
+
+
+                    //li+= '<div class="item2">'
+                    //		+	'<div style="width:27%;height: 100%;text-align: right;">'
+                    //		+		mc
+                    //		+	'</div>'
+                    //		+	'<div style="width:40%;height: 100%;margin-left: 6%;text-align: left;">'
+                    //		+		dz
+                    //		+	'</div>'
+                    //		+	'<div style="width:17%;height: 100%;text-align: center;">'
+                    //		+		cw
+                    //		+	'</div>'
+                    //		+	'<div style="width:17%;height: 100%;text-align: center;">'
+                    //		+		kf
+                    //		+	'</div>'
+                    //		+'</div>'
+
+                    mc = mySubString(mc, 8);
+                    dz = mySubString(dz, 12);
+
+                    li += '<div class="item2">'
+                        + '<div style="width:35%;height: 100%;text-align: left; padding-left:30px;">'
+                        + mc
+                        + '</div>'
+                        + '<div style="width:48%;height: 100%;margin-left: 6%;text-align: left;">'
+                        + dz
+                        + '</div>'
+                        + '<div style="width:17%;height: 100%;text-align: center;">'
+                        + cw
+                        + '</div>'
+                        + '</div>'
+
+                }
+
+                $("#jdsj").html(li);
+
+                //设置展示数据高度
+                //一个高度42
+                var listHeight = 42 * (sizeLength - 1) + 20;
+                addKeyFrames1("-" + listHeight + "px");
+
+                var scrollSpeed = 5 * sizeLength;
+
+                //设置滚动速度
+                $(".rowup1").css("-webkit-animation", scrollSpeed + "s rowup1 linear infinite normal");
+                $(".rowup1").css("animation", scrollSpeed + "s rowup1 linear infinite normal");
+
+                $(".rowup1").hover(function () {
+                    $(".rowup1").css("animation-play-state", "paused");
+                }, function () {
+                    $(".rowup1").css("animation-play-state", "running");
+                })
+            }
+        })
+    }
+
+    //数据统计
+    function sjtj() {
+        console.log("数据统计");
+
+        var date = new Date();
+
+        var year = date.getFullYear();
+
+
+        var condition = " DJDW = '${policestation.code}'";
+
+        var jqUrl = "${Session.BASE_URL}home/sjtjChart";
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            data: {
+                condition: condition,
+                year: year
+            },
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                var data = result.data;
+                console.log(data)
+                var option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        x: '700', // 'center' | 'left' | {number},
+                        y: 'top', // 'center' | 'bottom' | {number}
+                        data: [{
+                            name: '警情',
+                            textStyle: {
+                                color: '#FFE248'      // 图例文字颜色
+
+                            }
+                        }
+                            //	, {
+                            //		name: '稳情',
+                            //		textStyle: {
+                            //			color: '#418CF6'      // 图例文字颜色
+                            //
+                            //		}
+                            //	}
+                        ],
+
+                    },
+
+                    calculable: true,
+                    xAxis: [{
+                        type: 'category',
+                        axisLabel: {
+                            interval: 0,
+                            /*rotate:-30,
+                            margin: 30,*/
+                            textStyle: {
+                                align: 'center',
+                                color: '#ffffff'
+                            }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF'
+                            }
+                        },
+                        boundaryGap: false,
+                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        interval: 200,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#FFFFFF',
+                                width: 1
+                            }
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dashed'
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#ffffff'
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: '警情',
+                        type: 'line',
+                        itemStyle: {
+                            normal: {
+                                color: '#FFE248',
+                                lineStyle: {
+                                    color: '#FFE248'
+                                }
+                            }
+                        },
+                        data: data.jq
+                    }
+                        //,
+                        //	{
+                        //		name: '稳情',
+                        //		type: 'line',
+                        //		itemStyle: {
+                        //			normal: {
+                        //				color: '#418CF6',
+                        //				lineStyle: {
+                        //					color: '#418CF6'
+                        //				}
+                        //			}
+                        //		},
+                        //		data: data.wq
+                        //	}
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                //lineChart.setOption(option);
+                createExample("lineChart", option, {
+                    loopSeries: true
+                });
+            }
+        })
+
+    }
+
+    /**
+     * 获得本周的开始日期和结束日期
+     */
+    function getWeekStartDateAndEndDateRange() {
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        var now = new Date();
+        var mondayTime = now.getTime() - (now.getDay() - 1) * oneDayLong;
+        var sundayTime = now.getTime() + (7 - now.getDay()) * oneDayLong;
+        var monday = new Date(mondayTime);
+        var sunday = new Date(sundayTime);
+        var weekRange = [monday, sunday];
+        console.log(weekRange);
+        return weekRange;
+    }
+
+
+    /**
+     * 格式化日期 yyyy-MM-dd
+     */
+    function formatDateYMD(date) {
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+
+        var param = date.getFullYear() + "" + month + "" + strDate;
+        return param;
+    }
+
+    function reduceDate(date, day) {
+        date.setDate((date.getDate() - day));
+        return date;
+    }
+
+
+    //今日警情
+    function jrjq() {
+        console.log("今日警情");
+        //得到本周开始时间和结束时间
+        var weekRange = getWeekStartDateAndEndDateRange();
+        var monday = formatDateYMD(reduceDate(new Date(), 7));
+        var sunday = formatDateYMD(new Date());
+
+
+        var jqUrl = "${Session.BASE_URL}home/jrjq";
+
+        var condition = "CJSJ >='" + monday + "'  and CJSJ <='" + sunday + "' and DJDW = '${policestation.code}' order by cjsj desc";
+
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            data: {
+                condition: condition
+            },
+            dataType: "json",
+            success: function (result) {
+                var data = result.data;
+                var li = "";
+
+                for (var i = 0; i < data.length; i++) {
+
+                    // var tips_jqbh = data[i].bjbh;
+                    var tips_sj = data[i].time;
+                    //"20191220140144"
+
+                    tips_sj = tips_sj.substring(0, 4) + "-" + tips_sj.substring(4, 6) + "-" + tips_sj.substring(6, 8) + " " + tips_sj.substring(8, 10) + ":" + tips_sj.substring(10, 12) + ":" + tips_sj.substring(12, 14);
+
+                    // var tips_bjr= data[i].bjr;
+                    var tips_dh = data[i].phone.replace(/null/g, "");
+                    if (tips_dh == ',') {
+                        tips_dh = "无";
+                    }
+
+                    var tips_nr = data[i].shortContent;
+
+                    tips_nr = mySubString(tips_nr, 37);
+
+                    li += '<div style="width:100%;height: 48%;display: flex;margin-top: 1%;margin-bottom: 1%;border-bottom: 1px dashed #86d5fa52;">'
+                        + '<div style="width: 15%;height: 100%;">'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + '时间：'
+                        + '</div>'
+                        + '<div style="width: 100%;height: 50%;">'
+                        + '警情：'
+                        + '</div>'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + '电话：'
+                        + '</div>'
+                        + '</div>'
+                        + '<div style="width: 85%;height: 100%;">'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + tips_sj
+                        + '</div>'
+                        + '<div style="width: 100%;height: 50%;">'
+                        + tips_nr
+                        + '</div>'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + tips_dh
+                        // + " <img onclick=\"openTips('" + tips_jqbh + "','" + tips_sj + "','" + tips_bjr + "','" + tips_dh + "','" + tips_nr +"')\""  + ' style="height: 15px;margin-left: 10px;" src="img/search.png" />'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+
+                }
+
+
+                //<<=========================
+
+                if (data.length == 0) {
+                    li += '<div style="width:100%;height: 48%;display: flex;margin-top: 1%;margin-bottom: 1%;border-bottom: 1px dashed #86d5fa52;">'
+                        + '<div style="width: 15%;height: 100%;">'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + ' '
+                        + '</div>'
+                        + '<div style="width: 100%;height: 50%;">'
+                        + ' '
+                        + '</div>'
+                        + '<div style="width: 100%;height: 25%;">'
+                        + ' '
+                        + '</div>'
+                        + '</div>'
+                        + '<div style="width: 85%;height: 100%;">'
+                        + '<div style="width: 100%;height: 35%;">'
+                        + ''
+                        + '</div>'
+                        + '<div style="width: 100%;height: 50%;">'
+                        + '暂无数据'
+                        + '</div>'
+                        + '<div style="width: 100%;height: 15%;">'
+                        + ''
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                }
+
+                //=============================>>
+
+
+                //设置展示数据高度
+                //一个高度120*(n-1)+20
+                var listHeight = 120 * (data.length - 1) + 20;
+                addKeyFrames2("-" + listHeight + "px");
+
+                var scrollSpeed = 5 * data.length;
+
+                //设置滚动速度
+                $(".rowup2").css("-webkit-animation", scrollSpeed + "s rowup2 linear infinite normal");
+                $(".rowup2").css("animation", scrollSpeed + "s rowup2 linear infinite normal");
+
+                $(".rowup2").hover(function () {
+                    $(".rowup2").css("animation-play-state", "paused");
+                }, function () {
+                    $(".rowup2").css("animation-play-state", "running");
+                })
+
+                $("#jrjqLabel").append(li);
+            }
+        })
+    }
+
+    //格式化日期格式 yyyy-mm-dd
+    function selfDateFormatYMD(selfDate) {
+        var date = new Date(selfDate);
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var dateStr = date.getFullYear() + "" + month + "" + strDate;
+
+        return dateStr;
+    }
+
+    //今日稳情
+    function jrwq() {
+        var jqUrl = "${Session.BASE_URL}home/jrwq?policestationId=${policestation.id}";
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                if(result.data.length == 0){
+                    $("#jrwq").html("暂无数据");
+                }else {
+                    var li = "";
+
+                    var data = result.data;
+
+                    for (var i = 0; i < data.length; i++) {
+                        var id = data[i].id;
+                        var rusticate = data[i].rusticate;
+                        var gridsequence = data[i].gridsequence;
+                        var gridpersonname = data[i].gridpersonname;
+                        var gridpersonphone = data[i].gridpersonphone;
+
+                        if (!rusticate) {
+                            rusticate = "";
+                        }
+                        if (!gridsequence) {
+                            gridsequence = "";
+                        }
+                        if (!gridpersonname) {
+                            gridpersonname = "暂无数据";
+                        }
+                        if (!gridpersonphone) {
+                            gridpersonphone = "暂无数据";
+                        }
+                        // title = mySubString(title , 14);
+
+                        var gridname = rusticate + gridsequence;
+                        if (!gridname) {
+                            gridname = "";
+                        } else {
+                            gridname = rusticate + "-" + gridsequence;
+                        }
+
+
+                        li += '<div style="width: 100%;height: 33%;display: flex;border-bottom: 1px dashed #86d5fa52;padding-top: 7.5px;cursor:pointer;" onclick="gridAlert(\''+id+'\')">'
+                            + '<div style="width: 45%;height: 100%;">'
+                            + '<div style="width: 100%;height: 50%; color:#86D5FA; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">'
+                            + '<img style="height: 12px;margin-right: 5px;" src="img/wanggeimg.png" >' + gridname
+                            + '</div>'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + '网格员姓名 : ' + gridpersonname
+                            + '</div>'
+                            + '</div>'
+                            + '<div style="width: 55%;height: 100%;">'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + '  '
+                            + '</div>'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + '联系方式 : ' + gridpersonphone
+                            + '</div>'
+                            + '</div>'
+
+                        //if( qsdwxxqsfkztjg.indexOf("已签收已反馈") != -1 ){
+                        //	li+= 	"<div " + "onclick=\"jumpStability('" + xxbh + "')\"" +" style=\"width: 20%;height: 100%;color:#86D5FA;line-height: 70px;font-size: 30px;\">"
+                        //			+		'<img src="img/gif1_1_1.gif" style="height: 50px;margin-top: 15px;">'
+                        //			+	'</div>'
+                        //}
+                        li += '</div>'
+
+                    }
+
+                    $("#jrwq").html(li);
+
+                    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+                    //一个高度80*(n-1)+20
+                    var listHeight = 80 * (data.length - 1) + 20;
+                    addKeyFrames3("-" + listHeight + "px");
+
+                    var scrollSpeed = data.length * 2;
+
+                    //设置滚动速度
+                    $(".rowup3").css("-webkit-animation", scrollSpeed + "s rowup3 linear infinite normal");
+                    $(".rowup3").css("animation", scrollSpeed + "s rowup3 linear infinite normal");
+
+                    $(".rowup3").hover(function () {
+                        $(".rowup3").css("animation-play-state", "paused");
+                    }, function () {
+                        $(".rowup3").css("animation-play-state", "running");
+                    })
+                }
+
+            }
+        })
+
+    }
+
+    //今日舆情（网上调解）
+    function jryq() {
+        var jqUrl = "${Session.BASE_URL}home/jryq?policestationId=${policestation.id}";
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.data.length == 0){
+                    $("#jryq").html("暂无数据");
+                    return;
+                }else {
+                    var result = data.data;
+                    var li = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var id = result[i].id;
+                        var title = result[i].title;
+                        var mainmacts = result[i].mainmacts;
+                        var time = result[i].time;
+                        console.log()
+                        if (!title) {
+                            title = "暂无数据";
+                        }
+                        if (!mainmacts) {
+                            mainmacts = "暂无数据";
+                        }
+                        if (!time) {
+                            time = "暂无数据";
+                        }
+
+                        li += '<div style="width:100%;height: 48%; display: flex; margin-bottom: 4%;border-bottom: 1px dashed #86d5fa52; cursor:pointer;" onclick="jryqAlert(\'' + id + '\')">'
+                            + '<div style="width: 15%;height: 100%;">'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + '事项：'
+                            + '</div>'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + '时间：'
+                            + '</div>'
+                            + '</div>'
+                            + '<div style="width: 85%;height: 100%;">'
+                            + '<div style="width: 100%;height: 50%; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">'
+                            + mainmacts
+                            + '</div>'
+                            + '<div style="width: 100%;height: 50%;">'
+                            + time
+                            + '</div>'
+                            + '</div>'
+                            + '</div>'
+                    }
+
+                    $("#jryq").html(li);
+                    //一个高度75*(n-1)+20
+                    var listHeight = 75 * (result.length - 1) + 20;
+                    addKeyFrames4("-" + listHeight + "px");
+
+                    var scrollSpeed = result.length * 2;
+
+                    //设置滚动速度
+                    $(".rowup4").css("-webkit-animation", scrollSpeed + "s rowup4 linear infinite normal");
+                    $(".rowup4").css("animation", scrollSpeed + "s rowup4 linear infinite normal");
+
+                    $(".rowup4").hover(function () {
+                        $(".rowup4").css("animation-play-state", "paused");
+                    }, function () {
+                        $(".rowup4").css("animation-play-state", "running");
+                    })
+                }
+
+
+            }
+        })
+    }
+
+    //网格信息-弹框
+    function gridAlert(id) {
+        $("#gridComponent").css("display", "block");
+        var jqUrl = "${Session.BASE_URL}stability/queryId?id=" + id;
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+                if (result.code == "SUCCESS") {
+                    $("#rusticate").html(result.data.rusticate);
+                    $("#gridsequence").html(result.data.gridsequence);
+                    $("#gridpersontype").html(result.data.gridpersontype);
+                    $("#gridpersonname").html(result.data.gridpersonname);
+                    $("#idcard").html(result.data.idcard);
+                    $("#sex").html(result.data.sex);
+                    $("#age").html(result.data.age);
+                    $("#gridpersonphone").html(result.data.gridpersonphone);
+                    $("#politicallook").html(result.data.politicallook);
+                    $("#education").html(result.data.education);
+                    $("#marital").html(result.data.marital);
+                    $("#currentaddress").html(result.data.currentaddress);
+                    $("#otheridentity").html(result.data.otheridentity);
+                    $("#managerhouse").html(result.data.managerhouse);
+                    $("#gridcode").html(result.data.gridcode);
+                    $("#comment").html(result.data.comment);
+
+
+                    // $("#hostposition").html(result.data.hostposition);
+
+                }
+            }
+        })
+    }
+
+
+    //今日舆情（网上调解）弹框
+    function jryqAlert(id) {
+        $("#title").css("display", "block");
+        var jqUrl = "${Session.BASE_URL}publicsentiment/queryId?id=" + id;
+        $.ajax({
+            type: "POST",
+            url: jqUrl,
+            cache: false,
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+                if (result.code == "SUCCESS") {
+                    $("#time").html(result.data.time);
+                    $("#codenum").html(result.data.codenum);
+                    var onehostname
+                    var towhostname
+                    if (!result.data.onehostname) {
+                        onehostname = ""
+                    } else {
+                        onehostname = result.data.onehostname
+                    }
+                    if (!result.data.twohostname) {
+                        towhostname = ""
+                    } else {
+                        towhostname = result.data.twohostname
+                    }
+                    $("#onehostname").html(onehostname + "   " + towhostname);
+                    $("#hostposition").html(result.data.hostposition);
+                    $("#mediateaddress").html(result.data.mediateaddress);
+                    $("#onecurrentname").html(result.data.onecurrentname);
+                    $("#onecurrentsex").html(result.data.onecurrentsex);
+                    $("#onecurrentage").html(result.data.onecurrentage);
+                    $("#onecurrentnation").html(result.data.onecurrentnation);
+                    $("#onecurrentbirthdate").html(result.data.onecurrentbirthdate);
+                    $("#onecurrentidcard").html(result.data.onecurrentidcard);
+                    $("#onecurrentcompany").html(result.data.onecurrentcompany);
+                    $("#onecurrentposition").html(result.data.onecurrentposition);
+                    $("#onecurrentfamily").html(result.data.onecurrentfamily);
+                    $("#oneformname").html(result.data.oneformname);
+                    $("#onerepresent").html(result.data.onerepresent);
+                    $("#onejob").html(result.data.onejob);
+                    // $("#twohostname").val(result.data.twohostname);
+                    $("#twocurrentname").html(result.data.twocurrentname);
+                    $("#twocurrentsex").html(result.data.twocurrentsex);
+                    $("#twocurrentage").html(result.data.twocurrentage);
+                    $("#twocurrentnation").html(result.data.twocurrentnation);
+                    $("#twocurrentbirthdate").html(result.data.twocurrentbirthdate);
+                    $("#twocurrentidcard").html(result.data.twocurrentidcard);
+                    $("#twocurrentcompany").html(result.data.twocurrentcompany);
+                    $("#twocurrentposition").html(result.data.twocurrentposition);
+                    $("#twocurrentfamily").html(result.data.twocurrentfamily);
+                    $("#twoformname").html(result.data.twoformname);
+                    $("#tworepresent").html(result.data.tworepresent);
+                    $("#twojob").html(result.data.twojob);
+                    $("#mainmacts").html(result.data.mainmacts);
+                    $("#mediatedate").html(result.data.mediatedate);
+                    $("#agreement").html(result.data.agreement);
+                }
+            }
+        })
+    }
+
+    function hideGridComponent() {
+        $("#gridComponent").css("display", "none");
+    }
+
+    function hideTitle() {
+        $("#title").css("display", "none");
+    }
+
+
+    //得到yyyy-MM-dd
+    function getDateSplicing(value) {
+        var date = value.substring(0, 4) + "-" + value.substring(4, 6) + "-" + value.substring(6, 8);
+        return date;
+    }
+
+    function plan() {
+        window.location.href = "${Session.BASE_URL}plan";
+    }
+
+    function stability() {
+        window.location.href = "stability.html";
+    }
+
+    function jumpStability(xxbh) {
+        window.location.href = "${Session.BASE_URL}stability?xxbh=" + xxbh;
+    }
+
+    /*var windowWidth = window.innerWidth;
+    var atlas_list = $("html body");
+    $(atlas_list).css({ "transition":"none","-webkit-transition":"none","transform": "translate3d(" + (windowWidth) + "px,0,0)" });
+          window.setTimeout(function(){
+            $(atlas_list).css({ "transition":"all 0.5s ease","-webkit-transition":"all 0.5s ease","transform": "translate3d(0,0,0)" });
+          },5);*/
+    // 基于准备好的dom，初始化echarts实例
+    //--var lineChart = echarts.init(document.getElementById('lineChart'));
+
+    function createExample(id, option, tooltipOption) {
+
+        // 基于准备好的dom，初始化echarts图表
+        var chart = echarts.init(document.getElementById(id));
+
+        // 为echarts对象加载数据
+        chart.setOption(option);
+
+        tools.loopShowTooltip(chart, option, tooltipOption);
+    }
+
+    //设置民警
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度33*(n-1)+10
+    //addKeyFrames0('-110px');
+
+    function addKeyFrames0(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames = '\
+		    @-webkit-keyframes rowup0 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup0 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度42
+    //addKeyFrames('-150px');
+
+    function addKeyFrames(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames = '\
+		    @-webkit-keyframes rowup {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度42
+    addKeyFrames1('-150px');
+
+    function addKeyFrames1(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames1 = '\
+		    @-webkit-keyframes rowup1 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup1 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames1.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度120*(n-1)+20
+    //addKeyFrames2('-400px');
+
+    function addKeyFrames2(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames2 = '\
+		    @-webkit-keyframes rowup2 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup2 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames2.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度80*(n-1)+20
+    addKeyFrames3('-260px');
+
+    function addKeyFrames3(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames3 = '\
+		    @-webkit-keyframes rowup3 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup3 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames3.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    //addKeyFrames('-' + height + 'px'); // 设置keyframes
+    //一个高度75*(n-1)+20
+    //addKeyFrames4('-245px');
+
+    function addKeyFrames4(y) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        var keyFrames4 = '\
+		    @-webkit-keyframes rowup4 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }\
+		    @keyframes rowup4 {\
+		        0% {\
+		            -webkit-transform: translate3d(0, 0, 0);\
+		            transform: translate3d(0, 0, 0);\
+		        }\
+		        100% {\
+		            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+		        }\
+		    }';
+        style.innerHTML = keyFrames4.replace(/A_DYNAMIC_VALUE/g, y);
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+
+    //没有人员信息弹框
+    function nextTips() {
+        $("#tips_not").css("display", "none");
+    }
+
+
+    //打开详情
+    function openTips(tips_jqbh, tips_sj, tips_bjr, tips_dh, tips_nr) {
+
+        var url = "userInfo?sjh=" + tips_dh;
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: "json",
+            success: function (result) {
+                if (result.length > 0) {
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].xm == tips_bjr) {
+                            var sfhm = result[i].gmsfhm;
+                            var sjh = result[i].sjh;
+                            var xm = result[i].xm;
+
+                            //姓名
+                            if (isVlaue(xm)) {
+                                $("#tips_xm").html(xm);
+                            } else {
+                                $("#tips_xm").html("");
+                            }
+                            //手机号
+                            if (isVlaue(sjh)) {
+                                $("#tips_dh").html(sjh);
+                            } else {
+                                $("#tips_dh").html("");
+                            }
+                            //身份证
+                            if (isVlaue(sfhm)) {
+                                $("#tips_sfz").html(sfhm);
+                            } else {
+                                $("#tips_sfz").html("");
+                            }
+
+                            //通过身份证查询
+                            queryXP(sfhm);
+
+                            break;
+                        }
+                    }
+                }
+
+
+                //是否查到信息
+                if (isVlaue(result)) {
+                    $("#tips").css("display", "block");
+                } else {
+                    $("#tips_not").css("display", "block");
+                }
+            }
+
+        });
+
+
+    }
+
+    //通过身份证查询
+    function queryXP(sfz) {
+        var url = "userxp?gmsfz=" + sfz;
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: "json",
+            success: function (result) {
+                var xppath = result.xppath;
+                var zd = result.zd;
+                var zk = result.zk;
+
+                //头像
+                if (isVlaue(xppath)) {
+                    $("#tips_img").attr("src", xppath);
+                } else {
+                    $("#tips_img").attr("src", "");
+                }
+
+                //重点人员
+                if (zd) {
+                    $("#tips_zd").html(result.bz);
+                } else {
+                    $("#tips_zd").html("非重点人员");
+                }
+
+                //暂住人员
+                if (zk) {
+                    $("#tips_zz").html(result.zzcs);
+                    $("#tips_zzsy").html(result.zzsy);
+                } else {
+                    $("#tips_zz").html("非暂住人员");
+                }
+
+            }
+
+        });
+    }
+
+    //关闭按钮
+    function closeTips() {
+        $("#tips").css("display", "none");
+
+        clearValue();
+    }
+
+    //判断是否没有数据
+    function isVlaue(value) {
+        if (value == "" || value == null || value == undefined || value == "[]") { // "",null,undefined,[]
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //清空数据
+    function clearValue() {
+        //头像
+        $("#tips_img").attr("src", "");
+        //姓名
+        $("#tips_xm").html("");
+        //手机号
+        $("#tips_dh").html("");
+        //身份证
+        $("#tips_sfz").html("");
+
+
+        //重点人员
+        $("#tips_zd").html("");
+
+        //暂住人员
+        $("#tips_zz").html("");
+        $("#tips_zzsy").html("");
+    }
+
+    //截取字符串
+    function mySubString(str, leng) {
+        if (str.length > leng) {
+            str = str.substring(0, leng) + "...";
+        }
+        return str;
+    }
+
+</script>
+
+</html>

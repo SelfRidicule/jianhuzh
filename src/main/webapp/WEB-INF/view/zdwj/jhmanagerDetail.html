@@ -1,0 +1,418 @@
+<!--
+  日期： 2019-08-26
+  作者： wjun   wjun@jszzkj.cn
+  文档：禁货审批 > 审批管理 > 详情
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>审批管理详情</title>
+<link rel="stylesheet" type="text/css"
+	href="${Session.BASE_URL}lying/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="${Session.BASE_URL}lying/css/common.css" />
+<style media="print"> 
+@page { 
+	size: auto;  /* auto is the initial value */ 
+	margin: 12mm; /* this affects the margin in the printer settings */ 
+} 
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: white;
+	overflow: hidden;/*隐藏右侧滚动条 */
+}
+
+/* .layui-btn-sm { */
+/* 	line-height: 38px; */
+/* 	height: 38px; */
+/* 	width: 80px; */
+/* 	color: white; */
+/* } */
+img{
+	height:100px;
+	
+}
+.layui-btn{
+	width: 100px;
+}
+
+.layui-row {
+	margin: 0 15px 10px 15px;
+}
+
+table tr td {
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+	font-size:13px;
+}
+
+.item {
+	width: 120px;
+}
+
+.item1 {
+	width:300px;
+}
+</style>
+</head>
+<body style="padding: 0px">
+	<div style="width: 100%; padding: 10px; background: #CCE4F7;">
+		<img style="margin-right: 10px;"
+			src="${Session.BASE_URL}img/loaction.png">当前位置 ： 禁货审批 > <span
+			style="color: #028F9C;">详情</span>
+	</div>
+	<div class="layui-row" style="margin:10px 0 10px 0;padding-left: 15px">
+		<div style="display: inline-block; float: left;">
+			<button id="spanGd" onclick="ret()" class="layui-btn layui-btn-normal">
+				＜＜ 返回</button>
+				<button id="printing" data-type="printing" 
+					class="layui-btn layui-btn-normal" onclick="preview(1)" style="margin-left: 284px;">打印</button>	
+			<!-- 	二维码所需的input -->
+<!-- 			<input id="text" type="hidden" value="" /> -->
+<!-- 			<div id="qrcode" style="width:100px;height:100px;margin:10px"></div> -->
+		</div>
+	</div>
+	<!--startprint1-->
+<!-- 	<div id="foot" style="margin-left:35%;font-size:25px">禁货审批通行证</div> -->
+	<div id="cen" style="padding-left: 15px" class="layui-row">
+	<div id="foot" style="margin-left:35%;font-size:25px"></div>
+	<div id="ewm">
+		
+<!-- 		<div id="qrcode" style="width:100px;height:100px;margin-left:348px;margin-bottom: 5px"></div>	 -->
+	</div>
+	<div id="oddnumber"></div>
+		<table border="1">
+			<tr style="text-align: center;">
+				<td class="item" style="height:30px;text-align:center;">车辆号牌</td>
+				<td id="carnum" style="width:130px"></td>
+				<td style="width:100px" class="item">挂车号牌</td>
+				<td id="trailernum" colspan="2" style="width:130px"></td>
+			</tr>
+			<tr style="text-align: center;">
+				<td class="item" style="height:30px;text-align:center;">车辆类型</td>
+				<td id="cartypename" ></td>
+				<td class="item">驾驶人姓名</td>
+				<td id="drivername" colspan="2"></td>
+			</tr>
+			<tr style="text-align: center;">
+				<td class="item" style="height:30px;text-align:center;">驾驶人电话</td>
+				<td id="driverphone"></td>
+				<td class="item">车辆归属地</td>
+<!-- 				<td id="carowner"></td> -->
+				<td colspan="2" id="carlocal"></td>
+			</tr>
+			<tr id="currentlineTr" style="text-align: center;">
+				<td class="item">拟通行线路</td>
+				<td class="item1" id="currentline" colspan="4" style="height:30px;text-align:center;"></td>
+			</tr>
+			<tr id="currenttimeTr" style="text-align: center;">
+				<td class="item">拟通行时间</td>
+				<td class="item1" id="currenttime" colspan="4" style="height:30px;text-align:center;"></td>
+			</tr>
+			<tr id="tr1" style="height: 105px;text-align:center;">
+				<td class="item">驾驶人身份证</td>
+				<td class="item1" id="owneridcardpic" colspan="4"></td>
+			</tr>
+			<tr id="tr2" style="height: 105px;text-align:center;">
+				<td class="item">代办人身份证</td>
+				<td class="item1" id="legalidcardpic" colspan="4"></td>
+			</tr>
+			<tr id="tr3" style="height: 105px;text-align:center;">
+				<td class="item">驾驶证</td>
+				<td class="item1" id="driverlicensepic" colspan="4"></td>
+			</tr>
+			<tr id="tr4" style="height: 105px;text-align:center;">
+				<td class="item">行驶证</td>
+				<td class="item1" id="drivinglicensepic" colspan="4"></td>
+			</tr>
+			<tr id="tr5" style="height: 150px;text-align:center;">
+				<td class="item">三证合一营业执照</td>
+				<td class="item1" id="businesspic" colspan="3">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!--endprint1-->
+	<div class="layui-row">
+		<!-- <div class="layui-inline" style="margin-left:137px;">
+			<a>原因：审批资料错误。</a>
+		</div> -->
+		<!-- <div class="layui-inline" style="margin-left:5px;">
+			<button id="del" data-type="del"
+				class="layui-btn layui-btn-normal">删除</button>
+		</div> -->
+		
+		<div class="layui-inline">
+<!-- 			<button id="printing" data-type="printing" -->
+<!-- 				class="layui-btn layui-btn-normal" onclick="window.print()" style="margin-left: 328px;">打印</button> -->
+<!-- 			<button id="printing" data-type="printing" -->
+<!-- 				class="layui-btn layui-btn-normal" onclick="preview(1)" style="margin-left: 328px;">打印</button>	 -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/jquery.min.js" ></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/qrcode.min.js"></script>
+<script type="text/javascript">
+
+
+	function getQueryString(name) {
+	    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(r[2]);
+	    }
+	    return null;
+	}
+	
+	layui.use(['jquery','layer'],function(){
+		$ = layui.jquery;
+		var layer = layui.layer;
+		//监听返回按钮
+// 		layui.$('#spanGd').on('click', function() {
+// 			window.location.href='${Session.BASE_URL}admin/v1/jhmanager'
+// 		});
+		
+		//加载数据
+		$(function(){
+			var id = getQueryString("id");
+			console.log(id)
+	        if(id){
+	            $.ajax({
+	                url:'${Session.BASE_URL}admin/v1/jinhuo/queryByIdMaterial',
+	                data: {"id": id},
+	                success:function (hr) {
+	                    console.log(hr)
+	                    if(hr.code=='SUCCESS'){
+	                    	var ewm = document.getElementById("ewm");
+	                    	console.log('-----------------')
+	                    	console.log(ewm)
+	                    	if(hr.data.status==6){
+	                    	   var codePic =  '<input id="text" type="hidden" value="" />'
+	                    					  +'<div id="qrcode" style="width:100px;height:100px;margin-left:348px;margin-bottom: 5px"></div>'
+           					   ewm.innerHTML = codePic;
+	                    					   
+	                    	 	//二维码
+	                    		var qrcode = qrCode();
+	                    		makeCode(qrcode);
+	                    	}else{
+	                			document.getElementById("oddnumber").style.visibility="hidden";
+
+	                    	}
+	                    	
+	                        $("#carnum").html(hr.data.carnum);
+	                        $("#trailernum").html(hr.data.trailernum);
+	                        $("#cartypename").html(hr.data.cartypename);
+	                        $("#drivername").html(hr.data.drivername);
+	                        $("#driverphone").html(hr.data.driverphone);
+	                        if(hr.data.carlocal == 0){
+	    						$('#carlocal').html('本地');
+	    					}else if(hr.data.carlocal == 1){
+	    						$('#carlocal').html('外地');
+	    					}else{
+	    						$('#carlocal').html('');
+	    					}
+	    					if(hr.data.carowner == 0){
+	    						$('#carowner').html('个人');
+	    					}else if(hr.data.carowner == 1){
+	    						$('#carowner').html('公司');
+	    					}else{
+	    						$('#carowner').html('');
+	    					}
+	                       	$("#currentline").html(hr.data.currentline);
+	                       	$("#currenttime").html(hr.data.currenttime);
+// 	                        $("#owneridcardpic").html(hr.data.owneridcardpic);
+	                        if(hr.data.owneridcardpic!=null && hr.data.owneridcardpic!=""){
+	                            var arr = (hr.data.owneridcardpic).split(",");
+	                            var html="";
+	                            for(var i=0;i<arr.length;i++){
+	                                html+='<img style="height:100px;margin-left:20px;" src="'+arr[i]+'">';
+	                            }
+	                            $("#owneridcardpic").html(html);
+	                        }
+// 	                        $("#legalidcardpic").html(hr.data.legalidcardpic);
+	                        if(hr.data.legalidcardpic!=null && hr.data.legalidcardpic!=""){
+	                            var arr = (hr.data.legalidcardpic).split(",");
+	                            var html="";
+	                            for(var i=0;i<arr.length;i++){
+	                                html+='<img style="height:100px;margin-left:20px;" src="'+arr[i]+'">';
+	                            }
+	                            $("#legalidcardpic").html(html);
+	                        }
+// 	                        $("#driverlicensepic").html(hr.data.driverlicensepic);
+	                        if(hr.data.driverlicensepic!=null && hr.data.driverlicensepic!=""){
+	                            var arr = (hr.data.driverlicensepic).split(",");
+	                            var html="";
+	                            for(var i=0;i<arr.length;i++){
+	                                html+='<img style="height:100px;margin-left:20px;" src="'+arr[i]+'">';
+	                            }
+	                            $("#driverlicensepic").html(html);
+	                        }
+// 	                        $("#drivinglicensepic").html(hr.data.drivinglicensepic);
+	                        if(hr.data.drivinglicensepic!=null && hr.data.drivinglicensepic!=""){
+	                            var arr = (hr.data.drivinglicensepic).split(",");
+	                            var html="";
+	                            for(var i=0;i<arr.length;i++){
+	                                html+='<img style="height:100px;margin-left:20px;" src="'+arr[i]+'">';
+	                            }
+	                            $("#drivinglicensepic").html(html);
+	                        }
+// 	                        $("#businesspic").html(hr.data.businesspic);
+	                        if(hr.data.businesspic!=null && hr.data.businesspic!=""){
+	                            var arr = (hr.data.businesspic).split(",");
+	                            var html="";
+	                            for(var i=0;i<arr.length;i++){
+	                                html+='<img style="height:100px;margin-left:20px;" src="${Session.BASE_URL}'+arr[i]+'">';
+	                            }
+	                            $("#businesspic").html(html);
+	                        }
+	                    	$("#oddnumber").html("单号："+hr.data.oddnumber);
+	                    }
+
+	                }
+	            })
+	        }
+	    });
+		
+		/* //监听删除按钮
+		layui.$('#del').on('click', function() {
+			var id = getQueryString("id");
+			layer.confirm('您确定要删除吗？', function (index) {
+                $.ajax({
+                    url: '${Session.BASE_URL}admin/v1/jinhuo/updateSelectiveByIdMaterial',
+                    data: {"id": id,
+                    		"status": -1 
+                    },
+                    success: function (hr) {
+                        if (hr.code == 'SUCCESS') {
+                            window.parent.layui.layer.msg("删除成功");//提示消息
+                            $("#del").html("已删除");
+                            $("#del").css("background-color","grey");
+                            $('#del').attr("disabled","disabled");
+                        } else{
+                        	 window.parent.layui.layer.msg("删除失败");//提示消息
+                        }
+                    }
+                })
+                layer.close(index); //关闭弹出层
+            });
+		}); */
+		
+		//监听打印按钮
+// 		layui.$('#printing').on('click', function() {
+			
+//             bdhtml =window.document.body.innerHTML;//获取当前页的html代码
+//             sprnstr = "<!--startprint" + oper + "-->";//设置打印开始区域
+//             eprnstr = "<!--endprint" + oper + "-->";//设置打印结束区域
+//             prnhtml =bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html
+//             prnhtml = prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
+//             window.document.body.innerHTML= prnhtml;
+//             window.print();
+//             window.document.body.innerHTML =bdhtml;
+// 		});
+		
+		
+		
+	});
+	
+		//监听打印按钮
+	   function preview(oper) {
+			$("#foot").html("禁货审批通行证");
+			document.getElementById("foot").style.marginTop="10%";
+			if(document.getElementById("qrcode")){
+				document.getElementById("qrcode").style.marginLeft="72%";
+			}else{
+				
+			}
+			document.getElementById("cen").style.marginLeft="11%";
+			document.getElementById("cen").style.marginTop="10%";
+			document.getElementById("tr1").style.visibility="hidden";
+			document.getElementById("tr2").style.visibility="hidden";
+			document.getElementById("tr3").style.visibility="hidden";
+			document.getElementById("tr4").style.visibility="hidden";
+			document.getElementById("tr5").style.visibility="hidden";
+			document.getElementById("currentlineTr").style.height="150px";
+			document.getElementById("currenttimeTr").style.height="150px";
+			
+            if(oper < 10) {
+                bdhtml =window.document.body.innerHTML;//获取当前页的html代码
+                sprnstr = "<!--startprint" + oper + "-->";//设置打印开始区域
+                eprnstr = "<!--endprint" + oper + "-->";//设置打印结束区域
+                prnhtml =bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html
+                prnhtml = prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
+                window.document.body.innerHTML= prnhtml;
+                window.print();
+                window.document.body.innerHTML =bdhtml;
+            }else{
+                window.print();
+            }
+			$("#foot").html("")
+			document.getElementById("cen").style.marginLeft="0";
+			document.getElementById("cen").style.marginTop="0";
+			document.getElementById("foot").style.marginTop="0";
+			document.getElementById("qrcode").style.marginLeft="348px";
+			document.getElementById("tr1").style.visibility="visible";
+			document.getElementById("tr2").style.visibility="visible";
+			document.getElementById("tr3").style.visibility="visible";
+			document.getElementById("tr4").style.visibility="visible";
+			document.getElementById("tr5").style.visibility="visible";
+			document.getElementById("currentlineTr").style.height="0";
+			document.getElementById("currenttimeTr").style.height="0";
+
+        }
+		
+	//返回按钮
+	function ret() {
+		window.location.href='${Session.BASE_URL}admin/v1/jhmanager'
+// 		window.history.back()
+	};
+	
+	//创建二维码对象
+	function qrCode(){
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+				width: 100,
+				height: 100,
+				correctLevel: 3
+			});
+		
+		return qrcode;
+	}
+	
+	//生成二维码
+	function makeCode(qrcode) {
+		id = getQueryString("id");
+           console.log( "id = " + id)
+           $("#text").val("https://open.weixin.qq.com/connect/oauth2/authorize?appid=ww4558a37848ad3641&redirect_uri=http://jszzkj.cn/jianhuzh/jinhuoFirst&response_type=code&scope=snsapi_userinfo&agentid=1000050&state="+id+"#wechat_redirect")
+
+		var elText = document.getElementById("text");
+
+		if(!elText.value) {
+			alert("Input a text");
+			elText.focus();
+			return;
+		}
+
+		qrcode.makeCode(elText.value);
+	}
+	
+	
+	
+		$("#text").
+		on("blur", function() {
+			makeCode();
+		}).
+		on("keydown", function(e) {
+			if(e.keyCode == 13) {
+				makeCode();
+			}
+		});
+	
+	
+</script>
+</html>

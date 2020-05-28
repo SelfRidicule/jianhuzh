@@ -1,0 +1,279 @@
+<!--
+  日期： 2019-08-22
+  作者： wjun   wjun@jszzkj.cn
+  文档：禁货审批 > 违法违规 > 添加
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>添加违法违规</title>
+<link rel="stylesheet" type="text/css"
+	href="${Session.BASE_URL}lying/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="${Session.BASE_URL}lying/css/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="${Session.BASE_URL}plugins/formSelects/formSelects-v4.css" />
+<style>
+body {
+	margin: 0;
+	padding: 30px 80px 20px 80px;
+	border: 0;
+	background-color: white;
+	overflow: hidden; /*隐藏右侧滚动条 */
+}
+
+/* .layui-btn-sm { */
+/* 	line-height: 38px; */
+/* 	height: 38px; */
+/* 	width: 80px; */
+/* 	color: white; */
+/* } */
+
+.layui-btn{
+	width: 100px;
+}
+</style>
+</head>
+<body>
+	<form class="layui-form" action="">
+		<div class="layui-form-item">
+			<label class="layui-form-label">车主号牌</label>
+			<div class="layui-input-block">
+				<div style="float: left;width: 44%;">
+<!-- 					<select id="carplateleft"> -->
+<!-- 						<option value="">赣</option> -->
+<!-- 						<option value="A">赣A</option> -->
+<!-- 						<option value="B">赣B</option> -->
+<!-- 						<option value="C">赣C</option> -->
+<!-- 						<option value="D">赣D</option> -->
+<!-- 						<option value="E">赣E</option> -->
+<!-- 						<option value="F">赣F</option> -->
+<!-- 						<option value="G" selected>赣G</option> -->
+<!-- 						<option value="H">赣H</option> -->
+<!-- 						<option value="J">赣J</option> -->
+<!-- 						<option value="K">赣K</option> -->
+<!-- 						<option value="L">赣L</option> -->
+<!-- 						<option value="M">赣M</option> -->
+<!-- 						<option value="0">赣O</option> -->
+<!-- 					</select> -->
+					<select
+                         xm-select="carplateleft"
+                         xm-select-skin="normal"
+                         xm-select-radio=""
+                         xm-select-search=""
+                         xm-select-show-count="1">
+                    	<option value="">赣</option>
+                	</select>
+				</div>
+				<div style="float: right; width: 56%;">
+					<input type="text" id="carplateright" autocomplete="off"
+						placeholder="请输入车牌号" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">车辆类型</label>
+			<div class="layui-input-block">
+<!-- 				<select id="carkind"> -->
+<!-- 					<option value="">请选择车辆种类</option> -->
+<!-- 					<option value="K31">小型普通客车</option> -->
+<!-- 					<option value="K32">小型越野客车</option> -->
+<!-- 					<option value="H32">轻型厢式货车</option> -->
+<!-- 					<option value="H22">中型厢式货车</option> -->
+<!-- 					<option value="K11">大型普通客车</option> -->
+<!-- 					<option value="H12">重型厢式货车</option> -->
+<!-- 				</select> -->
+					<select
+                         xm-select="carkind"
+                         xm-select-skin="normal"
+                         xm-select-radio=""
+                         xm-select-search=""
+                         xm-select-show-count="1">
+                    	<option value="">请选择车辆种类</option>
+                	</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话:</label>
+			<div class="layui-input-block">
+				<input id="driverphone" type="text" lay-verify="phone"
+					autocomplete="off" placeholder="请输入电话号码" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">驾驶人姓名</label>
+			<div class="layui-input-block">
+				<input id="cardriver" type="text" autocomplete="off"
+					placeholder="请输入驾驶人姓名" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">处罚原因</label>
+			<div class="layui-input-block">
+				<input id="whypunish" type="text" autocomplete="off"
+					placeholder="请输入处罚原因" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">处罚措施</label>
+			<div class="layui-input-block">
+				<input type="radio" name="howpunish" value="1" title="警告"> <input
+					type="radio" name="howpunish" value="2" title="罚款"> <input
+					type="radio" name="howpunish" value="3" title="拒绝审批" checked>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">处罚时效</label>
+			<div class="layui-input-block">
+<!-- 				<select id="punishtime"> -->
+<!-- 					<option value="">请选择时效</option> -->
+<!-- 					<option value="1" selected>1个月</option> -->
+<!-- 					<option value="2">2个月</option> -->
+<!-- 					<option value="3">3个月</option> -->
+<!-- 					<option value="4">4个月</option> -->
+<!-- 					<option value="5">5个月</option> -->
+<!-- 				</select> -->
+				<select xm-select="punishtime" 
+						xm-select-skin="normal"
+						xm-select-radio="" 
+						xm-select-search="" 
+						xm-select-show-count="1">
+					<option value="">请选择时效</option>
+				</select>
+			</div>
+		</div>
+	</form>
+	<div style="text-align:center;">
+		<button id="save" class="layui-btn layui-btn-normal" type="submit" style="width:150px;font-color:white;">
+		确定</button>
+	</div>
+</body>
+<script type="text/javascript" src="${Session.BASE_URL}lying/layui/layui.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}js/HZMN.js"></script>
+<script type="text/javascript" src="${Session.BASE_URL}plugins/formSelects/formSelects-v4.js"></script>
+<script type="text/javascript">
+	//监听表单
+	layui.use('form', function() {
+		var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+		//但是，如果你的HTML是动态生成的，自动渲染就会失效
+		//因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+		//form.render();
+		$ = layui.jquery;	
+		
+		var formSelects = layui.formSelects;
+        // 配置车主号牌区域下拉框
+        formSelects.btns('carplateleft', {show: 'name', space: '1px'});
+        formSelects.data('carplateleft', 'local', {
+            arr: [
+                {"name": "赣A", "value": "A"},
+                {"name": "赣B", "value": "B"},
+                {"name": "赣C", "value": "C"},
+                {"name": "赣D", "value": "D"},
+                {"name": "赣E", "value": "E"},
+                {"name": "赣F", "value": "F"},
+                {"name": "赣G", "value": "G"},
+                {"name": "赣H", "value": "H"},
+                {"name": "赣J", "value": "J"},
+                {"name": "赣K", "value": "K"},
+                {"name": "赣L", "value": "L"},
+                {"name": "赣M", "value": "M"},
+                {"name": "赣O", "value": "O"}
+            ]
+        });
+        
+        // 配置车辆类型下拉框
+      	formSelects.btns('carkind', {show: 'name', space: '10px'});
+       	formSelects.data('carkind', 'local', {
+         	arr: [
+                 {"name": "小型普通客车", "value": "K31"},
+                 {"name": "小型越野客车", "value": "K32"},
+                 {"name": "轻型厢式货车", "value": "H32"},
+                 {"name": "中型厢式货车", "value": "H22"},
+                 {"name": "大型普通客车", "value": "K11"},
+                 {"name": "重型厢式货车", "value": "H12"}
+             ]
+         });
+       	
+       	// 配置处罚时效下拉框
+       	formSelects.btns('punishtime', {show: 'name', space: '10px'});
+       	formSelects.data('punishtime', 'local', {
+         	arr: [
+         		{"name": "1个月", "value": "1"},
+                {"name": "2个月", "value": "2"},
+                {"name": "3个月", "value": "3"},
+                {"name": "4个月", "value": "4"},
+                {"name": "5个月", "value": "5"},
+                {"name": "6个月", "value": "6"},
+                {"name": "7个月", "value": "7"},
+                {"name": "8个月", "value": "8"}
+             ]
+         });
+
+       	
+		//监听确定按钮
+		layui.$('#save').on('click', function () {
+			//获取表单的值
+			var carplateleft = layui.formSelects.value('carplateleft', 'valStr');//车主号牌区域
+			var carplateright = $('#carplateright').val();//车主号牌数
+			var carplate = '赣' + carplateleft + carplateright;//车主号牌
+			var carkind = layui.formSelects.value('carkind', 'valStr');//车辆类型
+			var driverphone = $('#driverphone').val();//联系人电话
+			var cardriver = $('#cardriver').val();//驾驶人姓名
+			var whypunish = $('#whypunish').val();//处罚原因
+			var howpunish = $('input[name="howpunish"]:checked').val();//处罚措施
+			var punishtime = layui.formSelects.value('punishtime', 'valStr');//处罚时效
+			if (carplateleft == null || carplateleft == '') {
+	 			layer.msg('请选择车主号牌区域！');
+	 		    $("#carplateleft").focus();//获取焦点
+			} else if (carplateright == null || carplateright == '') {
+	 			layer.msg('请输入车牌号！');
+	 		    $("#carplateright").focus();
+			} else if (carkind == null || carkind == '') {
+	 			layer.msg('请选择车辆类型！');
+	 		    $("#carkind").focus();
+			} else if (driverphone == null || driverphone == '') {
+	 			layer.msg('请输入联系电话！');
+	 		    $("#driverphone").focus();
+			} else if (cardriver == null || cardriver == '') {
+	 			layer.msg('请输入驾驶人姓名！');
+	 		    $("#cardriver").focus();
+			} else if (whypunish == null || whypunish == '') {
+	 			layer.msg('请输入处罚原因！');
+	 		    $("#whypunish").focus();
+			} else if (howpunish == null || howpunish == '') {
+	 			layer.msg('请选择处罚措施！');
+	 		    $("#howpunish").focus();
+			} else if (punishtime == null || punishtime == '') {
+	 			layer.msg('请选择处罚时效！');
+	 		    $("#punishtime").focus();
+			} else {
+				//添加违法违规
+				$.ajax({
+			    	url : '${Session.BASE_URL}admin/v1/jinhuo/addJhviolaterolet',
+			        type : 'POST',
+			        dataType : 'JSON',
+			        data : {
+			        	'carplate' : carplate,
+			        	'carkind' : carkind,
+			        	'driverphone' : driverphone,
+			        	'cardriver' : cardriver,
+			        	'whypunish' : whypunish,
+			        	'howpunish' : howpunish,
+			        	'punishtime' : punishtime
+			     	},
+			        success : function(result) {
+			        	if (result.code == "SUCCESS") {
+			            	window.location.href = "${Session.BASE_URL}admin/v1/jhviolaterole";
+			            } else {
+			              	layer.msg(result.msg);
+			            }
+			      	}
+			 	});
+			}
+        });
+	 
+	});
+</script>
+</html>

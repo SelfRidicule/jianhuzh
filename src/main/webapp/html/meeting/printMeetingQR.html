@@ -1,0 +1,83 @@
+<!--
+  日期： 2018年12月14日
+  作者： zz   zhz@jszzkj.cn
+  文档： 打印会议二维码
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title>会议详情</title>
+    <link rel="stylesheet" type="text/css" href="../../lying/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lying/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/HZMN.css"/>
+    <style>
+      body {
+        text-align: center;
+      }
+      #code {
+        height: 400px;
+        width: 400px;
+        margin: 0 auto;
+      }
+      button {
+        padding: 0 40px;
+        margin: auto;
+        margin-top: 16px;
+        display: none;
+      }
+
+      /*打印样式*/
+      @media print {
+        /*打印时不可见*/
+        .no-print,
+        .no-print * {
+          display: none !important;
+        }
+        /*#code,*/
+        /*#code img {*/
+          /*height: 600px;*/
+          /*width: 600px;*/
+        /*}*/
+      }
+    </style>
+  </head>
+  <body>
+    <div id="code"></div>
+    <button class="layui-btn layui-btn-normal no-print" onclick="window.print()">
+      打印
+    </button>
+  </body>
+  <script type="text/javascript" src="../../lying/layui/layui.js"></script>
+  <script type="text/javascript" src="../../js/HZMN.js"></script>
+  <script type="text/javascript" src="../../js/qrcode.min.js"></script>
+  <script>
+    "use strict";
+
+    document.getElementById("code").innerHTML = "加载中...";
+
+    layui.use("table", function() {
+      const $ = layui.jquery;
+
+      const qrUrl = layui.data('printQR').url;
+      console.log(qrUrl);
+
+      if (qrUrl) {
+        document.getElementById("code").innerHTML = "";
+        const printBtn = $("button"),
+          qrcode = new QRCode(document.getElementById("code"), {
+            width: 400,
+            height: 400,
+            correctLevel: 3
+          });
+        qrcode.makeCode(qrUrl);
+        printBtn.show();
+        //清除数据
+        layui.data('printQR', null);
+      } else {
+        document.getElementById("code").innerHTML = "暂无数据";
+      }
+    });
+  </script>
+</html>

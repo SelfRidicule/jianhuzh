@@ -1,0 +1,666 @@
+/*
+更新日期：2018年12月12日
+作者：zz
+ */
+
+/* 给可点击区域鼠标提示-小手 */
+a,
+*[lau-href],
+*[lau-event] {
+    cursor: pointer;
+}
+
+/* 后台logo */
+/* .layui-header {
+    height: 90px;
+} */
+
+/* .layui-layout-admin .layui-side, .layui-layout-admin .layui-body {
+    top: 90px;
+} */
+
+.layui-logo img {
+}
+
+
+
+/*左侧菜单*/
+
+.layui-layout-admin .layui-side {
+    /*top: 76px;*/
+    /*width: 220px;*/
+    /*border-right: 1px solid #2a2f32;*/
+}
+
+
+
+/*.lau-nav-child dd .lau-nav-header{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}*/
+
+
+/*三级菜单 end*/
+
+
+
+.layui-side .lau-nav-item .lau-nav-child a:hover {
+    /*background-color: rgba(255,255,255,0.2);*/
+}
+
+
+
+/*内容主体*/
+.layui-layout-admin .layui-body {
+    /*top: 76px;*/
+    /* bottom: 0; */
+    /*left: 220px;*/
+    /* background-color: #292b37; */
+    /* overflow: hidden; */
+}
+
+
+/*选项卡控制菜单*/
+.layui-body .lau-tabs-ctrl {
+    /*background-color: #fff;*/
+}
+.layui-body .lau-tabs-ctrl.layui-icon-prev, .layui-body .lau-tabs-ctrl.layui-icon-next, .layui-body .lau-tabs-ctrl.layui-icon-refresh-3, .layui-body .lau-tabs-ctrl.layui-icon-down{
+
+}
+
+.layui-body .lau-tabs-ctrl:hover {
+}
+
+.layui-body .lau-tabs-ctrl.layui-icon-prev {
+}
+
+.layui-body .lau-tabs-ctrl.layui-icon-next {
+}
+
+.layui-body .lau-tabs-ctrl.layui-icon-refresh-3 {
+}
+
+.layui-body .lau-tabs-ctrl.layui-icon-down {
+}
+
+/* lau-tabs-more未知作用 */
+.layui-body .lau-tabs-more.layui-nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: none;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-item {
+    line-height: 40px;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-item > a {
+    height: 40px;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-item a {
+    color: #666;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-child {
+    top: 40px;
+    left: auto;
+    right: 0;
+    border-radius: 0;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-child dd.layui-this, .layui-body .lau-tabs-more.layui-nav .layui-nav-child dd.layui-this a {
+    /* background-color: #f2f2f2 !important; */
+    /* 调式元素 */
+    background-color: orange !important;
+    color: #333;
+}
+
+.layui-body .lau-tabs-more.layui-nav .layui-nav-more, .layui-body .lau-tabs-more.layui-nav .layui-nav-bar {
+    display: none;
+}
+
+/*重置选项卡导航条样式*/
+
+
+.layui-body .layui-tab[overflow] > .layui-tab-title {
+}
+
+.layui-body .layui-tab-title li:first-child i.layui-tab-close {
+}
+
+.layui-body .layui-tab-title li {
+}
+
+.layui-body .layui-tab-title li:after {
+    /* color: #FFFFFF; */
+}
+
+.layui-body .layui-tab-title li i:first-child {
+}
+
+.layui-body .layui-tab-brief[overflow] > .layui-tab-title .layui-this:after {
+    /* top: 0; */
+}
+
+.layui-body .layui-tab-title li.layui-this:after {
+}
+
+.layui-body .layui-tab-brief > .layui-tab-title .layui-this {
+}
+
+.layui-tab-brief > .layui-tab-more li.layui-this::after, .layui-tab-brief > .layui-tab-title .layui-this::after{
+
+}
+
+/*选项卡内容样式*/
+.layui-body .layui-tab .layui-tab-content {
+}
+
+.layui-body .layui-tab .layui-tab-item {
+}
+
+.layui-body iframe {
+}
+
+/*抽屉*/
+@-webkit-keyframes layui-rl {
+    from {
+        -webkit-transform: translate3d(100%, 0, 0);
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes layui-rl {
+    from {
+        transform: translate3d(100%, 0, 0);
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.layui-anim-rl {
+    -webkit-animation-name: layui-rl;
+    animation-name: layui-rl;
+}
+
+@-webkit-keyframes layui-lr {
+    from {
+        -webkit-transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes layui-lr {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.layui-anim-lr {
+    -webkit-animation-name: layui-lr;
+    animation-name: layui-lr;
+}
+
+.layui-anim-rl.layer-anim-close {
+    -webkit-animation-name: layui-lr;
+    animation-name: layui-lr;
+}
+
+.lau-drawer {
+    top: 50px !important;
+    bottom: 0;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .1);
+    border-radius: 0 !important;
+    overflow: auto;
+}
+
+
+
+
+
+/************************************
+ *  日期：2018年11月14日
+ *  作者：zz
+ *  目的：重构，整理出配色部分
+ *********************************
+ */
+
+/* 样式重置 */
+
+/* 结构定位 */
+.layui-header {
+    height: 90px;
+}
+.layui-layout-admin .layui-side,
+.layui-layout-admin .layui-body {
+    top: 90px;
+    overflow: hidden;
+}
+.layui-layout-admin .layui-side {
+    padding-top: 41px;
+}
+.layui-side-scroll {
+    width: 260px;
+}
+.layui-layout-admin .layui-side,
+.layui-nav-tree {
+    width: 240px;
+}
+.lau-side-fold {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 41px;
+    line-height: 40px;
+}
+.layui-layout-admin .layui-body {
+    left: 240px;
+    bottom: 0;
+}
+
+
+/* 细节结构 */
+.layui-logo img {
+    margin: 15px 16px;
+    width: 300px;
+    height: 60px;
+}
+/* header用户菜单 */
+.layui-header .layui-nav {
+    padding-top: 15px;
+}
+.layui-header .layui-nav * {
+    font-size: 16px;
+}
+.layui-header .layui-nav .layui-nav-item {
+    line-height: 75px;
+    margin-left: 16px;
+}
+.layui-header .layui-nav .layui-nav-item.user a {
+    margin-right: 10px;
+}
+.layui-header .layui-nav .layui-nav-child {
+    top: auto
+}
+.layui-header .layui-nav-img {
+    height: 45px;
+    width: 45px;
+    margin-right: auto;
+}
+/* 菜单高度 */
+.layui-nav-tree .lau-nav-item a, .layui-nav-tree .lau-nav-child a {
+    height: 40px;
+    line-height: 40px
+}
+
+/* 左侧一级菜单 */
+.lau-nav-header {
+    padding: 10px 0;
+}
+/* 左侧二级菜单 */
+dd a {
+    padding-left: 20px;
+}
+/* 选项卡tabs */
+.layui-body .lau-tabs-ctrl {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    z-index: 19921216;
+}
+
+
+/* 其他样式 */
+/* logo未能加载时的替换文字样式 */
+.layui-logo img {
+    text-align: left;
+    font-size: 24px;
+    color: #eeeeee;
+}
+/* 左侧菜单 样式重置*/
+.layui-layout-admin .layui-side, .layui-nav-tree {
+    border-radius: 0;
+}
+.layui-nav.layui-nav-tree{
+    background: none;
+}
+/* 折叠按钮 */
+.lau-side-fold {
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+/*  */
+.layui-side-scroll a {
+    position: relative;
+    /*height: 40px;*/
+    /*line-height: 60px;*/
+    display: block;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+.layui-side-scroll i {
+    font-size: 20px;
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+/* 多级菜单倒三角图标 */
+.layui-side-scroll i:nth-of-type(2) {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid dashed dashed;
+    border-color: #fff transparent transparent;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    position: absolute;
+    top: 50%;
+    right: 3px;
+    margin-top: -3px;
+    margin-right: 10px;
+    border-width: 6px;
+    border-top-color: rgba(255, 255, 255, .7);
+}
+/* 二级菜单*/
+.layui-side .lau-nav-item .lau-nav-child {
+    /* overflow: hidden; */
+}
+.layui-side .lau-nav-item .lau-nav-child a {
+    height: 0;
+}
+.layui-side .lau-nav-item.lau-open .lau-nav-child a {
+    height: 40px;
+}
+
+/*三级菜单 start*/
+.layui-side .lau-nav-item .lau-nav-child dd .lau-nav-child {
+    /* overflow: hidden; */
+}
+.layui-side .lau-nav-item .lau-nav-child dd .lau-nav-child a {
+    padding-left: 30px;
+    height: 0;
+}
+.layui-side .lau-nav-item.lau-open .lau-nav-child .lau-open .lau-nav-child a {
+    height: 40px;
+}
+/* 选项卡tabs */
+.layui-body .lau-tabs-ctrl {
+    cursor: pointer;
+    text-align: center;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-prev {
+    left: 0;
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-next {
+    right: 80px;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-refresh-3 {
+    right: 40px;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-down {
+    right: 0;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-next,
+.layui-body .lau-tabs-ctrl.layui-icon-refresh-3,
+.layui-body .lau-tabs-ctrl.layui-icon-down {
+    border-left-width: 1px;
+    border-left-style: solid;
+}
+/* 选项卡tabs导航条样式 */
+.layui-body .layui-tab {
+    margin: 0;
+}
+.layui-body .layui-tab-bar {
+    display: none;
+}
+.layui-body .layui-tab-title {
+    margin: 0 120px 0 40px;
+}
+.layui-body .layui-tab[overflow] > .layui-tab-title {
+    overflow: visible;
+}
+.layui-body .layui-tab-title li:first-child i.layui-tab-close {
+    display: none;
+}
+.layui-body .layui-tab-title li {
+    height: 40px;
+}
+/* 选项卡tab下边框动画 */
+.layui-body .layui-tab-title li:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 41px;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+.layui-body .layui-tab-title li i:first-child {
+    font-size: 16px;
+    margin-right: 8px;
+}
+.layui-body .layui-tab-title li.layui-this:after {
+    width: 100%;
+}
+/* 内容主体 */
+.layui-body .layui-tab .layui-tab-content {
+    padding: 0;
+}
+.layui-body .layui-tab .layui-tab-item {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 41px;
+    bottom: 0;
+}
+.layui-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+/************************
+ *
+ *      主题配色
+ *
+ ************************/
+/* header*/
+.layui-layout-admin .layui-header {
+    background-color: #16171c;
+}
+/* 用户选项bar */
+.layui-nav-tree .layui-nav-bar {
+    background-color: #438fd5;
+}
+/* 左侧菜单bar */
+.layui-header .layui-nav-bar {
+    background-color: #438fd5;
+}
+/* 左侧菜单 */
+.layui-layout-admin .layui-side {
+    background-color: #1d1e25;
+}
+.lau-side-fold {
+    border-bottom: 1px solid #0c0d0f;
+    border-right: 1px solid #0c0d0f;
+    background-color: #292b37;
+}
+.lau-side-fold i {
+    color: #dddddd;
+}
+.layui-side-scroll a {
+    color: #dddddd;
+}
+.layui-side-scroll a:hover {
+    color: #ffffff;
+}
+/* 二级菜单*/
+.layui-side .lau-nav-item .lau-nav-child {
+    background-color: #16181d;
+}
+.layui-side .lau-nav-item .lau-nav-child a:hover {
+    color: #ffffff;
+}
+/*三级菜单*/
+.layui-side .lau-nav-item .lau-nav-child dd .lau-nav-child {
+    background-color: #0c0d0f;
+}
+/* 菜单 被选中 */
+.nav-select {
+    color: #ffffff !important;
+    background-color: #292b37;
+}
+.layui-body {
+    /*background-color: #292b37;*/
+}
+/* tabs条 */
+.layui-body .lau-tabs-ctrl {
+    border-bottom: 1px solid #0c0d0f;
+    color: #ffffff;
+}
+.layui-body .lau-tabs-ctrl.layui-icon-prev,
+.layui-body .lau-tabs-ctrl.layui-icon-next,
+.layui-body .lau-tabs-ctrl.layui-icon-refresh-3,
+.layui-body .lau-tabs-ctrl.layui-icon-down{
+    border-color: #0c0d0f;
+    background-color: #292b37;
+}
+.layui-body .lau-tabs-ctrl:hover {
+    background-color: #265576 !important;
+}
+.layui-body .layui-tab-title {
+    border-bottom: 1px solid #0c0d0f;
+    background-color: #292b37;
+}
+.layui-body .layui-tab-title li {
+    color: #cccccc;
+    border-bottom: 1px solid #0c0d0f;
+}
+/* 选项卡 */
+.layui-body .layui-tab-title li:after {
+    border-bottom: 1px solid #438fd5;
+}
+/* 选项卡激活 */
+/* .layui-tab-brief > .layui-tab-more li.layui-this::after,  */
+.layui-tab-brief > .layui-tab-title .layui-this::after{
+    border-color: #438fd5;
+}
+.layui-body .layui-tab-brief > .layui-tab-title .layui-this {
+    background-color: #265576;
+    color: #ffffff;
+}
+
+
+
+
+/* 动画 */
+/* 折叠按钮 */
+.lau-side-fold i {
+    /*display: inline-block;*/
+    transition: transform 0.2s;
+    -webkit-transition: transform 0.2s;
+}
+/* 菜单缩进 */
+.layui-side-scroll,.layui-side-scroll ul {
+    transition: width 0.2s;
+    -webkit-transition: width 0.2s;
+}
+.layui-side-scroll a {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.layui-side-scroll i {
+    transition: transform 0.3s;
+    -webkit-transition: transform 0.3s;
+}
+/*菜单*/
+.layui-layout-admin .layui-side {
+    transition: width 0.2s;
+    -webkit-transition: width 0.2s;
+}
+/*二级菜单*/
+.layui-side .lau-nav-item .lau-nav-child a {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+/*三级菜单*/
+.layui-side .lau-nav-item .lau-nav-child dd .lau-nav-child a {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+
+/* 多级菜单图标旋转 */
+.layui-side .lau-nav-item.lau-open .lau-nav-header i,
+.lau-nav-child .lau-open .lau-nav-header2 i {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+.layui-side .lau-nav-item.lau-open .lau-nav-header i:nth-of-type(2),
+.lau-nav-child .lau-open .lau-nav-header2 i:nth-of-type(2) {
+    margin-top: -9px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+/* 菜单缩进样式覆盖 */
+.lau-mini .layui-side-scroll .layui-nav-tree .lau-nav-item .lau-nav-header i:nth-of-type(2) {
+    display: none;
+}
+.lau-mini .layui-side-scroll .layui-nav-tree .lau-nav-item .lau-nav-child dd a {
+    padding-left: 0;
+}
+.lau-mini .layui-side-scroll .layui-nav-tree .lau-nav-item .lau-nav-header2 i:nth-of-type(2) {
+    display: none;
+}
+.layui-side.lau-mini {
+    width: 50px;
+}
+.layui-side.lau-mini .layui-side-scroll {
+    width: 70px;
+}
+.layui-side.lau-mini .layui-side-scroll .layui-nav-tree {
+    width: 50px;
+}
+.layui-side.lau-mini + .layui-body {
+    left: 50px;
+}
+.layui-side.lau-mini .lau-side-fold i {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+/*  内容主体 */
+.layui-layout-admin .layui-body {
+    -webkit-transition: left 0.2s;
+    transition: left 0.2s;
+}
+/* 选项卡tabs */
+.layui-body .lau-tabs-ctrl,
+.layui-body .layui-tab-title li:after {
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}

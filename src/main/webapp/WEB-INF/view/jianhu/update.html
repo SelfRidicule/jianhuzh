@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		body{
+			background: url("${Session.BASE_URL}img/newAdd.png");
+			background-position: top;
+			/* 背景图不平铺 */
+			background-repeat: no-repeat;
+			/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+			background-attachment: fixed;
+			/*此条属性必须设置否则可能无效*/
+			/* 让背景图基于容器大小伸缩 */
+			background-size: auto;
+			background-color: rgb(255,255,255,0);
+			text-align: center;
+		}
+		#head{
+			margin-left: -5.3%;
+    		margin-top: 2.9%;
+    		color: #2F6188;
+    		font-weight: bold;
+		}
+		#cen div{
+			margin: 15px;
+		}
+		#cen input{
+			background-color: rgb(21,40,72);
+			border: 1px solid #4C99C2;
+			color: #FFF;
+		}
+		#save , #colse{
+			/*background-color: #031D3B;*/
+			color: #52A5C8;
+			border: 1px solid #52A5C8;
+			width: 70px;
+			height: 30px;
+			background:linear-gradient(-45deg,transparent 15px, #031D3B 0) bottom right,
+						linear-gradient(45deg,transparent 15px, #031D3B 0) bottom left,
+						linear-gradient(135deg,transparent 15px, #031D3B 0) top left,
+						linear-gradient(-135deg,transparent 15px,#031D3B 0) top right;
+			background-size: 100% 51%;
+			background-repeat: no-repeat;			
+		}
+		input{
+			width: 157px;
+			height: 16px;
+			font-size: 13px;
+			padding: 3px 8px;
+		}
+	</style>
+	<body>
+		<div id="head">
+			新增信息
+		</div>
+		<div id="cen" style="color: #fff;">
+			<div>派出所名称：<input id="name" type="text"/></div>
+			<div>派出所代码：<input id="code" type="text"/></div>
+			<div>派出所简称：<input id="aliasname" type="text"/></div>
+			<div> &nbsp;&nbsp;&nbsp;登录账号：<input id="account" type="text"/></div>
+			<div> &nbsp;&nbsp;&nbsp;登录密码：<input id="password" type="text"/></div>
+			<div>
+				<button id="save">保存</button>
+				<button id="colse">关闭</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+	<script type="text/javascript" src="${Session.BASE_URL}layer/layer.js"></script>
+	<script type="text/javascript" src="${Session.BASE_URL}/lying/layui/layui.js" ></script>
+	<script>
+		window.onload=function(){
+			list();
+		}
+
+		var id = "${id}";
+		console.log(id);
+
+		function list(){
+			$.ajax({
+				url: '${Session.BASE_URL}station/queryId',
+				type:'GET', //GET
+				dataType:'json',
+				data:{id:id},
+				success:function (result) {
+						$("#name").val(result.data.name);
+						$("#code").val(result.data.code);
+						$("#aliasname").val(result.data.aliasname);
+						$("#account").val(result.data.account);
+						$("#password").val(result.data.password);
+				}
+			})
+		}
+		
+		$("#save").click(function () {
+			var name = $("#name").val();
+			var code = $("#code").val();
+			var aliasname = $("#aliasname").val();
+			var account = $("#account").val();
+			var password = $("#password").val();
+			var data = {
+				id:id,
+				name:name,
+				code:code,
+				aliasname:aliasname,
+				account:account,
+				password:password
+			};
+			$.ajax({
+				url: '${Session.BASE_URL}station/update',
+				type:'GET', //GET
+				dataType:'json',
+				data:data,
+				success:function (result) {
+
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+					window.parent.location.reload();
+
+				}
+			})
+		})
+
+		$("#colse").click(function(){
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		})
+	</script>
+</html>

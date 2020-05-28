@@ -1,0 +1,137 @@
+<!--
+	作者：周心昕
+	时间：2019-11-12
+	描述：城管验收邀请通知列表
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="${Session.BASE_URL}css/mui.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+</head>
+<style type="text/css">
+    body , .mui-content{
+        background-color: #308ae6;
+        height: 100%;
+    }
+    .welcome{
+        margin-top: 15%;
+        color: #59a1eb;
+        font-size: 50px;
+    }
+    .spxt{
+        margin-top: 15%;
+        font-size: 20px;
+        color: #fff;
+    }
+    #sp , #sk ,#tz{
+        text-align: center;
+        background-color: #cce6ff;
+        height: 100px;
+        width: 70%;
+        margin: 30px;
+        border-radius: 5px 5px 5px 5px;
+        color:#3067e5 ;
+        margin-left: 15%;
+        font-size: 30px;
+    }
+    #cent{
+        margin-top: 15%
+    }
+</style>
+<body>
+<div class="mui-content">
+    <div style="margin-top: 20%;text-align: center;height: 30%">
+        <div class="welcome">欢迎进入</div>
+        <div class="spxt">占 道 挖 掘 审 批 管 理 系 统</div>
+    </div>
+
+    <div id="cent" style="text-align: center;">
+        <div id="sp" onclick="sp();">
+            <div style="padding-top: 40px">审批管理</div>
+        </div>
+        <div id="sk" onclick="sk();">
+            <div style="padding-top: 40px">实勘通知</div>
+        </div>
+        <div id="tz" onclick="ys();">
+            <div style="padding-top: 40px">验收通知</div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="${Session.BASE_URL}js/mui.min.js"></script>
+<script src="${Session.BASE_URL}js/mui.pullToRefresh.js"></script>
+<script src="${Session.BASE_URL}js/mui.pullToRefresh.material.js"></script>
+<script type="text/javascript">
+
+   var roleper = ${user.roleper}
+
+   window.onload = function() {
+     console.log("onload : " + roleper)
+      if(roleper != 3){
+        document.getElementById("tz").style.display= 'none' ;
+      }
+   }
+
+
+    function sp(){
+
+        var url = '';
+
+        //交管
+        if(roleper == 2){
+          url = '${Session.BASE_URL}api/v1/jgsqgllist';
+
+        //城管
+        }else if(roleper == 3){
+          url = '${Session.BASE_URL}api/v1/cgsqgllist';
+        }
+
+        mui.openWindow({
+            url : url
+        });
+    }
+
+    function sk(){
+
+
+      var url = '';
+
+      //交管
+      if(roleper == 2){
+        url = '${Session.BASE_URL}/api/v1/jgsklist';
+
+        //城管
+      }else if(roleper == 3){
+        url = '${Session.BASE_URL}/api/v1/cgsklist';
+      }
+
+      mui.openWindow({
+        url : url
+      });
+
+    }
+
+
+    function ys(){
+
+      var url = '';
+
+        //城管
+      if(roleper == 3){
+        url = '${Session.BASE_URL}/api/v1/cgyslist';
+      }
+
+      mui.openWindow({
+        url : url
+      });
+
+    }
+
+
+</script>
+</html>

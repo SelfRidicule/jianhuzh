@@ -1,0 +1,184 @@
+body{
+	background-color: #fff;
+	margin: 0px;
+}
+.details-active{
+	display: flex;
+	border-bottom: 1px solid #f0edf1;
+	padding: 10px;
+	font-size: 14px;
+}
+.details-active-top{
+	width: 45%
+}
+#wjmj{
+	border-bottom:1px solid #d5d5d5;
+}
+.details-active-but{
+	text-align: right;
+	color: #959595;
+	width: 50%
+}
+.showfile{
+	width: 100%;
+	/* height: 110px; */
+	border: 1px dashed #c9c9c9;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.showfile img{
+
+	width: 100%;
+}
+
+.mui-content{
+	background-color: #fff;
+}
+#wjmj input{
+	font-size: 15px;
+	background-color: #EEEEEE;
+	border-bottom: 1px solid #000;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	width: 30px;
+}
+#jbxx  input{
+	font-size: 15px;
+	background-color: #ffffff;
+	border-bottom: 0px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	/*width: 30px;*/
+}
+#construcendtime ,#construcstarttime{
+	font-size: 15px;
+	background-color: #ffffff;
+	border-bottom: 0px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+.mui-h5{
+    margin:auto;
+    margin-left:185px ;
+    background-color:#eee;
+    font-size: 14px;
+    color: #999999;
+    width: 120px;
+}
+#construcstarttime , #construcendtime{
+	background-color: #FFFFFF;
+	width: 80px;
+}
+#construcstarttime{
+	margin-left: 70px;
+}
+#top{
+	text-align: center;
+	margin-top: 5px;
+	
+}
+#sliderSegmentControl{
+	font-size: 12px;
+	
+}
+
+/*上报材料css*/
+.mui-content{
+	background-color: #fff;
+}
+label{
+	font-size: 13px;
+}
+.mui-h5{
+    margin:auto;
+    margin-left:155px ;
+    background-color:#eee;
+    font-size: 14px;
+    color: #999999;
+    width: 120px;
+}
+.mui-h5 select option{
+	font-size: 15px;
+}
+#startTime , #endTime{
+	background-color: #FFFFFF;
+	width: 85px;
+}
+#startTime{
+	margin-left: 80px;
+}
+#wjmj{
+	font-size: 15px;
+}
+
+
+/*邀请实勘css*/
+#yqsk1{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 260px;
+}
+#yqsk2{
+	font-size: 13px;	
+	background-color: #fff;
+}
+#reject{
+	font-size:15px ;
+}
+#yqsk3{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 260px;
+}
+/*.mui-content{
+	margin: 0 15px;
+}*/
+
+
+/*领证施工css*/
+.mui-content{
+	background-color: #fff;
+}
+#lzsg{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin: 210px 15px 0 15px;
+	
+}
+
+/*邀请验收css*/
+#yqys{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 260px;
+}
+#yqys2{
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 260px;
+}
+
+/*.bg-color-white{
+	height: 95px;
+	width:100%;
+	padding:30px 15px 15px 15px;
+	margin-top: 180px;
+}*/
+
+/*施工完成css*/
+#sgwc ,#statusa2 ,#statusa3,#statusa4 {
+	background-color: #fff;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 220px;
+}

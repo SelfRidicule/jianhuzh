@@ -1,0 +1,263 @@
+<!--
+	作者：周心昕
+	时间：2019-11-12
+	描述：城管申请管理
+-->
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>占道挖掘审批管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="${Session.BASE_URL}css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="${Session.BASE_URL}css/public-jinhuo.css" />
+    <script type="text/javascript" src="${Session.BASE_URL}js/jquery-2.1.0.js" ></script>
+</head>
+<style>
+    .mui-card-content,.mui-card-footer {
+        position: relative;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        padding: 10px 15px;
+        -webkit-box-pack: justify;
+        /*居右*/
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        /*相对居容器上*/
+        -webkit-align-items:stretch;
+        align-items: stretch
+    }
+
+    /*内容主体底部预留高度*/
+    .mycontent {
+        top: 0;
+        bottom: 0px;
+        position: absolute;
+        width: 100%;
+        overflow: auto;
+    }
+
+    * { touch-action: pan-y; }/*  解决移动端点击事件延迟 */
+    .mui-card p {
+        font-size: 13px;
+        margin-bottom: 0;
+        color: #333333;
+    }
+    .mui-col-xs-4{
+        width: 50%;
+    }
+</style>
+
+<body>
+
+<!--标题-->
+<header class="mui-bar mui-bar-nav bg-color-white">
+    <a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+    <h1 class="mui-title">申请管理</h1>
+</header>
+
+<div class="mui-content mycontent">
+
+    <div class="mui-slider mui-fullscreen">
+
+        <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+        <div class="mui-slider-group">
+            <div id="itemmobile1" class="mui-slider-item mui-control-content mui-active" style="border: 0;">
+                <div class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <div id="scroll1"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+
+<script src="${Session.BASE_URL}js/mui.min.js"></script>
+<script src="${Session.BASE_URL}js/mui.pullToRefresh.js"></script>
+<script src="${Session.BASE_URL}js/mui.pullToRefresh.material.js"></script>
+<script type="text/javascript">
+    var pageNo_1 = 1;
+    var pageNo_2 = 1;
+    var pageSize = 10;
+
+    function formatDate(date) {
+        var now = new Date(date);
+        var year = now.getFullYear();  //取得4位数的年份
+        var month = now.getMonth() + 1;  //取得日期中的月份，其中0表示1月，11表示12月
+        var date = now.getDate();      //返回日期月份中的天数（1到31）
+        // var hour = now.getHours();     //返回日期中的小时数（0到23）
+        // var minute = now.getMinutes(); //返回日期中的分钟数（0到59）
+        // var second = now.getSeconds(); //返回日期中的秒数（0到59）
+        return year + "-" + month + "-" + date;
+    }
+
+    mui.init({
+        swipeBack: false
+    });
+
+    (function($) {
+        $('.mui-scroll-wrapper').scroll({
+            indicators: true //是否显示滚动条
+        });
+
+        $.ready(function() {
+            //循环初始化所有下拉刷新，上拉加载。
+            $.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+                $(pullRefreshEl).pullToRefresh({
+                    up: {
+                        auto: true,//可选,默认false.首次加载自动上拉刷新一次
+                        contentinit:'',
+                        contentdown:'',
+                        contentrefresh : "",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+                        contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                        callback: function() {
+                            var self = this;
+                            setTimeout(function() {
+                                //var ul = self.element.querySelector('.mui-table-view');
+                                if(index==0){
+                                    loadList(self,1);
+                                }
+                                //ul.appendChild(createFragment(ul, index, 5));
+                                //self.endPullUpToRefresh();
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+        });
+
+    })(mui);
+
+    function loadList(self,type){
+        var data={};
+        var id="";
+        if(type==1){
+            data ={
+                pageNum:pageNo_1,
+                pageSize:pageSize,
+                type:type
+            }
+            pageNo_1=pageNo_1+1;
+            id="scroll1";
+        }
+
+
+
+        $.ajax({
+            url:'${Session.BASE_URL}process/mobileTrafficOrManageDataList',
+            type:'GET', //GET
+            dataType:'json',
+            data:data,
+            success:function(result) {
+                if (result.code == "SUCCESS") {
+                    var div = document.getElementById(id);
+                    div.appendChild(createFragment(result, type));
+
+                    $("." + id).html(result.count);
+
+                    if (result.data.length > 0) {
+                        self.endPullUpToRefresh(false);
+                    } else {
+                        self.endPullUpToRefresh(true);
+                    }
+
+                }
+                else if(result.code == "ERROR"){
+                    mui.alert('您无权限访问');
+                }
+            }
+        })
+    }
+
+    function createFragment(hr,type){
+        var fragment = document.createDocumentFragment();
+        var div;
+        var list = hr.data;
+        for (var i=0;i<list.length;i++){
+            div = document.createElement('div');
+            div.className = 'mui-card';
+            var styles="";
+            if(type==1){
+                if(list[i].status==3 || list[i].status==5){
+                    styles="badges-state-two";
+                }else{
+                    styles="badges-state-one";
+                }
+            }else{
+                styles="badges-state-three";
+            }
+            var badge = '<a class="mui-badge badges-state '+styles+'" data-status="'+list[i].status+'">'+list[i].statusContent+'</a>';
+            div.innerHTML = '<input value='+list[i].id+' id="id" hidden>'+'<div class="mui-card-header"><div><span class="mui-pull-left">申请时间&nbsp;&nbsp;&nbsp;</span>'+
+                '<p class="mui-pull-left">'+formatDate(list[i].createtime)+'</p></div>'+badge+'</div>'+
+                '<div class="mui-card-footer"><div><div><span class="mui-pull-left">施工地点：</span>'+
+                '<p class="mui-pull-left">'+list[i].address+'</p></div><div><span class="mui-pull-left">申请单位：</span>'+
+                '<p class="mui-pull-left">'+list[i].applyunit+'</p></div></div></div>';
+            fragment.appendChild(div);
+        }
+        return fragment;
+    }
+
+    $(function() {
+        $('#scroll1').on("click",".mui-card",function(e){
+            var id = $(this).children('input').val();
+            var info = $(this).children('div:eq(0)').children('a').attr("data-status");
+            console.log(info)
+            if(info==1){
+                mui.openWindow({
+                    url: '${Session.BASE_URL}api/v1/cgcs?id='+id
+                });
+            }else if(info==2){
+                mui.openWindow({
+
+                });
+            }else if(info==3){
+                mui.openWindow({
+                    //url: '/jianhuzh/api/v1/jgspsecond?id='+id
+                });
+            }else if(info==4){
+                mui.openWindow({
+                    //url: '/jianhuzh/api/v1/jgspwaiting?id='+id
+                });
+            }else if(info==5){
+                mui.openWindow({
+//					url: '/jianhuzh/api/v1/cgsppass?id='+id
+                });
+            }
+        });
+
+        $('#scroll2').on("click",".mui-card",function(e){
+            var id = $(this).children('input:eq(0)').val();
+            mui.openWindow({
+//				url: '/jianhuzh/api/v1/cgspdetail?id='+id
+            });
+        });
+    });
+
+
+
+    $(function(){
+        pushHistory();
+        window.addEventListener("popstate", function(e) {
+            window.location = '${Session.BASE_URL}api/v1/welcome'
+        }, false);
+        function pushHistory() {
+            var state = {
+                title: "title",
+                url: '${Session.BASE_URL}api/v1/welcome'
+            };
+            window.history.pushState(state, "title", '${Session.BASE_URL}api/v1/welcome');
+        }
+    });
+
+
+</script>
+</html>
